@@ -1,9 +1,8 @@
 <?php
-require_once __DIR__ . '/app/Controllers/AuthController.php';
-require_once __DIR__ . '/app/Controllers/DashboardController.php';
-require_once __DIR__ . '/app/Models/User.php';
+// ADD THIS AT THE VERY TOP
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Session configuration
 session_set_cookie_params([
     'lifetime' => 86400,
     'path' => '/tern_application/',
@@ -12,10 +11,14 @@ session_set_cookie_params([
     'samesite' => 'Strict'
 ]);
 
-// Start session if not already started
+// Start session before any output
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+require_once __DIR__ . '/app/Controllers/AuthController.php';
+require_once __DIR__ . '/app/Controllers/DashboardController.php';
+require_once __DIR__ . '/app/Models/User.php';
 
 $authController = new AuthController();
 $dashboardController = new DashboardController();

@@ -17,41 +17,46 @@ class AuthController {
 
     public function processLogin()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        // Start session if not already started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'] ?? '';
-            $password = $_POST['password'] ?? '';
-            $rememberMe = isset($_POST['remember_me']);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $rememberMe = isset($_POST['remember_me']);
 
-            $user = new User(null); // Instantiate User class
-            if ($user->verifyCredentials($username, $password)) {
-                $_SESSION['user'] = $username;
+        // Debug: Check received credentials
+        error_log("Login attempt: $username / $password");
 
-                if ($rememberMe) {
-                    setcookie(
-                        'rememberedUser', 
-                        $username, 
-                        time() + (30 * 24 * 60 * 60), 
-                        '/tern_application/'
-                    );
-                } else {
-                    setcookie('rememberedUser', '', time() - 3600, '/tern_application/');
-                }
+        $user = new User();
+        if ($user->verifyCredentials($username, $password)) {
+            $_SESSION['user'] = $username;
+            error_log("Login SUCCESS: $username");
 
-                header('Location: /tern_application/dashboard');
-                exit;
-            } else {
-                $_SESSION['error'] = 'Invalid username or password.';
-                header('Location: /tern_application/login');
-                exit;
+            // Set cookie if "Remember Me" is checked
+            if ($rememberMe) {
+                setcookie(
+                    'rememberedUser', 
+                    $username, 
+                    time() + (30 * 24 * 60 * 60), 
+                    '/tern_application/'
+                );
             }
-        }
 
-        header('Location: /tern_application/login');
-        exit;
+            header('Location: /tern_application/dashboard');
+            exit;
+        } else {
+            $_SESSION['error'] = 'Invalid credentials';
+            error_log("Login FAILED: $username");
+            header('Location: /tern_application/login');
+            exit;
+        }
+    }
+
+    header('Location: /tern_application/login');
+    exit;
     }
 
     public function logout()

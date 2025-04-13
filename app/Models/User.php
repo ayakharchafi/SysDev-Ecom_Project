@@ -1,16 +1,15 @@
 <?php
 class User {
-    // For demo purposes - replace with database connection
+    // Plain text credentials
     private $validUsers = [
-        'demo' => 'demo123' // password = "demo123"
+        'demo' => 'demo123' // username => password
     ];
 
     public function verifyCredentials($username, $password)
     {
-        if (!isset($this->validUsers[$username])) {
-            return false;
-        }
-        
-        return password_verify($password, $this->validUsers[$username]);
+        return isset($this->validUsers[$username]) && 
+               $this->validUsers[$username] === $password;
     }
 }
+
+?>
