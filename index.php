@@ -22,6 +22,11 @@ switch ($request) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $authController->processLogin();
         } else {
+            // start session beforre header output
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            
             $authController->showLogin();
         }
         break;
@@ -34,7 +39,7 @@ switch ($request) {
     case 'logout':
         $authController->logout();
         break;
-        
+
     default:
         header("HTTP/1.0 404 Not Found");
         echo "404 - Page Not Found";
