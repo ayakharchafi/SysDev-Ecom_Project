@@ -11,6 +11,6 @@ class DashboardController {
             exit;
         }
         
-        require_once __DIR__ . '/../Views/main/main.html';
+        require_once __DIR__ . '/../Views/main/main.php';
     }
 }
