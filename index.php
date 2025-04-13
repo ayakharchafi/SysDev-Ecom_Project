@@ -3,6 +3,15 @@
 require_once __DIR__ . '/app/Controllers/AuthController.php';
 require_once __DIR__ . '/app/Controllers/DashboardController.php';
 
+session_set_cookie_params([
+    'lifetime' => 86400,        // 1 day
+    'path' => '/tern_application/',
+    'domain' => $_SERVER['HTTP_HOST'],
+    'secure' => true,          // Enable in production
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 $authController = new AuthController();
 $dashboardController = new DashboardController();
 
@@ -21,7 +30,7 @@ switch ($request) {
         // echo "Welcome to Dashboard!";
         $dashboardController->showDashboard();
         break;
-        
+
     default:
         header("HTTP/1.0 404 Not Found");
         echo "404 - Page Not Found";
