@@ -2,18 +2,13 @@
 class AuthController {
     public function showLogin()
     {
-        // Start session if not already started
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+        session_start();
+        if ($this->isLoggedIn()) {
+            header('Location: /tern_application/dashboard');
+            exit;
         }
 
-        // Check for remembered user
-        $rememberedUsername = '';
-        if (isset($_COOKIE['rememberedUser'])) {
-            $rememberedUsername = $_COOKIE['rememberedUser'];
-        }
-
-        // Pass data to view
+        $rememberedUsername = $_COOKIE['rememberedUser'] ?? '';
         require_once __DIR__ . '/../Views/auth/login.html';
     }
 
@@ -26,33 +21,60 @@ class AuthController {
             $password = $_POST['password'] ?? '';
             $rememberMe = isset($_POST['remember_me']);
 
-            // Simple validation (in real app, use Model)
-            if (!empty($username) && !empty($password)) {
+            if ($this->validateCredentials($username, $password)) {
                 $_SESSION['user'] = $username;
 
-                // Set remember me cookie (30 days)
                 if ($rememberMe) {
                     setcookie(
                         'rememberedUser', 
                         $username, 
                         time() + (30 * 24 * 60 * 60), 
-                        '/tern_application/',
-                        '',
-                        false,
-                        true // HttpOnly
+                        '/tern_application/'
                     );
-                } else {
-                    // Clear remember me cookie if not checked
-                    setcookie('rememberedUser', '', time() - 3600, '/tern_application/');
                 }
 
-                // Redirect to dashboard
                 header('Location: /tern_application/dashboard');
                 exit;
             }
         }
 
-        // If login fails, show form again
-        $this->showLogin();
+        header('Location: /tern_application/login');
+        exit;
+    }
+
+    public function logout()
+    {
+        session_start();
+        $_SESSION = array();
+        
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(), 
+                '', 
+                time() - 42000,
+                $params["path"], 
+                $params["domain"],
+                $params["secure"], 
+                $params["httponly"]
+            );
+        }
+        
+        setcookie('rememberedUser', '', time() - 3600, '/tern_application/');
+        session_destroy();
+        
+        header('Location: /tern_application/login');
+        exit;
+    }
+
+    private function isLoggedIn()
+    {
+        return isset($_SESSION['user']);
+    }
+
+    private function validateCredentials($username, $password)
+    {
+        // Replace with real validation logic
+        return !empty($username) && !empty($password);
     }
 }
