@@ -1,16 +1,21 @@
 <?php
-// Load the controller using absolute path
 require_once __DIR__ . '/app/Controllers/AuthController.php';
 require_once __DIR__ . '/app/Controllers/DashboardController.php';
+require_once __DIR__ . '/app/Models/User.php';
 
+// Session configuration
 session_set_cookie_params([
-    'lifetime' => 86400,        // 1 day
+    'lifetime' => 86400,
     'path' => '/tern_application/',
-    'domain' => $_SERVER['HTTP_HOST'],
-    'secure' => true,          // Enable in production
+    'secure' => false, // Set to true in production
     'httponly' => true,
     'samesite' => 'Strict'
 ]);
+
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $authController = new AuthController();
 $dashboardController = new DashboardController();
@@ -22,17 +27,11 @@ switch ($request) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $authController->processLogin();
         } else {
-            // start session beforre header output
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-            
             $authController->showLogin();
         }
         break;
 
     case 'dashboard':
-        // echo "Welcome to Dashboard!";
         $dashboardController->showDashboard();
         break;
 

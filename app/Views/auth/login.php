@@ -41,6 +41,7 @@
                     name="username" 
                     placeholder="User name" 
                     type="text"
+                    value="<?= htmlspecialchars($rememberedUsername ?? '') ?>"
                   >
                 </div>
                 
