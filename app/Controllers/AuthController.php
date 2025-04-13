@@ -44,25 +44,35 @@ class AuthController {
 
     public function logout()
     {
-        session_start();
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Clear all session variables
         $_SESSION = array();
-        
+
+        // Delete session cookie
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(
-                session_name(), 
-                '', 
+                session_name(),
+                '',
                 time() - 42000,
-                $params["path"], 
+                $params["path"],
                 $params["domain"],
-                $params["secure"], 
+                $params["secure"],
                 $params["httponly"]
             );
         }
-        
-        setcookie('rememberedUser', '', time() - 3600, '/tern_application/');
+
+        // Destroy session
         session_destroy();
-        
+
+        // Clear remember me cookie
+        setcookie('rememberedUser', '', time() - 3600, '/tern_application/');
+
+        // Redirect to login
         header('Location: /tern_application/login');
         exit;
     }
