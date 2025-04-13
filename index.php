@@ -31,6 +31,10 @@ switch ($request) {
         $dashboardController->showDashboard();
         break;
 
+    case 'logout':
+        $authController->logout();
+        break;
+        
     default:
         header("HTTP/1.0 404 Not Found");
         echo "404 - Page Not Found";
