@@ -35,6 +35,11 @@ class AuthController {
 
                 header('Location: /tern_application/dashboard');
                 exit;
+            } else {
+                $_SESSION['error'] = 'Invalid username or password.';
+                // Redirect back to login page with error message
+                header('Location: /tern_application/login');
+                exit;
             }
         }
 
