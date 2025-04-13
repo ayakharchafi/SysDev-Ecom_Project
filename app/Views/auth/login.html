@@ -9,6 +9,14 @@
   </head>
   <body>
     <div class="login-page">
+      
+      <?php if (isset($_SESSION['error'])): ?>
+        <div class="error-message">
+          <?= $_SESSION['error'] ?>
+          <?php unset($_SESSION['error']); ?>
+        </div>
+      <?php endif; ?>
+
       <div class="div">
         <!-- Left Blue Section -->
         <div class="overlap-group">
