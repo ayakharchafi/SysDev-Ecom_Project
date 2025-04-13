@@ -2,14 +2,14 @@
 class AuthController {
     public function showLogin()
     {
-        session_start();
+       // session_start();
         if ($this->isLoggedIn()) {
             header('Location: /tern_application/dashboard');
             exit;
         }
 
         $rememberedUsername = $_COOKIE['rememberedUser'] ?? '';
-        require_once __DIR__ . '/../Views/auth/login.html';
+        require_once __DIR__ . '/../Views/auth/login.php';
     }
 
     public function processLogin()
