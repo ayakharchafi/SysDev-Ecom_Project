@@ -32,7 +32,7 @@ if (!isset($_SESSION['user'])) {
             <div class="text-wrapper-2">File Manager</div>
             <div class="text-wrapper-3">Tables</div>
             <!-- Fix image paths -->
-            <img class="search-icon" src="/tern_application/public/img/search-icon.svg" />
+            <img class="search-icon" src="/tern_application/public/img/search.svg" />
             <div class="text"></div>
             <p class="settings"><span class="span">Settings</span> <span class="text-wrapper-4">&nbsp;</span></p>
             <a href="/tern_application/logout" class="log-out">
@@ -46,8 +46,8 @@ if (!isset($_SESSION['user'])) {
               <div class="overlap-2"><div class="text-wrapper-7">Functions</div></div>
             </div>
             <img class="line" src="/tern_application/public/img/line-1.svg" />
-            <img class="settings-icon" src="/tern_application/public/img/help-icon.png" />
-            <img class="log-out-icon" src="/tern_application/public/img/log-out-icon.svg" />
+            <img class="settings-icon" src="/tern_application/public/img/settings.svg" />
+            <img class="log-out-icon" src="/tern_application/public/img/logout.svg" />
             <div class="rectangle-3"></div>
             <div class="rectangle-4"></div>
             <div class="rectangle-5"></div>
@@ -58,8 +58,8 @@ if (!isset($_SESSION['user'])) {
             <div class="text-wrapper-10">Clients</div>
             <div class="text-wrapper-11">Import</div>
             <div class="text-wrapper-12">Username</div>
-            <img class="download" src="/tern_application/public/img/download.svg" />
-            <img class="fowrd-icon" src="/tern_application/public/img/fowrd-icon.svg" />
+            <img class="back_up" src="/tern_application/public/img/download.svg" />
+            <img class="arrow_down" src="/tern_application/public/img/arrow_down2.png" />
           </div>
           <div class="overlap-3">
             <div class="rectangle-7"></div>

@@ -385,7 +385,7 @@
     white-space: nowrap;
   }
   
-  .dashboard-main .download {
+  .dashboard-main .back_up {
     position: absolute;
     width: 12px;
     height: 16px;
@@ -393,7 +393,7 @@
     left: 1168px;
   }
   
-  .dashboard-main .fowrd-icon {
+  .dashboard-main .arrow_down{
     position: absolute;
     width: 30px;
     height: 30px;
