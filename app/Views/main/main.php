@@ -1,5 +1,4 @@
 <?php
-
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: /tern_application/login');
@@ -18,12 +17,12 @@ if (!isset($_SESSION['user'])) {
       <div class="overlap-wrapper">
         <div class="overlap">
           <div class="overlap-group">
-            <!-- Add username display -->
+            <!-- Username Display -->
             <div class="username-display">
               Logged in as: <?= htmlspecialchars($_SESSION['user']) ?>
             </div>
             
-            <!-- Rest of your original content -->
+            <!-- Existing Content -->
             <div class="rectangle"></div>
             <div class="div"></div>
             <div class="ellipse"></div>
@@ -31,7 +30,6 @@ if (!isset($_SESSION['user'])) {
             <div class="text-wrapper">Search</div>
             <div class="text-wrapper-2">File Manager</div>
             <div class="text-wrapper-3">Tables</div>
-            <!-- Fix image paths -->
             <img class="search-icon" src="/tern_application/public/img/search.svg" />
             <div class="text"></div>
             <p class="settings"><span class="span">Settings</span> <span class="text-wrapper-4">&nbsp;</span></p>
@@ -42,9 +40,42 @@ if (!isset($_SESSION['user'])) {
             <div class="create-button">
               <div class="div-wrapper"><div class="text-wrapper-6">Back-Up</div></div>
             </div>
-            <div class="function-button">
-              <div class="overlap-2"><div class="text-wrapper-7">Functions</div></div>
+
+            <!-- Functions Button (Updated Structure) -->
+            <div class="function-button" id="functionsButton" style="cursor: pointer;">
+              <div class="overlap-2">
+                <div class="text-wrapper-7">Functions</div>
+                <img class="arrow_down" 
+                     src="/tern_application/public/img/arrow_down2.png" 
+                     id="functionsArrow"
+                     style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px;" />
+              </div>
+              <div class="dropdown-menu" id="functionsDropdown">
+                <a href="#" class="dropdown-item">Data Tracking</a>
+                <a href="#" class="dropdown-item">Modify User</a>
+                <a href="#" class="dropdown-item">Create Report</a>
+                <a href="#" class="dropdown-item">Batch Update</a>
+                <a href="#" class="dropdown-item">Create Client</a>
+              </div>
             </div>
+
+            <!-- Clients Button (Updated Structure) -->
+            <div class="text-wrapper-10" id="clientsButton" style="cursor: pointer; position: relative;">
+              Clients
+              <img class="arrow_down" 
+                   src="/tern_application/public/img/arrow_down2.png" 
+                   id="clientsArrow"
+                   style="position: absolute; left: 130px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px;" />
+              <div class="dropdown-menu" id="clientsDropdown">
+                <div class="client-item">Client 1</div>
+                <div class="client-item">Client 2</div>
+                <div class="client-item">Client 3</div>
+                <div class="client-item">Client 4</div>
+                <div class="client-item">Client 5</div>
+              </div>
+            </div>
+
+            <!-- Remaining Original Content -->
             <img class="line" src="/tern_application/public/img/line-1.svg" />
             <img class="settings-icon" src="/tern_application/public/img/settings.svg" />
             <img class="log-out-icon" src="/tern_application/public/img/logout.svg" />
@@ -55,13 +86,12 @@ if (!isset($_SESSION['user'])) {
             <div class="text-wrapper-8">Users</div>
             <div class="text-wrapper-9">Export</div>
             <img class="img" src="/tern_application/public/img/line-10.svg" />
-            <div class="text-wrapper-10">Clients</div>
             <div class="text-wrapper-11">Import</div>
             <div class="text-wrapper-12">Username</div>
             <img class="back_up" src="/tern_application/public/img/download.svg" />
-            <img class="arrow_down" src="/tern_application/public/img/arrow_down2.png" />
           </div>
           <div class="overlap-3">
+            <!-- Table Structure -->
             <div class="rectangle-7"></div>
             <img class="line-2" src="/tern_application/public/img/line-18.svg" />
             <img class="line-3" src="/tern_application/public/img/line-16.svg" />
@@ -75,5 +105,8 @@ if (!isset($_SESSION['user'])) {
         </div>
       </div>
     </div>
+
+    <!-- JavaScript -->
+    <script src="/tern_application/public/js/main.js"></script>
   </body>
 </html>
