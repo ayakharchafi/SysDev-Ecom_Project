@@ -1,0 +1,273 @@
+/* ===== NEW ADDITION ===== */
+.login-form {
+  display: contents; /* Critical for layout preservation */
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== EXISTING STYLES BELOW - NO CHANGES MADE ===== */
+.login-page {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  min-height: 768px;
+}
+
+.login-page .div {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 1440px;
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.login-page .create-an-account {
+  width: 50%;
+  height: 100%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-page .content {
+  width: 100%;
+  max-width: 473px;
+  margin-top: 96px;
+}
+
+.login-page .frame {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.login-page .text-wrapper {
+  position: relative;
+  width: fit-content;
+  margin-top: -1px;
+  font-family: "Poppins-Medium", Helvetica;
+  font-weight: 500;
+  color: #333333;
+  font-size: 32px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-page .frame-2 {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.login-page .text-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+  flex: 0 0 auto;
+  margin-bottom: 16px;
+}
+
+.login-page .label {
+  width: 100%;
+  height: 56px;
+  padding: 16px;
+  border: 1px solid #66666659;
+  border-radius: 12px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.login-page .label:focus {
+  outline: none;
+  border-color: #111111;
+}
+
+.login-page .password-hide-see {
+  position: absolute;
+  width: 75px;
+  height: 27px;
+  top: 14px;
+  right: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.login-page .icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.login-page .text-wrapper-2 {
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #666666cc;
+  font-size: 18px;
+  text-align: right;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-page .button-wrapper {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.login-page .button {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  height: 64px;
+  background-color: #111111;
+  border-radius: 32px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.login-page .button:hover {
+  opacity: 0.9;
+}
+
+.login-page .frame-4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.login-page .sign-up {
+  font-family: "Poppins-Medium", Helvetica;
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 22px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-page .remember-me {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.login-page .remember-checkbox {
+  opacity: 0;
+  position: absolute;
+}
+
+.login-page .custom-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.login-page .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #66666659;
+  border-radius: 2px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #d9d9d9;
+  color: transparent;
+  font-size: 14px;
+}
+
+.login-page .remember-checkbox:checked + .custom-checkbox .checkmark {
+  background-color: #111111;
+  color: white;
+}
+
+.login-page .text-wrapper-3 {
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.login-page .text-wrapper-4 {
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login-page .overlap-group {
+  width: 50%;
+  height: 100%;
+  background-color: #788da6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-page .img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: contain;
+}
+
+.login-page .logo {
+  display: none;
+}
+
+.user-display {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* ===== ERROR MESSAGE ENHANCEMENT ===== */
+.error-message {
+  color: #dc3545;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #dc3545;
+  border-radius: 4px;
+  text-align: center;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 400px;
+}
