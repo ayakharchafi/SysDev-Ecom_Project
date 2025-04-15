@@ -1,5 +1,5 @@
 # TERN Financial Group Inc. - Insurance Management System
-
+test
 ## Project Overview
 TERN Financial Group Inc. is an insurance company specializing in insurance products for the sharing economy, such as co-housing and short-term housing rentals. As part of their operations, they receive monthly reports detailing occupancy information for each insured location. Currently, this data is managed manually using spreadsheets, making it challenging to search, verify, and process records efficiently. 
 

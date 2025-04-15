@@ -1,12 +1,13 @@
 <?php
-session_start();
-?>
-// Check if user is logged in
-if (!isset($_SESSION['user'])) {
-    header('Location: /tern_application/login');
-    exit;
-}
-?>
+ //session_start();
+ 
+ // Check if user is logged in
+ if (!isset($_SESSION['user'])) {
+     header('Location: /tern_application/login');
+     exit;
+ }
+ ?>
+ 
 <!DOCTYPE html>
 <html>
   <head>
