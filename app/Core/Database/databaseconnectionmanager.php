@@ -14,10 +14,10 @@ class DatabaseConnectionManager {
     function __construct() {
 
         // username/password etc not yet determined
-        $this->username = ""; 
+        $this->username = "root"; 
         $this->password = "";
-        $this->server = "";
-        $this->dbname = "";
+        $this->server = "localhost";
+        $this->dbname = "tern_occupancy";
 
         try {
         
