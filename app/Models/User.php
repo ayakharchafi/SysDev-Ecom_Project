@@ -83,7 +83,7 @@ class User {
 
         return $stmt->execute();
     }
-
+    
     // Plain text credentials
     private $validUsers = [
         'demo' => 'demo123' // username => password
@@ -108,3 +108,4 @@ class ExternalEmployee extends User {
         return $this->client == $policy->getClient();
     }
 }
+?>
