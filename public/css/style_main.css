@@ -1,0 +1,569 @@
+.dashboard-main {
+  background-color: #f0f5f4;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.dashboard-main .overlap-wrapper {
+  background-color: #f0f5f4;
+  overflow: hidden;
+  width: 1440px;
+  height: 1024px;
+}
+
+.dashboard-main .overlap {
+  position: relative;
+  width: 1448px;
+  height: 1017px;
+  top: -3px;
+  left: -8px;
+}
+
+.dashboard-main .overlap-group {
+  position: absolute;
+  width: 1448px;
+  height: 1017px;
+  top: 0;
+  left: 0;
+}
+
+.dashboard-main .rectangle {
+  position: absolute;
+  width: 1440px;
+  height: 171px;
+  top: 0;
+  left: 8px;
+  background-color: #fbfbfb;
+}
+
+.dashboard-main .div {
+  position: absolute;
+  width: 303px;
+  height: 856px;
+  top: 161px;
+  left: 0;
+  background-color: #fbfbfb;
+}
+
+.dashboard-main .ellipse {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 26px;
+  left: 26px;
+  background-color: #fbfbfb;
+  border-radius: 25px;
+  border: 10px solid #4872c5b5;
+  box-shadow: inset 3px -5px 0px #00000040, 0px 1px 5px #00000040;
+}
+
+.dashboard-main .rectangle-2 {
+  position: absolute;
+  width: 628px;
+  height: 63px;
+  top: 31px;
+  left: 319px;
+  background-color: #f1f5f5;
+  border-radius: 15px;
+}
+
+.dashboard-main .text-wrapper {
+  position: absolute;
+  top: 47px;
+  left: 397px;
+  font-family: "Lato-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #0000009c;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.dashboard-main .text-wrapper-2 {
+  position: absolute;
+  top: 353px;
+  left: 34px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000b2;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .text-wrapper-3 {
+  position: absolute;
+  top: 174px;
+  left: 36px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000b2;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .search-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 48px;
+  left: 342px;
+}
+
+.dashboard-main .text {
+  position: absolute;
+  top: 88px;
+  left: 508px;
+  font-family: "Lato-Regular", Helvetica;
+  font-weight: 400;
+  color: #00000045;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.dashboard-main .settings {
+  position: absolute;
+  width: 84px;
+  top: 915px;
+  left: 68px;
+  font-family: "Lato-SemiBold", Helvetica;
+  font-weight: 600;
+  color: transparent;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .span {
+  color: #000000ba;
+}
+
+.dashboard-main .text-wrapper-4 {
+  color: #0000006e;
+}
+
+.dashboard-main .log-out {
+  position: absolute;
+  top: 945px;
+  left: 74px;
+  font-family: "Lato-SemiBold", Helvetica;
+  font-weight: 600;
+  color: transparent;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.dashboard-main .text-wrapper-5 {
+  color: #444444;
+}
+
+.dashboard-main .create-button {
+  position: absolute;
+  width: 149px;
+  height: 38px;
+  top: 75px;
+  left: 1045px;
+}
+
+.dashboard-main .div-wrapper {
+  position: relative;
+  width: 147px;
+  height: 38px;
+  background-color: #011640;
+  border-radius: 15px;
+}
+
+.dashboard-main .text-wrapper-6 {
+  position: absolute;
+  width: 101px;
+  top: 3px;
+  left: 12px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #fbfbfb;
+  font-size: 21px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .function-button {
+  position: absolute;
+  width: 154px;
+  height: 38px;
+  top: 75px;
+  left: 1209px;
+}
+
+.dashboard-main .overlap-2 {
+  position: relative;
+  width: 152px;
+  height: 38px;
+  background-color: #011640;
+  border-radius: 15px;
+}
+
+.dashboard-main .text-wrapper-7 {
+  position: absolute;
+  width: 115px;
+  top: 3px;
+  left: 4px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #fbfbfb;
+  font-size: 21px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .line {
+  width: 265px;
+  height: 1px;
+  top: 894px;
+  left: 29px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .settings-icon {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 917px;
+  left: 47px;
+}
+
+.dashboard-main .log-out-icon {
+  position: absolute;
+  width: 16px;
+  height: 20px;
+  top: 950px;
+  left: 50px;
+}
+
+.dashboard-main .rectangle-3 {
+  position: absolute;
+  width: 214px;
+  height: 41px;
+  top: 199px;
+  left: 35px;
+  background-color: #fbfbfb;
+  border-radius: 15px;
+  border: 1px solid #00000063;
+  box-shadow: 0px 3px 6px #00000040;
+}
+
+.dashboard-main .rectangle-4 {
+  position: absolute;
+  width: 214px;
+  height: 41px;
+  top: 435px;
+  left: 36px;
+  background-color: #fbfbfb;
+  border-radius: 15px;
+  border: 1px solid #00000063;
+  box-shadow: 0px 3px 6px #00000040;
+}
+
+.dashboard-main .rectangle-5 {
+  position: absolute;
+  width: 214px;
+  height: 41px;
+  top: 378px;
+  left: 36px;
+  background-color: #fbfbfb;
+  border-radius: 15px;
+  border: 1px solid #00000063;
+  box-shadow: 0px 3px 6px #00000040;
+}
+
+.dashboard-main .rectangle-6 {
+  position: absolute;
+  width: 214px;
+  height: 41px;
+  top: 265px;
+  left: 35px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  border: 1px solid #00000063;
+  box-shadow: 0px 3px 6px #00000040;
+}
+
+.dashboard-main .text-wrapper-8 {
+  position: absolute;
+  top: 271px;
+  left: 114px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .text-wrapper-9 {
+  position: absolute;
+  top: 385px;
+  left: 114px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .img {
+  width: 244px;
+  height: 1px;
+  top: 340px;
+  left: 14px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .text-wrapper-10 {
+  position: absolute;
+  width: 72px;
+  top: 207px;
+  left: 103px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .text-wrapper-11 {
+  position: absolute;
+  top: 443px;
+  left: 113px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.dashboard-main .text-wrapper-12 {
+  position: absolute;
+  top: 38px;
+  left: 109px;
+  font-family: "Lato-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.dashboard-main .back_up {
+  position: absolute;
+  width: 12px;
+  height: 16px;
+  top: 86px;
+  left: 1168px;
+}
+
+.dashboard-main .arrow_down {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 78px;
+  left: 1325px;
+}
+
+.dashboard-main .overlap-3 {
+  position: absolute;
+  width: 1042px;
+  height: 748px;
+  top: 228px;
+  left: 341px;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.dashboard-main .rectangle-7 {
+  position: absolute;
+  width: 1017px;
+  height: 527px;
+  top: 12px;
+  left: 12px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #66666638;
+}
+
+.dashboard-main .line-2 {
+  width: 1px;
+  height: 527px;
+  top: 12px;
+  left: 879px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .line-3 {
+  width: 1px;
+  height: 527px;
+  top: 12px;
+  left: 543px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .line-4 {
+  width: 1px;
+  height: 527px;
+  top: 12px;
+  left: 709px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .line-5 {
+  width: 1px;
+  height: 527px;
+  top: 12px;
+  left: 289px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .line-6 {
+  width: 1px;
+  height: 527px;
+  top: 12px;
+  left: 432px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .line-7 {
+  width: 1px;
+  height: 527px;
+  top: 12px;
+  left: 105px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .line-8 {
+  width: 1px;
+  height: 527px;
+  top: 12px;
+  left: 56px;
+  position: absolute;
+  object-fit: cover;
+}
+
+.dashboard-main .line-9 {
+  width: 1017px;
+  height: 1px;
+  top: 57px;
+  left: 12px;
+  position: absolute;
+  object-fit: cover;
+}
+
+/* ========= DROPDOWN STYLES ========= */
+#functionsDropdown {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 120px;
+  left: 1209px;
+  width: 200px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.39);
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  padding: 10px;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+#clientsDropdown {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 235px;
+  left: 36px;
+  width: 214px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.39);
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  padding: 10px;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+#functionsDropdown.active,
+#clientsDropdown.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item,
+.client-item {
+  padding: 8px 16px;
+  font-family: "Poppins-Regular", Helvetica;
+  font-size: 16px;
+  color: #000;
+  display: block;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f5f5;
+}
+
+.arrow_down {
+  transition: transform 0.3s ease;
+  position: absolute;
+  width: 20px !important;
+  height: 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%);
+}
+
+#functionsArrow {
+  right: 10px;
+  left: auto;
+}
+
+#clientsArrow {
+  left: 130px;
+}
+
+.arrow_down.rotated {
+  transform: rotate(180deg) translateY(50%);
+}
