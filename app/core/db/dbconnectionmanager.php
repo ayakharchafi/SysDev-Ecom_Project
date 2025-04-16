@@ -3,7 +3,7 @@
 namespace database;
 
 class DBConnectionManager{
-
+//sd
     private $username;
     private $password; // password to be stored and read through an environment variable
     private $server; 

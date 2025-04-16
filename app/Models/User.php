@@ -1,4 +1,8 @@
 <?php
+namespace models;
+
+use database\DBConnectionManager;
+
 class User {
 private $id;
 private $username;
@@ -50,7 +54,7 @@ private $isSuper;
 
     // Plain text credentials
     public function readOne() {
-        $query = "SELECT * FROM users WHERE id = :userID";
+        $query = "SELECT * FROM user WHERE id = :userID";
         $stmt = $this->dbConnection->prepare($query);
         $stmt->bindParam(':userID', $this->id);
         $stmt->execute();
@@ -58,7 +62,7 @@ private $isSuper;
     }
 
     public function readByUsername() {
-        $query = "SELECT * FROM users WHERE username = :username";
+        $query = "SELECT * FROM user WHERE username = :username";
         $stmt = $this->dbConnection->prepare($query);
         $stmt->bindParam(':username', $this->username);
         $stmt->execute();
