@@ -1,12 +1,11 @@
 <?php
-//session_start();
-
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: /tern_app/SysDev-Ecom_Project/login');
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
