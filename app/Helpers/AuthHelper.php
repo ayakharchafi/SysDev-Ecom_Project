@@ -5,7 +5,7 @@ function requireLogin() {
     }
     
     if (empty($_SESSION['user'])) {
-        header('Location: /tern_application/login');
+        header('Location: /tern_app/SysDev-Ecom_Project/login');
         exit;
     }
 }

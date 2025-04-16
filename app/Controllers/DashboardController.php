@@ -10,7 +10,7 @@ class DashboardController {
     // Check if user is logged in
     if (empty($_SESSION['user'])) {
         error_log("Dashboard access denied - no session");
-        header('Location: /tern_application/login');
+        header('Location: /tern_app/SysDev-Ecom_Project/login');
         exit;
     }
 

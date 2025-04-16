@@ -1,6 +1,6 @@
 Options -MultiViews
 RewriteEngine On
-RewriteBase /tern_application/
+RewriteBase /tern_app/SysDev-Ecom_Project/
 
 # Redirect all requests to index.php
 RewriteCond %{REQUEST_FILENAME} !-d

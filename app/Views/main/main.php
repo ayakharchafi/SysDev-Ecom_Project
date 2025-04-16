@@ -3,112 +3,250 @@
 
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
-    header('Location: /tern_application/login');
+    header('Location: /tern_app/SysDev-Ecom_Project/login');
     exit;
 }
 ?>
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="/tern_application/public/css/global.css" />
-    <link rel="stylesheet" href="/tern_application/public/css/style_main.css" />
-  </head>
-  <body>
-    <div class="dashboard-main">
-      <div class="overlap-wrapper">
-        <div class="overlap">
-          <div class="overlap-group">
-            <!-- Username Display -->
-            <div class="username-display">
-              Logged in as: <?= htmlspecialchars($_SESSION['user']) ?>
-            </div>
-            
-            <!-- Existing Content -->
-            <div class="rectangle"></div>
-            <div class="div"></div>
-            <div class="ellipse"></div>
-            <div class="rectangle-2"></div>
-            <div class="text-wrapper">Search</div>
-            <div class="text-wrapper-2">File Manager</div>
-            <div class="text-wrapper-3">Tables</div>
-            <img class="search-icon" src="/tern_application/public/img/search.svg" />
-            <div class="text"></div>
-            <p class="settings"><span class="span">Settings</span> <span class="text-wrapper-4">&nbsp;</span></p>
-            <a href="/tern_application/logout" class="log-out">
-              <span class="text-wrapper-5">Log Out</span> 
-              <span class="text-wrapper-4">&nbsp;</span>
-            </a>
-            <div class="create-button">
-              <div class="div-wrapper"><div class="text-wrapper-6">Back-Up</div></div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles_main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <span class="username">Username</span>
             </div>
 
-            <!-- Functions Button (Updated Structure) -->
-            <div class="function-button" id="functionsButton" style="cursor: pointer;">
-              <div class="overlap-2">
-                <div class="text-wrapper-7">Functions</div>
-                <img class="arrow_down" 
-                     src="/tern_application/public/img/arrow_down2.png" 
-                     id="functionsArrow"
-                     style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px;" />
-              </div>
-              <div class="dropdown-menu" id="functionsDropdown">
-                <a href="#" class="dropdown-item">Data Tracking</a>
-                <a href="#" class="dropdown-item">Modify User</a>
-                <a href="#" class="dropdown-item">Create Report</a>
-                <a href="#" class="dropdown-item">Batch Update</a>
-                <a href="#" class="dropdown-item">Create Client</a>
-              </div>
+            <div class="sidebar-section">
+                <h3>Tables</h3>
+                <div class="sidebar-item collapsible" id="clientsBtn">
+                    <span>Clients</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="collapsible-content" id="clientsContent">
+                    <div class="sub-item">Client 1</div>
+                    <div class="sub-item">Client 2</div>
+                    <div class="sub-item">Client 3</div>
+                    <div class="sub-item">Client 4</div>
+                    <div class="sub-item">Client 5</div>
+                </div>
+                <div class="sidebar-item">
+                    <span>Users</span>
+                </div>
             </div>
 
-            <!-- Clients Button (Updated Structure) -->
-            <div class="text-wrapper-10" id="clientsButton" style="cursor: pointer; position: relative;">
-              Clients
-              <img class="arrow_down" 
-                   src="/tern_application/public/img/arrow_down2.png" 
-                   id="clientsArrow"
-                   style="position: absolute; left: 130px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px;" />
-              <div class="dropdown-menu" id="clientsDropdown">
-                <div class="client-item">Client 1</div>
-                <div class="client-item">Client 2</div>
-                <div class="client-item">Client 3</div>
-                <div class="client-item">Client 4</div>
-                <div class="client-item">Client 5</div>
-              </div>
+            <div class="sidebar-section">
+                <h3>File Manager</h3>
+                <div class="sidebar-item">
+                    <span>Export</span>
+                </div>
+                <div class="sidebar-item">
+                    <span>Import</span>
+                </div>
             </div>
 
-            <!-- Remaining Original Content -->
-            <img class="line" src="/tern_application/public/img/line-1.svg" />
-            <img class="settings-icon" src="/tern_application/public/img/settings.svg" />
-            <img class="log-out-icon" src="/tern_application/public/img/logout.svg" />
-            <div class="rectangle-3"></div>
-            <div class="rectangle-4"></div>
-            <div class="rectangle-5"></div>
-            <div class="rectangle-6"></div>
-            <div class="text-wrapper-8">Users</div>
-            <div class="text-wrapper-9">Export</div>
-            <img class="img" src="/tern_application/public/img/line-10.svg" />
-            <div class="text-wrapper-11">Import</div>
-            <div class="text-wrapper-12">Username</div>
-            <img class="back_up" src="/tern_application/public/img/download.svg" />
-          </div>
-          <div class="overlap-3">
-            <!-- Table Structure -->
-            <div class="rectangle-7"></div>
-            <img class="line-2" src="/tern_application/public/img/line-18.svg" />
-            <img class="line-3" src="/tern_application/public/img/line-16.svg" />
-            <img class="line-4" src="/tern_application/public/img/line-17.svg" />
-            <img class="line-5" src="/tern_application/public/img/line-14.svg" />
-            <img class="line-6" src="/tern_application/public/img/line-15.svg" />
-            <img class="line-7" src="/tern_application/public/img/line-13.svg" />
-            <img class="line-8" src="/tern_application/public/img/line-12.svg" />
-            <img class="line-9" src="/tern_application/public/img/line-11.svg" />
-          </div>
+            <div class="sidebar-footer">
+                <div class="sidebar-item" id="settingsBtn">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="sidebar-item" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Log Out</span>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-container">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search">
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary">
+                        <span>Back-Up</span>
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" id="functionsBtn">
+                            <span>Functions</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-content" id="functionsDropdown">
+                            <div class="dropdown-item">Data Tracking</div>
+                            <div class="dropdown-item">Modify User</div>
+                            <div class="dropdown-item">Create Report</div>
+                            <div class="dropdown-item">Batch Update</div>
+                            <div class="dropdown-item">Create Client</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="table-container">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>John Doe</td>
+                                <td>john@example.com</td>
+                                <td>(555) 123-4567</td>
+                                <td>Active</td>
+                                <td>2023-01-15</td>
+                                <td>2023-04-20</td>
+                                <td>
+                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jane Smith</td>
+                                <td>jane@example.com</td>
+                                <td>(555) 987-6543</td>
+                                <td>Inactive</td>
+                                <td>2023-02-10</td>
+                                <td>2023-03-15</td>
+                                <td>
+                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Robert Johnson</td>
+                                <td>robert@example.com</td>
+                                <td>(555) 456-7890</td>
+                                <td>Active</td>
+                                <td>2023-03-05</td>
+                                <td>2023-05-12</td>
+                                <td>
+                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Emily Davis</td>
+                                <td>emily@example.com</td>
+                                <td>(555) 234-5678</td>
+                                <td>Active</td>
+                                <td>2023-04-20</td>
+                                <td>2023-05-01</td>
+                                <td>
+                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Michael Wilson</td>
+                                <td>michael@example.com</td>
+                                <td>(555) 876-5432</td>
+                                <td>Inactive</td>
+                                <td>2023-05-15</td>
+                                <td>2023-06-10</td>
+                                <td>
+                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- JavaScript -->
-    <script src="/tern_application/public/js/main.js"></script>
-  </body>
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>This is a placeholder for the settings page. The actual settings functionality will be implemented in the future.</p>
+                <div class="settings-section">
+                    <h3>General Settings</h3>
+                    <div class="form-group">
+                        <label>Theme</label>
+                        <select>
+                            <option>Light</option>
+                            <option>Dark</option>
+                            <option>System Default</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Language</label>
+                        <select>
+                            <option>English</option>
+                            <option>Spanish</option>
+                            <option>French</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h3>Notification Settings</h3>
+                    <div class="form-group">
+                        <label>Email Notifications</label>
+                        <input type="checkbox" checked>
+                    </div>
+                    <div class="form-group">
+                        <label>Push Notifications</label>
+                        <input type="checkbox">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="closeSettingsBtn">Cancel</button>
+                <button class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Logout</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to log out?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelLogoutBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmLogoutBtn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script_main.js"></script>
+</body>
 </html>

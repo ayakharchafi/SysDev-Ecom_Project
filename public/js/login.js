@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
           // Update eye icon (ensure you have both open_eye.svg and closed_eye.svg)
           const icon = this.elements.togglePassword.querySelector('img');
           icon.src = type === 'password' 
-              ? '/tern_application/public/img/closed_eye.svg' 
-              : '/tern_application/public/img/open_eye.svg';
+              ? '/tern_app/SysDev-Ecom_Project/public/img/closed_eye.svg' 
+              : '/tern_app/SysDev-Ecom_Project/public/img/open_eye.svg';
       },
 
       checkRememberedUser: function() {

@@ -1,48 +1,141 @@
-// tern_application/public/js/main.js
-document.addEventListener('DOMContentLoaded', function() {
-    // Get Elements
-    const functionsButton = document.getElementById('functionsButton');
-    const functionsDropdown = document.getElementById('functionsDropdown');
-    const functionsArrow = document.getElementById('functionsArrow');
-    
-    const clientsButton = document.getElementById('clientsButton');
-    const clientsDropdown = document.getElementById('clientsDropdown');
-    const clientsArrow = document.getElementById('clientsArrow');
-  
-    // Toggle Functions Menu
-    functionsButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      toggleMenu(functionsDropdown, functionsArrow);
-      closeOtherMenu(clientsDropdown, clientsArrow);
-    });
-  
-    // Toggle Clients Menu
-    clientsButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      toggleMenu(clientsDropdown, clientsArrow);
-      closeOtherMenu(functionsDropdown, functionsArrow);
-    });
-  
-    // Close All Menus on Outside Click
-    document.addEventListener('click', function() {
-      closeMenu(functionsDropdown, functionsArrow);
-      closeMenu(clientsDropdown, clientsArrow);
-    });
-  
-    // Helper Functions
-    function toggleMenu(menu, arrow) {
-      const isActive = menu.classList.contains('active');
-      menu.classList.toggle('active', !isActive);
-      arrow.classList.toggle('rotated', !isActive);
+document.addEventListener("DOMContentLoaded", () => {
+  // DOM Elements
+  const clientsBtn = document.getElementById("clientsBtn")
+  const clientsContent = document.getElementById("clientsContent")
+  const functionsBtn = document.getElementById("functionsBtn")
+  const functionsDropdown = document.getElementById("functionsDropdown")
+  const settingsBtn = document.getElementById("settingsBtn")
+  const settingsModal = document.getElementById("settingsModal")
+  const closeSettingsBtn = document.getElementById("closeSettingsBtn")
+  const logoutBtn = document.getElementById("logoutBtn")
+  const logoutModal = document.getElementById("logoutModal")
+  const cancelLogoutBtn = document.getElementById("cancelLogoutBtn")
+  const confirmLogoutBtn = document.getElementById("confirmLogoutBtn")
+  const searchInput = document.getElementById("searchInput")
+  const dataTable = document.getElementById("dataTable")
+  const closeModalBtns = document.querySelectorAll(".close-modal")
+
+  // Toggle Clients dropdown with animation
+  clientsBtn.addEventListener("click", () => {
+    clientsContent.classList.toggle("active")
+    const icon = clientsBtn.querySelector("i")
+
+    // Rotate the chevron icon smoothly
+    if (clientsContent.classList.contains("active")) {
+      icon.style.transform = "rotate(180deg)"
+      icon.style.transition = "transform 0.3s ease"
+    } else {
+      icon.style.transform = "rotate(0deg)"
+      icon.style.transition = "transform 0.3s ease"
     }
-  
-    function closeOtherMenu(menu, arrow) {
-      menu.classList.remove('active');
-      arrow.classList.remove('rotated');
+  })
+
+  // Toggle Functions dropdown with animation
+  functionsBtn.addEventListener("click", (e) => {
+    e.stopPropagation()
+    functionsDropdown.classList.toggle("active")
+
+    // Rotate the chevron icon smoothly
+    const icon = functionsBtn.querySelector("i")
+    if (functionsDropdown.classList.contains("active")) {
+      icon.style.transform = "rotate(180deg)"
+      icon.style.transition = "transform 0.3s ease"
+    } else {
+      icon.style.transform = "rotate(0deg)"
+      icon.style.transition = "transform 0.3s ease"
     }
-  
-    function closeMenu(menu, arrow) {
-      menu.classList.remove('active');
-      arrow.classList.remove('rotated');
+  })
+
+  // Close Functions dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!functionsBtn.contains(e.target) && !functionsDropdown.contains(e.target)) {
+      functionsDropdown.classList.remove("active")
+      const icon = functionsBtn.querySelector("i")
+      icon.style.transform = "rotate(0deg)"
     }
-  });
+  })
+
+  // Handle Functions dropdown items
+  const dropdownItems = functionsDropdown.querySelectorAll(".dropdown-item")
+  dropdownItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      alert(`Function selected: ${this.textContent}`)
+      functionsDropdown.classList.remove("active")
+      const icon = functionsBtn.querySelector("i")
+      icon.style.transform = "rotate(0deg)"
+    })
+  })
+
+  // Settings Modal
+  settingsBtn.addEventListener("click", () => {
+    settingsModal.style.display = "flex"
+  })
+
+  closeSettingsBtn.addEventListener("click", () => {
+    settingsModal.style.display = "none"
+  })
+
+  // Logout Modal
+  logoutBtn.addEventListener("click", () => {
+    logoutModal.style.display = "flex"
+  })
+
+  cancelLogoutBtn.addEventListener("click", () => {
+    logoutModal.style.display = "none"
+  })
+
+  confirmLogoutBtn.addEventListener("click", () => {
+    // Simulate logout - in a real app, this would redirect to login page
+    alert("Logging out...")
+    window.location.href = "login.php" // Redirect to login page
+  })
+
+  // Close modals with X button
+  closeModalBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const modal = this.closest(".modal")
+      modal.style.display = "none"
+    })
+  })
+
+  // Close modals when clicking outside
+  window.addEventListener("click", (e) => {
+    if (e.target.classList.contains("modal")) {
+      e.target.style.display = "none"
+    }
+  })
+
+  // Search functionality
+  searchInput.addEventListener("keyup", function () {
+    const searchTerm = this.value.toLowerCase()
+    const tableRows = dataTable.querySelectorAll("tbody tr")
+
+    tableRows.forEach((row) => {
+      let found = false
+      const cells = row.querySelectorAll("td")
+
+      cells.forEach((cell) => {
+        const text = cell.textContent.toLowerCase()
+        if (text.includes(searchTerm)) {
+          found = true
+        }
+      })
+
+      if (found) {
+        row.style.display = ""
+      } else {
+        row.style.display = "none"
+      }
+    })
+  })
+
+  // Handle sidebar item clicks
+  const sidebarItems = document.querySelectorAll(".sidebar-item:not(.collapsible), .sub-item")
+  sidebarItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      if (this.textContent.trim() !== "Settings" && this.textContent.trim() !== "Log Out") {
+        alert(`Navigating to: ${this.textContent.trim()}`)
+      }
+    })
+  })
+})
