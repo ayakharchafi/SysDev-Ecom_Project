@@ -247,6 +247,6 @@ if (!isset($_SESSION['user'])) {
         </div>
     </div>
 
-    <script src="/tern_app/SysDev-Ecom_Project/public/js/script_main.js"></script>
+    <script src="/tern_app/SysDev-Ecom_Project/public/js/main.js"></script>
 </body>
 </html>
