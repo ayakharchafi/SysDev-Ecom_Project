@@ -41,7 +41,7 @@ class AuthController {
                     'rememberedUser', 
                     $username, 
                     time() + (30 * 24 * 60 * 60), 
-                    '/tern_application/'
+                    '/tern_app/SysDev-Ecom_Project/'
                 );
             }
 

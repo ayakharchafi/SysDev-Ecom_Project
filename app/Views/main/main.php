@@ -13,7 +13,7 @@ if (!isset($_SESSION['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="styles_main.css">
+    <link rel="stylesheet" href="/tern_app/SysDev-Ecom_Project/public/css/style_main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -247,6 +247,6 @@ if (!isset($_SESSION['user'])) {
         </div>
     </div>
 
-    <script src="script_main.js"></script>
+    <script src="/tern_app/SysDev-Ecom_Project/public/js/script_main.js"></script>
 </body>
 </html>
