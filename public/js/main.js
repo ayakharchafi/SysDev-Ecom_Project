@@ -85,10 +85,18 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   confirmLogoutBtn.addEventListener("click", () => {
-    // Simulate logout - in a real app, this would redirect to login page
-    alert("Logging out...")
-    window.location.href = "login.php" // Redirect to login page
-  })
+    // Send a request to your logout endpoint
+    fetch('/tern_app/SysDev-Ecom_Project/logout', {
+        method: 'POST',
+        credentials: 'same-origin' // Important for session cookies
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
 
   // Close modals with X button
   closeModalBtns.forEach((btn) => {
