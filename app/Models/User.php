@@ -1,18 +1,25 @@
 <?php
+namespace models;
+
+use database\DBConnectionManager;
 
 class User {
-    protected $id;
-    protected $username;
-    protected $password;
-    protected $enabled2FA;
-    protected $secret;
-    protected $dbConnection;
+private $id;
+private $username;
+private $password;
+private $isInternal;
+private $isSuper;
 
-    public function __construct($username = null, $password = null) {
-        $this->username = $username;
-        $this->password = $password;
-        $this->dbConnection = (new DBConnectionManager())->getConnection();
+    // Getters and setters
+
+    public function getID() {
+        return $this->id;
     }
+
+    public function setID($id) {
+        $this->id = $id;
+    }    
+
 
     public function getUsername() {
         return $this->username;
@@ -20,8 +27,8 @@ class User {
 
     public function setUsername($username) {
         $this->username = $username;
-    }
-    
+    }    
+
     public function getPassword() {
         return $this->password;
     }
@@ -30,28 +37,8 @@ class User {
         $this->password = $password;
     }
 
-    public function getenabled2FA() {
-        return $this->enabled2FA;
-    }
-
-    public function setenabled2FA($enabled2FA) {
-        $this->enabled2FA = $enabled2FA;
-    }    
-
-    public function getSecret() {
-        return $this->secret;
-    }
-
-    public function setSecret($secret) {
-        $this->secret = $secret;
-    }    
-
-    public function getID() {
-        return $this->id;
-    }
-
-    public function setID($id) {
-        $this->id = $id;
+    public function __construct() {
+        $this->dbConnection = (new DBConnectionManager())->getConnection();
     }
 
     public function readOne() {
@@ -63,7 +50,7 @@ class User {
     }
 
     public function readByUsername() {
-        $query = "SELECT * FROM users WHERE username = :username";
+        $query = "SELECT * FROM users WHERE user_name = :username";
         $stmt = $this->dbConnection->prepare($query);
         $stmt->bindParam(':username', $this->username);
         $stmt->execute();
@@ -75,7 +62,7 @@ class User {
             return false;
         }
 
-        $query = "INSERT INTO users (username, password) VALUES (:username, :password)";
+        $query = "INSERT INTO users (user_name, password) VALUES (:username, :password)";
         $stmt = $this->dbConnection->prepare($query);
 
         $stmt->bindParam(':username', $this->username);
@@ -84,7 +71,23 @@ class User {
         return $stmt->execute();
     }
     
-    // Plain text credentials
+
+    public function getIsInternal() {
+        return $this->isInternal;
+    }
+
+    public function setIsInternal($isInternal) {
+        $this->isInternal = $isInternal;
+    }  
+
+    public function getIsSuper() {
+        return $this->isSuper;
+    }
+
+    public function setIsSuper($isSuper) {
+        $this->isSuper = $isSuper;
+    }
+
     private $validUsers = [
         'demo' => 'demo123' // username => password
     ];
