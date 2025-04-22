@@ -7,7 +7,7 @@ class AuthController {
         }
         
         if ($this->isLoggedIn()) {
-            header('Location: /tern_application/dashboard');
+            header('Location: /tern_app/SysDev-Ecom_Project/dashboard');
             exit;
         }
 
@@ -41,21 +41,21 @@ class AuthController {
                     'rememberedUser', 
                     $username, 
                     time() + (30 * 24 * 60 * 60), 
-                    '/tern_application/'
+                    '/tern_app/SysDev-Ecom_Project/'
                 );
             }
 
-            header('Location: /tern_application/dashboard');
+            header('Location: /tern_app/SysDev-Ecom_Project/dashboard');
             exit;
         } else {
             $_SESSION['error'] = 'Invalid credentials';
             error_log("Login FAILED: $username");
-            header('Location: /tern_application/login');
+            header('Location: /tern_app/SysDev-Ecom_Project/login');
             exit;
         }
     }
 
-    header('Location: /tern_application/login');
+    header('Location: /tern_app/SysDev-Ecom_Project/login');
     exit;
     }
 
@@ -68,7 +68,7 @@ class AuthController {
         $_SESSION = array();
         session_destroy();
         setcookie('rememberedUser', '', time() - 3600, '/tern_application/');
-        header('Location: /tern_application/login');
+        header('Location: /tern_app/SysDev-Ecom_Project/login');
         exit;
     }
 

@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 session_set_cookie_params([
     'lifetime' => 86400,
-    'path' => '/tern_application/',
+    'path' => '/tern_app/SysDev-Ecom_Project/',
     'secure' => false, // Set to true in production
     'httponly' => true,
     'samesite' => 'Strict'

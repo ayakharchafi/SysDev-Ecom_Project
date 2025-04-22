@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Settings</title>
+
+<!-- <link rel="stylesheet" href="" /> -->
+
+</head>
+<body>
+    <style>
+ :root {
+    --bg: #ffffff;
+    --text: #333;
+    --sidebar-bg: #2c3e50;
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+    --exit-bg: black;
+    --exit-hover: #333;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+.sidebar {
+    width: 250px;
+    background-color:whitesmoke;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    color: rgb(85, 85, 85);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar p, .sidebar-button {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.sidebar-button {
+    background-color: white;
+    color: black;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* ombre en bas */
+}
+
+.sidebar-button:hover {
+    background-color: gray;
+    color:white
+}
+
+.content {
+    padding: 30px 40px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+    background-color: var(--bg);
+}
+
+.content-button {
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 18px;
+    display: inline-block;
+    max-width: fit-content; /* keeps it as small as the content */
+}
+
+.content-button:hover {
+    background-color: #f0f0f0;
+}
+
+
+label {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+.exit-button {
+    background-color: var(--exit-bg);
+    color: white;
+    padding: 8px 14px; /* smaller padding for reduced height */
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px; /* slightly smaller font for a sleeker look */
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    transition: background-color 0.3s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.exit-button:hover {
+    background-color: rgb(145, 8, 8);
+}
+
+.settings-options {
+    margin-top: 20px;
+}
+
+.settings-options h2,
+.settings-options p {
+    margin: 5px 0;
+}
+.theme-options,
+.language-options {
+    display: flex;
+    flex-direction: column; /* makes buttons stack vertically */
+}
+
+.theme-options button,
+.language-options button {
+  width: 120px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 0; /* remove horizontal spacing */
+    margin-bottom: 8px; /* add vertical spacing */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect: move up */
+.theme-options button:hover,
+.language-options button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* optional: add some lift */
+}
+.theme-options .light-theme {
+    background-color: #7B8DA6;
+    color: #ffffff;
+}
+
+.theme-options .dark-theme {
+    background-color: #011640;
+    color: #fff;
+}
+
+.language-options .french-btn,
+.language-options .english-btn {
+    background-color: #DCEAF2;
+    color: rgb(0, 0, 0);
+}
+.settings-options{
+  color: black;
+}
+.sidebarUsername{
+  color: black;
+}
+/* Global reset for anchor tags */
+a {
+  text-decoration: none !important;  /* Removes underline from all anchor tags */
+  color: black !important;           /* Ensures text is black */
+}
+
+/* Specific styles for #settingsHeader and #logout */
+#settingsHeader, #logout {
+  text-decoration: none !important;  /* Removes underline */
+  color: black !important;           /* Ensures text color is black */
+  cursor: pointer;                  /* Optional: shows pointer on hover */
+}
+
+#settingsHeader:hover, #logout:hover {
+  color: black !important;           /* Keeps text black on hover */
+  text-decoration: none !important;  /* Ensures no underline even on hover */
+}
+
+
+
+
+    </style>
+<div class="sidebar">
+  <div>
+      <img src="" alt="">
+      <p class="sidebarUsername">Username</p>
+      <br><br><br>
+      <p id="sidebarTables">Tables</p>
+      <div class="sidebar-button" id="btnClients">Clients</div>
+      <div class="sidebar-button" id="btnUsers">Users</div>
+      <p>____________________</p>
+      <p id="fileManager">File Manager</p>
+      <div class="sidebar-button" id="btnExport">Export</div>
+      <div class="sidebar-button" id="btnImport">Import</div>
+      <br><br><br><br><br><br>
+      <p>____________________</p>
+      
+      <div class="settings-options">
+          <a href="settings.html">
+              <p id="settingsHeader">⚙ Settings</p>
+          </a>
+          <a href="login.html">
+              <p id="logout">⎋ Log out</p>
+          </a>
+      </div>
+  </div>
+</div>
+
+
+    <div class="content">
+        <h1 id="settingsTitle">Settings</h1>
+        <br>
+        <div>
+            <h2 id="themeTitle">🎨 Theme</h2>
+            <p id="themeDescription">Select your display preferences</p>
+            <div class="theme-options">
+                <button class="light-theme" onclick="changeTheme('light')">Light</button>
+                <button class="dark-theme" onclick="changeTheme('dark')">Dark</button>
+            </div>
+        </div>
+        <br>
+        <div>
+            <h2 id="languageTitle">🗣 Language</h2>
+            <p id="languageDescription">Select your preferred language</p>
+            <div class="language-options">
+                <button class="french-btn" onclick="changeLanguage('french')">French</button>
+                <button class="english-btn" onclick="changeLanguage('english')">English</button>
+            </div>
+        </div>
+        <br><br><br><br>
+        <h2 class="content-button" id="archivedClients">🗃 Archived Clients</h2>
+        <h2 class="content-button" id="deactivatedUsers">⏸ Deactivated Users</h2>
+        <button class="exit-button" id="exitBtn">Exit</button>
+    </div>
+
+    <script>
+        const translations = {
+          english: {
+            sidebarUsername: "Username",
+            sidebarTables: "Tables",
+            btnClients: "Clients",
+            btnUsers: "Users",
+            fileManager: "File Manager",
+            btnExport: "Export",
+            btnImport: "Import",
+            settingsHeader: "⚙ Settings",
+            logout: "⎋ Log out",
+            settingsTitle: "Settings",
+            themeTitle: "🎨 Theme",
+            themeDescription: "Select your display preferences",
+            languageTitle: "🗣 Language",
+            languageDescription: "Select your preferred language",
+            archivedClients: "🗃 Archived Clients",
+            deactivatedUsers: "⏸ Deactivated Users",
+            exitBtn: "Exit"
+          },
+          french: {
+            sidebarUsername: "Nom d'utilisateur",
+            sidebarTables: "Tables",
+            btnClients: "Clients",
+            btnUsers: "Utilisateurs",
+            fileManager: "Gestionnaire de fichiers",
+            btnExport: "Exporter",
+            btnImport: "Importer",
+            settingsHeader: "⚙ Paramètres",
+            logout: "⎋ Se déconnecter",
+            settingsTitle: "Paramètres",
+            themeTitle: "🎨 Thème",
+            themeDescription: "Sélectionnez vos préférences d'affichage",
+            languageTitle: "🗣 Langue",
+            languageDescription: "Sélectionnez votre langue préférée",
+            archivedClients: "🗃 Clients archivés",
+            deactivatedUsers: "⏸ Utilisateurs désactivés",
+            exitBtn: "Quitter"
+          }
+        };
+        
+        function changeLanguage(lang) {
+          const t = translations[lang];
+          for (const key in t) {
+            const el = document.getElementById(key);
+            if (el) el.textContent = t[key];
+          }
+          
+          // Save language preference to localStorage
+          localStorage.setItem('preferredLanguage', lang);
+        }
+        
+        function changeTheme(theme) {
+          if (theme === 'dark') {
+            document.documentElement.style.setProperty('--bg', '#1e1e1e');
+            document.documentElement.style.setProperty('--text', '#f0f0f0');
+            document.documentElement.style.setProperty('--sidebar-bg', '#121212');
+            document.documentElement.style.setProperty('--button-bg', '#444');
+            document.documentElement.style.setProperty('--button-hover', '#666');
+            document.documentElement.style.setProperty('--exit-bg', '#222');
+            document.documentElement.style.setProperty('--exit-hover', '#444');
+          } else {
+            document.documentElement.style.setProperty('--bg', '#ffffff');
+            document.documentElement.style.setProperty('--text', '#333');
+            document.documentElement.style.setProperty('--sidebar-bg', '#2c3e50');
+            document.documentElement.style.setProperty('--button-bg', '#3498db');
+            document.documentElement.style.setProperty('--button-hover', '#2980b9');
+            document.documentElement.style.setProperty('--exit-bg', 'black');
+            document.documentElement.style.setProperty('--exit-hover', '#333');
+          }
+          
+          // Save theme preference to localStorage
+          localStorage.setItem('preferredTheme', theme);
+        }
+        
+        // Apply saved preferences on page load
+        document.addEventListener("DOMContentLoaded", function() {
+          // Apply saved language if available
+          const savedLanguage = localStorage.getItem('preferredLanguage');
+          if (savedLanguage) {
+            changeLanguage(savedLanguage);
+          }
+          
+          // Apply saved theme if available
+          const savedTheme = localStorage.getItem('preferredTheme');
+          if (savedTheme) {
+            changeTheme(savedTheme);
+          }
+          
+          // Get the exit button
+          const exitBtn = document.getElementById("exitBtn");
+          
+          // Add click event listener to exit button
+          exitBtn.addEventListener("click", function() {
+            // Redirect back to main.php
+            window.location.href = "/tern_app/SysDev-Ecom_Project/main.php";
+          });
+          
+          // Also handle the sidebar buttons to navigate back
+          const btnClients = document.getElementById("btnClients");
+          const btnUsers = document.getElementById("btnUsers");
+          const btnExport = document.getElementById("btnExport");
+          const btnImport = document.getElementById("btnImport");
+          
+          // Add click event listeners to sidebar buttons
+          [btnClients, btnUsers, btnExport, btnImport].forEach(btn => {
+            btn.addEventListener("click", function() {
+              window.location.href = "/tern_app/SysDev-Ecom_Project/main.php";
+            });
+          });
+          
+          // Get the Archived Clients button
+          const archivedClientsBtn = document.getElementById("archivedClients");
+          
+          // Add click event listener to redirect to archived_clients.html
+          archivedClientsBtn.addEventListener("click", function() {
+            window.location.href = "/tern_app/SysDev-Ecom_Project/app/Views/utilities/archived_clients.html";
+          });
+          
+          // Get the Deactivated Users button (for future implementation)
+          const deactivatedUsersBtn = document.getElementById("deactivatedUsers");
+          
+          // Add click event listener for future implementation
+          deactivatedUsersBtn.addEventListener("click", function() {
+            window.location.href = "/tern_app/SysDev-Ecom_Project/app/Views/utilities/desactivate_users.html";
+          });
+        });
+        </script>
+
+</body>
+</html>
