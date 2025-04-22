@@ -9,6 +9,10 @@ class Bg_ternkey_tll_deals{
     private $form_created_date;
     private $contract_sign_date;
     private $booking_version_code;
+    private $city_code;
+    private $property_code;
+    private $start_date;
+    private $end_date;
 
 public function getBookingCode()
 {
@@ -50,13 +54,52 @@ public function setBookingVersionCode($booking_version_code)
     $this->booking_version_code = $booking_version_code;
 }
 
-    public function readOne() {
-        $query = "SELECT * FROM bg_ternkey_tll_deals WHERE id = :reportID";
-        $stmt = $this->dbConnection->prepare($query);
-        $stmt->bindParam(':reportID', $this->id);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_CLASS, Bg_ternkey_tll_deals::class);
-    }
+public function getCityCode() {
+    return $this->city_code;
+}
+
+public function setCityCode($city_code) {
+    $this->city_code = $city_code;
+}
+
+public function getPropertyCode() {
+    return $this->property_code;
+}
+
+public function setPropertyCode($property_code) {
+    $this->property_code = $property_code;
+}
+
+public function getStartDate() {
+    return $this->start_date;
+}
+
+public function setStartDate($start_date) {
+    $this->start_date = $start_date;
+}
+
+public function getEndDate() {
+    return $this->end_date;
+}
+
+public function setEndDate($end_date) {
+    $this->end_date = $end_date;
+}
+
+public function readOne() {
+    $query = "SELECT * FROM bg_ternkey_tll_deals WHERE id = :reportID";
+    $stmt = $this->dbConnection->prepare($query);
+    $stmt->bindParam(':reportID', $this->id);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_CLASS, Bg_ternkey_tll_deals::class);
+}
+
+public function read() {
+    $query = "SELECT * FROM bg_ternkey_tll_deals";
+    $stmt = $this->dbconnection->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
 
 }
 ?>

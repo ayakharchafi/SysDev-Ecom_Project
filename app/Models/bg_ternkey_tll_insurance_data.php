@@ -91,7 +91,6 @@ public function readOne() {
     $stmt->execute();
     return $stmt->fetchAll(\PDO::FETCH_CLASS, Bg_ternkey_tll_insurance_data::class);
 }
-
 }
 
 ?>
