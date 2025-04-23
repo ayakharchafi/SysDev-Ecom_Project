@@ -87,9 +87,9 @@ public function setEndDate($end_date) {
 }
 
 public function readOne() {
-    $query = "SELECT * FROM bg_ternkey_tll_deals WHERE id = :reportID";
+    $query = "SELECT * FROM bg_ternkey_tll_deals WHERE booking_version_code = :booking_version_code";
     $stmt = $this->dbConnection->prepare($query);
-    $stmt->bindParam(':reportID', $this->id);
+    $stmt->bindParam(':booking_version_code', $this->booking_version_code);
     $stmt->execute();
     return $stmt->fetchAll(\PDO::FETCH_CLASS, Bg_ternkey_tll_deals::class);
 }

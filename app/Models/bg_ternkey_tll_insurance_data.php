@@ -6,23 +6,12 @@ use database\DBConnectionManager;
 
 class Bg_ternkey_tll_insurance_data{
 
-private $id;
 private $city_code;
 private $booking_code;
 private $start_date;
 private $end_date;
 private $client_insurance;
 private $booking_version_code;
-
-public function getId()
-{
-    return $this->id;
-}
-
-public function setId($id)
-{
-    $this->id = $id;
-}
 
 public function getCityCode()
 {
@@ -85,11 +74,18 @@ public function setBookingVersionCode($booking_version_code)
 }
 
 public function readOne() {
-    $query = "SELECT * FROM bg_ternkey_tll_insurance_data WHERE id = :reportID";
+    $query = "SELECT * FROM bg_ternkey_tll_insurance_data WHERE booking_version_code = :booking_version_code";
     $stmt = $this->dbConnection->prepare($query);
-    $stmt->bindParam(':reportID', $this->id);
+    $stmt->bindParam(':booking_version_code', $this->booking_version_code);
     $stmt->execute();
     return $stmt->fetchAll(\PDO::FETCH_CLASS, Bg_ternkey_tll_insurance_data::class);
+}
+
+public function read() {
+    $query = "SELECT * FROM bg_ternkey_tll_insurance_data";
+    $stmt = $this->dbconnection->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 }
 

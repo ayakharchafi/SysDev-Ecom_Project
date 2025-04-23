@@ -4,29 +4,25 @@ namespace models;
 use database\DBConnectionManager;
 
 class User {
-private $id;
-private $username;
-private $password;
-private $isInternal;
-private $isSuper;
+    private $user_id;
+    private $user_email;
+    private $user_name;
+    private $password;
 
-    // Getters and setters
-
-    public function getID() {
-        return $this->id;
+    public function getUserId() {
+        return $this->user_id;
     }
 
-    public function setID($id) {
-        $this->id = $id;
+    public function setUserId($id) {
+        $this->user_id = $id;
     }    
 
-
     public function getUsername() {
-        return $this->username;
+        return $this->user_name;
     }
 
     public function setUsername($username) {
-        $this->username = $username;
+        $this->user_name = $username;
     }    
 
     public function getPassword() {
@@ -42,9 +38,9 @@ private $isSuper;
     }
 
     public function readOne() {
-        $query = "SELECT * FROM users WHERE id = :userID";
+        $query = "SELECT * FROM users WHERE user_id = :user_id";
         $stmt = $this->dbConnection->prepare($query);
-        $stmt->bindParam(':userID', $this->id);
+        $stmt->bindParam(':user_id', $this->user_id);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
     }
@@ -57,35 +53,25 @@ private $isSuper;
         return $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
     }
 
+    public function read() {
+        $query = "SELECT * FROM users";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
     public function create() {
         if (empty($this->username) && empty($this->password)) {
             return false;
         }
 
-        $query = "INSERT INTO users (user_name, password) VALUES (:username, :password)";
+        $query = "INSERT INTO users (user_name, password) VALUES (:user_name, :password)";
         $stmt = $this->dbConnection->prepare($query);
 
-        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':user_name', $this->user_name);
         $stmt->bindParam(':password', $this->password);
 
         return $stmt->execute();
-    }
-    
-
-    public function getIsInternal() {
-        return $this->isInternal;
-    }
-
-    public function setIsInternal($isInternal) {
-        $this->isInternal = $isInternal;
-    }  
-
-    public function getIsSuper() {
-        return $this->isSuper;
-    }
-
-    public function setIsSuper($isSuper) {
-        $this->isSuper = $isSuper;
     }
 
     private $validUsers = [
@@ -99,16 +85,4 @@ private $isSuper;
     }
 }
 
-class Admin extends User {
-    //
-}
-
-class ExternalEmployee extends User {
-    private $client;
-
-    // External employees can only access policy tables pretaining to their own company
-    public function canView($policy) {
-        return $this->client == $policy->getClient();
-    }
-}
 ?>

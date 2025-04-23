@@ -109,7 +109,7 @@ class Bg_ternkey_report_schedule{
     public function readOne() {
         $query = "SELECT * FROM bg_ternkey_report_schedule WHERE booking_version_code = :booking _version_code";
         $stmt = $this->dbConnection->prepare($query);
-        $stmt->bindParam(':booking_version_code', $this->id);
+        $stmt->bindParam(':booking_version_code', $this->booking_version_code);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_CLASS, Bg_ternkey_report_schedule::class);
     }
