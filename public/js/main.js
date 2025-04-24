@@ -162,126 +162,82 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   // Users button click handler - Show users table
-  usersBtn.addEventListener("click", function() {
-    // Generate users table HTML
-    const usersTableHTML = `
-      <div class="table-container">
-        <h2>Users Management</h2>
-        <p>Showing all system users</p>
-        <table id="dataTable">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Created</th>
-              <th>Password</th>
-              <th>Role</th>
-              <th>Access</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>John Doe</td>
-              <td>john@example.com</td>
-              <td>2023-01-15</td>
-              <td>••••••••</td>
-              <td>Admin</td>
-              <td>Full</td>
-              <td>
-                <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jane Smith</td>
-              <td>jane@example.com</td>
-              <td>2023-02-10</td>
-              <td>••••••••</td>
-              <td>Manager</td>
-              <td>Limited</td>
-              <td>
-                <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Robert Johnson</td>
-              <td>robert@example.com</td>
-              <td>2023-03-05</td>
-              <td>••••••••</td>
-              <td>User</td>
-              <td>Basic</td>
-              <td>
-                <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Emily Davis</td>
-              <td>emily@example.com</td>
-              <td>2023-04-20</td>
-              <td>••••••••</td>
-              <td>Admin</td>
-              <td>Full</td>
-              <td>
-                <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>Michael Wilson</td>
-              <td>michael@example.com</td>
-              <td>2023-05-15</td>
-              <td>••••••••</td>
-              <td>User</td>
-              <td>Basic</td>
-              <td>
-                <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `;
+  usersBtn.addEventListener("click", async function() {
     
-    // Update content area with users table
-    contentArea.innerHTML = usersTableHTML;
-    
-    // Initialize row selection for the new table
-    setupTableRowSelection("dataTable");
-    
-    // Reattach search functionality to the new table
-    const newDataTable = document.getElementById("dataTable");
-    if (newDataTable && searchInput.value) {
-      const searchTerm = searchInput.value.toLowerCase();
-      const tableRows = newDataTable.querySelectorAll("tbody tr");
-      
-      tableRows.forEach((row) => {
-        let found = false;
-        const cells = row.querySelectorAll("td");
-        
-        cells.forEach((cell) => {
-          const text = cell.textContent.toLowerCase();
-          if (text.includes(searchTerm)) {
-            found = true;
-          }
+    try {
+      const response = await fetch('/tern_app/SysDev-Ecom_Project/app/Controllers/UserController.php');
+      const users = await response.json();
+
+      if (response.ok) {
+        let usersTableHTML = `
+        <div class="table-container">
+          <h2>Users Management</h2>
+          <p>Showing all system users</p>
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        users.forEach(user => {
+          usersTableHTML += `
+            <tr>
+              <td>${user.user_id}</td>
+              <td>${user.user_name}</td>
+              <td>${user.user_email}</td>
+              <td>${user.password}</td>
+              <td>
+                <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
+                <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            </tr>
+          `;
         });
+
+        usersTableHTML += `
+            </tbody>
+          </table>
+        </div>
+        `;
+
+        contentArea.innerHTML = usersTableHTML;
+        setupTableRowSelection("dataTable");
         
-        if (found) {
-          row.style.display = "";
+        const newDataTable = document.getElementById("dataTable");
+        if (newDataTable && searchInput.value) {
+          const searchTerm = searchInput.value.toLowerCase();
+          const tableRows = newDataTable.querySelectorAll("tbody tr");
+          
+          tableRows.forEach((row) => {
+            let found = false;
+            const cells = row.querySelectorAll("td");
+            
+            cells.forEach((cell) => {
+              const text = cell.textContent.toLowerCase();
+              if (text.includes(searchTerm)) {
+                found = true;
+              }
+            });
+            
+            if (found) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
         } else {
-          row.style.display = "none";
+          console.error("Failed to fetch users:", users.error || "Unknown error");
         }
-      });
-    }
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }    
   });
 
   // Client sub-items click handler - Show client-specific tables
