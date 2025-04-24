@@ -1,7 +1,7 @@
 <?php
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 class External_users {
     private $user_id;

@@ -2,7 +2,7 @@
 
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 class Bg_ternkey_tll_deals{
     private $booking_code;

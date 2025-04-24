@@ -1,13 +1,15 @@
 <?php
 namespace models;
 
-use database\DBConnectionManager;
+use Database\DatabaseConnectionManager;
 
 class User {
     private $user_id;
     private $user_email;
     private $user_name;
     private $password;
+
+    private $dbConnection;
 
     public function getUserId() {
         return $this->user_id;
@@ -34,7 +36,7 @@ class User {
     }
 
     public function __construct() {
-        $this->dbConnection = (new DBConnectionManager())->getConnection();
+        $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
     }
 
     public function readOne() {

@@ -1,10 +1,12 @@
 <?php
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 class Super_user {
     private $user_id;
+
+    private $dbConnection;
 
     public function getUserId() {
         return $this->user_id;

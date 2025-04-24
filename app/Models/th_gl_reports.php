@@ -2,7 +2,7 @@
 
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 class Th_gl_reports {
     private $contract_file_name;
@@ -20,6 +20,8 @@ class Th_gl_reports {
     private $subtotal_per_unit;
     private $tax;
     private $total;
+
+    private $dbConnection;
 
     public function getContractFileName() {
         return $this->contract_file_name;

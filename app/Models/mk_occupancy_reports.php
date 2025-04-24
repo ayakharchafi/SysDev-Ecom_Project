@@ -2,7 +2,7 @@
 
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 class Mk_occupancy_reports {
     private $mk_occupancy_reports_id;

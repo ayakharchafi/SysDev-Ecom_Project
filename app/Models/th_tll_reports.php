@@ -2,7 +2,7 @@
 
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 class Th_tll_reports {
 
@@ -23,6 +23,8 @@ class Th_tll_reports {
     private $cost;
     private $tax;
     private $total;
+
+    private $dbConnection;
 
     public function getContractFileName() {
         return $this->contract_file_name;

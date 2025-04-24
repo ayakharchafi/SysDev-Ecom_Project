@@ -1,7 +1,7 @@
 <?php
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 class Bg_gl_insurance_schedule {
 
@@ -12,6 +12,8 @@ class Bg_gl_insurance_schedule {
     private $property_address_full;
     private $property_address_apartment;
     private $premium;
+
+    private $dbConnection;
 
     public function getId()
     {

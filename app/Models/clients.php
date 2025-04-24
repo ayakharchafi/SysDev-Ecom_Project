@@ -2,7 +2,7 @@
 
 namespace models;
 
-use database\DBConnectionManager;
+use database\DatabaseConnectionManager;
 
 
 class Clients {
