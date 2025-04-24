@@ -47,12 +47,21 @@ class User {
         return $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
     }
 
-    public function readByUsername() {
+    public function readByUsername($username) {
         $query = "SELECT * FROM users WHERE user_name = :username";
         $stmt = $this->dbConnection->prepare($query);
-        $stmt->bindParam(':username', $this->username);
+        $stmt->bindParam(':username', $username);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+    
+        if ($user) {
+            $this->user_name = $user['user_name'];
+            $this->password = $user['password'];
+            $this->user_id = $user['user_id'];
+            $this->user_email = $user['user_email'];
+        }
+    
+        return $user;
     }
 
     public function read() {
@@ -63,7 +72,7 @@ class User {
     }
 
     public function create() {
-        if (empty($this->username) && empty($this->password)) {
+        if (empty($this->user_name) && empty($this->password)) {
             return false;
         }
 
@@ -80,10 +89,16 @@ class User {
         'demo' => 'demo123' // username => password
     ];
 
-    public function verifyCredentials($username, $password)
-    {
-        return isset($this->validUsers[$username]) && 
-               $this->validUsers[$username] === $password;
+    public function verifyCredentials($password) {
+        $isVerified = password_verify(trim($password), $this->password); // Store the result once
+    
+        if ($isVerified) {
+            $_SESSION['user_id'] = $this->user_id; // Use $this->user_id properly
+            return true;
+        } else {
+            $_SESSION['error'] = "Invalid username or password.";
+            return false;
+        }
     }
 }
 

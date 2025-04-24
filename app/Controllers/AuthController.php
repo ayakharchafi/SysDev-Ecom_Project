@@ -25,7 +25,7 @@ class AuthController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'] ?? '';
+            $username = $_POST['user_name'] ?? '';
             $password = $_POST['password'] ?? '';
             $rememberMe = isset($_POST['remember_me']);
 
@@ -33,7 +33,10 @@ class AuthController {
             error_log("Login attempt: $username / $password");
 
             $user = new User();
-            if ($user->verifyCredentials($username, $password)) {
+            $user->readByUsername($username);
+
+            if ($user->verifyCredentials($password)) {
+                $_SESSION['error'] = "pass";
                 $_SESSION['user'] = $username;
                 error_log("Login SUCCESS: $username");
 
@@ -50,7 +53,7 @@ class AuthController {
                 header('Location: /tern_app/SysDev-Ecom_Project/dashboard');
                 exit;
             } else {
-                $_SESSION['error'] = 'Invalid credentials';
+                //$_SESSION['error'] = "Invalid credentials";
                 error_log("Login FAILED: $username");
                 header('Location: /tern_app/SysDev-Ecom_Project/login');
                 exit;

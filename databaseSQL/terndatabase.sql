@@ -265,7 +265,7 @@ CREATE TABLE `users` (
   `user_id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_email` varchar(50) NOT NULL,
   `user_name` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL
+  `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -442,9 +442,9 @@ WHERE client_id = 'MK' AND product_type = 'TERNKEY' AND premium_currency = 'USD'
 INSERT INTO users (
   user_email, user_name, password
 ) VALUES
-('ian@terngrp.com', 'Ian Swain', '$2y$10$Jl6bPjcTESPbi/dUKMtToOn3QotuLZIMbWs1oNDwQxKenKZLJSJ6S'), -- password: user1
-('cathy@terngrp.com', 'Cathy Lafleur', '$2y$10$Ki38ceP6.WAzxKOJWjbA6.l4gIQQfv7aDulub5ceT5SWx0RIs1ZG.'), -- password: user2
-('melanie.l.swain@gmail.com', 'Melanie Swain', '$2y$10$Jl6bPjcTESPbi/dUKMtToOn3QotuLZIMbWs1oNDwQxKenKZLJSJ6S'); -- password: user1
+('ian@terngrp.com', 'Ian', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
+('cathy@terngrp.com', 'Cathy', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
+('melanie.l.swain@gmail.com', 'Melanie', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'); -- password: user1
 
 INSERT INTO internal_users (user_id) VALUES (2);
 INSERT INTO super_user (user_id) VALUES (1);
