@@ -163,9 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Users button click handler - Show users table
   usersBtn.addEventListener("click", async function() {
-    
+    console.log("test");
     try {
       const response = await fetch('/tern_app/SysDev-Ecom_Project/app/Controllers/UserController.php');
+      console.log("hello");
+      console.log(await response.text());
       const users = await response.json();
 
       if (response.ok) {

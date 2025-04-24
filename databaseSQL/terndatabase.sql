@@ -444,7 +444,8 @@ INSERT INTO users (
 ) VALUES
 ('ian@terngrp.com', 'Ian', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
 ('cathy@terngrp.com', 'Cathy', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
-('melanie.l.swain@gmail.com', 'Melanie', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'); -- password: user1
+('melanie.l.swain@gmail.com', 'Melanie', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
+('lalinglabrador@gmail.com', 'Ishilia', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'); -- password: user1
 
 INSERT INTO internal_users (user_id) VALUES (2);
 INSERT INTO super_user (user_id) VALUES (1);
