@@ -23,7 +23,9 @@ if (!isset($_SESSION['user'])) {
                 <div class="avatar">
                     <i class="fa-solid fa-user"></i>
                 </div>
-                <span class="username">Username</span>
+                <span class="username"><?php 
+                    echo htmlspecialchars($_SESSION['user']) ?>
+                </span>
             </div>
 
             <div class="sidebar-section">
