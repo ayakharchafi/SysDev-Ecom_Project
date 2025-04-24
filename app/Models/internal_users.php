@@ -6,6 +6,8 @@ use database\DatabaseConnectionManager;
 class Internal_users {
     private $user_id;
 
+    private $dbConnection;
+
     public function getUserId() {
         return $this->user_id;
     }

@@ -21,6 +21,8 @@ class Os_occupancy_reports {
     private $shletern_oasis_coverage;
     private $ternkey_tenant_coverage;
 
+    private $dbConnection;
+
     public function getId() {
         return $this->os_occupancy_reports_id;
     }

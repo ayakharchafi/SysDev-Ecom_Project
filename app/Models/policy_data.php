@@ -17,6 +17,8 @@ class Policy_data {
     private $premium_prorated;
     private $premium_currency;
 
+    private $dbConnection;
+
     public function getClientId() {
         return $this->client_id;
     }

@@ -1,44 +1,46 @@
 <?php
 
-namespace Core\HTTP;
+namespace core\http;
 
-require("request.php");
+class Request {
 
-class RequestBuilder{
+    private $method;
+    private $url;
+    private $headers;
+    private $body;
+    private $params;
+    private $postFields;
 
-    public function getRequest(){
+    function __construct($method, $url, $headers, $body, $params, $postFields) {
 
-        $method = $this->getRequestMethod();
-        $url = $_SERVER['REQUEST_URI'];
-        $headers = getallheaders();
-        $body = file_get_contents("php://input");        
-        $postFields = $_POST;
-        $params =  $this->getURLParams();
-
-        return new Request($method, $url, $headers, $body, $params, $postFields);
+        $this->method = $method;
+        $this->url = $url;
+        $this->headers = $headers;
+        $this->body = $body;
+        $this->params = $params;
+        $this->postFields = $postFields;
     }
 
-    private function getRequestMethod(){
-
-        $requestMethod = "";
-
-        if(isset($this->getURLParams()[1])) {
-            $requestMethod = $this->getURLParams()[1];
-        }
-
-        switch($requestMethod) {
-            case 'list': $requestMethod = 'GET';
-                break;
-            case 'import': $requestMethod = 'POST';
-                break;
-            default:
-                $requestMethod =  $_SERVER["REQUEST_METHOD"];
-        }
-
-        return $requestMethod;
+    public function getMethod() {
+        return $this->method;
+    }
+    
+    public function getURL() {
+        return $this->url;
     }
 
-    function getURLParams() {
-        return explode("/", trim($_GET["url"], "/") );
+    public function getHeaders() {
+        return $this->headers;
+    }
+    public function getBody() {
+        return $this->body;
+    }
+
+    public function getParams() {
+        return $this->params;
+    }
+
+    public function getpostFields() {
+        return $this->postFields;
     }
 }

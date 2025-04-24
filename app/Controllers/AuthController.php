@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../Models/User.php';
 use models\User;
 
 class AuthController {
@@ -16,7 +15,7 @@ class AuthController {
         }
 
         $rememberedUsername = $_COOKIE['rememberedUser'] ?? '';
-        require_once __DIR__ . '/../Views/auth/login.php';
+        require_once __DIR__ . '/../Views/authentication/login.php';
     }
 
     public function processLogin() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\HTTP;
+namespace core\http;
 
 require("request.php");
 

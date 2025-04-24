@@ -10,6 +10,8 @@ class Bg_tll_property_facts {
     private $address_full;
     private $address_apt;
 
+    private $dbConnection;
+
   
     public function getPropertyCode() {
         return $this->property_code;

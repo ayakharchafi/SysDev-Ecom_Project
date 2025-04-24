@@ -1,6 +1,6 @@
 <?php
 
-namespace Database;
+namespace database;
 
 class DatabaseConnectionManager {
 
@@ -17,7 +17,7 @@ class DatabaseConnectionManager {
         $this->username = "root"; 
         $this->password = "";
         $this->server = "localhost";
-        $this->dbname = "tern_occupancy";
+        $this->dbname = "terndatabase";
 
         try {
         

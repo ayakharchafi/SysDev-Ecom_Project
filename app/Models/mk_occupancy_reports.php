@@ -18,6 +18,8 @@ class Mk_occupancy_reports {
     private $currency;
     private $premium_collected;
 
+    private $dbConnection;
+
     public function getMKOccupancyReportsId() {
         return $this->mk_occupancy_reports_id;
     }

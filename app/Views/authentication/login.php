@@ -1,3 +1,46 @@
+<?php
+
+namespace views\authentication;
+
+use core\http\RequestBuilder;
+use core\authentication\MembershipProvider;
+
+require_once __DIR__ . '/../../Core/Authentication/membershipprovider.php';
+require_once __DIR__ . '/../../Core/HTTP/requestbuilder.php';
+
+
+class Login{
+
+    public function render($data) {
+
+        $membershipProvider = new MembershipProvider();
+
+         if ($membershipProvider->isLoggedIn()) {
+            header("Location: /tern_app/SysDev-Ecom_Project/dashboard");
+            exit;
+        }
+        
+        $usermessage = ""; 
+
+        $requestBuilder = new RequestBuilder();
+
+        $request = $requestBuilder->getRequest();
+
+        if ($request->getMethod() == 'POST') {
+
+            if ($membershipProvider->login($data['user_name'], $data['password'])) {
+
+                header("HTTP/1.1 302 Found");
+                header("location: /tern_app/SysDev-Ecom_Project/dashboard");
+
+           } else {
+            //$usermessage = "The username and/or password are incorrect.";
+           }
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,10 +53,10 @@
   <body>
     <div class="login-page">
       
-      <?php if (isset($_SESSION['error'])): ?>
+      <?php if (isset($_SESSION["error"])): ?>
         <div class="error-message">
-          <?= $_SESSION['error'] ?>
-          <?php unset($_SESSION['error']); ?>
+          <?= $_SESSION["error"] ?>
+          <?php unset($_SESSION["error"]); ?>
         </div>
       <?php endif; ?>
 
@@ -37,8 +80,8 @@
                 <div class="text-field">
                   <input 
                     class="label" 
-                    id="username" 
-                    name="username" 
+                    id="user_name" 
+                    name="user_name" 
                     placeholder="User name" 
                     type="text"
                     value="<?= htmlspecialchars($rememberedUsername ?? '') ?>"

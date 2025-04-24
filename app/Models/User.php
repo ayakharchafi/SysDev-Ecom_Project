@@ -1,7 +1,7 @@
 <?php
 namespace models;
-
-use Database\DatabaseConnectionManager;
+require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
+use database\DatabaseConnectionManager;
 
 class User {
     private $user_id;

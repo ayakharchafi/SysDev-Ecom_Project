@@ -9,6 +9,8 @@ class Clients {
     private $client_id;
     private $client_name;
 
+    private $dbConnection;
+
     public function getClientId() {
         return $this->client_id;
     }

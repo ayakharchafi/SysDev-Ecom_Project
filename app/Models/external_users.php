@@ -7,6 +7,8 @@ class External_users {
     private $user_id;
     private $client_id;
 
+    private $dbConnection;
+
     public function getUserId() {
         return $this->user_id;
     }
