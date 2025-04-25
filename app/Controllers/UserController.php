@@ -1,8 +1,9 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
+namespace controllers;
+//header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../Models/User.php';
-
 require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
+use models\User;
 use database\DatabaseConnectionManager;
 
 class UserController {
@@ -21,14 +22,34 @@ class UserController {
 
         echo json_encode($users);
     }
+    public function read() {
+        $query = "SELECT * FROM users";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
+public function displayRecords($data){
+    $html = "";
+    foreach ($data as $user) {
+        $html .= "<tr>";
+        $html .= "<td>{$user["user_id"]}</td>";
+        $html .= "<td>{$user["name"]}</td>";
+        $html .= "<td>{$user["user_email"]}</td>";
+        $html .= "<td>{$user["phone"]}</td>";
+        $html .= "<td>{$user["status"]}</td>";
+        $html .= "<td>{$user["created"]}</td>";
+        $html .= "<td>{$user["updated"]}</td>";
+        $html .= "   <td>";
+        $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
+        $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";
+        $html .= "  </td>";
+        $html .= "</tr>";
+        
+    }
+
+    echo $html;
 }
-
-$dbConnection = (new DatabaseConnectionManager())->getConnection();
-$query = "SELECT * FROM users";
-$stmt = $this->dbConnection->prepare($query);
-$stmt->execute();
-$users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-echo json_encode($users);
-
+}
 ?>

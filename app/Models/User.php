@@ -179,9 +179,10 @@ class User {
             $html .= "</tr>";
             
         }
-
+    
         echo $html;
     }
+   
 }
 
 ?>

@@ -1,5 +1,6 @@
 <?php
 use models\User;
+use controllers\UserController;
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: /tern_app/SysDev-Ecom_Project/login');
@@ -114,7 +115,8 @@ if (!isset($_SESSION['user'])) {
                         </thead>
                         <tbody>
                            <?php 
-                                $test  = new User;
+                           require_once __DIR__ . '/../../Controllers/UserController.php';
+                                $test  = new UserController;
                                 $data = $test->read();
                                 echo $test->displayRecords($data);
                                 ?>
