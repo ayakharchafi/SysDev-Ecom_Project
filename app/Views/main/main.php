@@ -1,4 +1,5 @@
 <?php
+use models\User;
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: /tern_app/SysDev-Ecom_Project/login');
@@ -101,7 +102,7 @@ if (!isset($_SESSION['user'])) {
                     <table id="dataTable">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
@@ -112,71 +113,11 @@ if (!isset($_SESSION['user'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>John Doe</td>
-                                <td>john@example.com</td>
-                                <td>(555) 123-4567</td>
-                                <td>Active</td>
-                                <td>2023-01-15</td>
-                                <td>2023-04-20</td>
-                                <td>
-                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jane Smith</td>
-                                <td>jane@example.com</td>
-                                <td>(555) 987-6543</td>
-                                <td>Inactive</td>
-                                <td>2023-02-10</td>
-                                <td>2023-03-15</td>
-                                <td>
-                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Robert Johnson</td>
-                                <td>robert@example.com</td>
-                                <td>(555) 456-7890</td>
-                                <td>Active</td>
-                                <td>2023-03-05</td>
-                                <td>2023-05-12</td>
-                                <td>
-                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Emily Davis</td>
-                                <td>emily@example.com</td>
-                                <td>(555) 234-5678</td>
-                                <td>Active</td>
-                                <td>2023-04-20</td>
-                                <td>2023-05-01</td>
-                                <td>
-                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Michael Wilson</td>
-                                <td>michael@example.com</td>
-                                <td>(555) 876-5432</td>
-                                <td>Inactive</td>
-                                <td>2023-05-15</td>
-                                <td>2023-06-10</td>
-                                <td>
-                                    <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
+                           <?php 
+                                $test  = new User;
+                                $data = $test->read();
+                                echo $test->displayRecords($data);
+                                ?>
                         </tbody>
                     </table>
                 </div>
