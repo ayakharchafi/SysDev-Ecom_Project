@@ -32,6 +32,17 @@ class UserController {
 
     public function displayRecords($data){
         $html = "";
+        $html .= '<table id="dataTable">';
+        $html .= '<thead>';
+        $html .= "<tr>";
+        $html .= "<th>ID</th>";
+        $html .= "<th>Name</th>";
+        $html .= "<th>Email</th>";
+        $html .= "<th>Password</th>";
+        $html .= "<th>Actions</th>";
+        $html .= "</tr>";
+        $html .= "</thead>";
+        $html .= "<tbody>";
         foreach ($data as $user) {
             $html .= "<tr>";
             $html .= "<td>{$user["user_id"]}</td>";
@@ -44,6 +55,8 @@ class UserController {
             $html .= "  </td>";
             $html .= "</tr>";
         }
+        $html .= "</tbody>";
+        $html .= "</table>";
         
         echo $html;
     }
@@ -51,8 +64,8 @@ class UserController {
 
 // API endpoint to retrieve all users from the database (used in main.js)
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $test  = new UserController;
-    $data = $test->read();
-    echo $test->displayRecords($data);
+    $users  = new UserController;
+    $data = $users->read();
+    echo $users->displayRecords($data);
 }
 ?>

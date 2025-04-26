@@ -97,28 +97,11 @@ if (!isset($_SESSION['user'])) {
                     </div>
                 </div>
             </div>
-
             <div class="content">
                 <div class="table-container">
-                    <table id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Password</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                           <?php 
-                                require_once __DIR__ . '/../../Controllers/UserController.php';
-                                //$test  = new UserController;
-                                //$data = $test->read();
-                                //echo $test->displayRecords($data);
-                            ?>
-                        </tbody>
-                    </table>
+                    <?php 
+                        require_once __DIR__ . '/../../Controllers/UserController.php';
+                    ?>
                 </div>
             </div>
         </div>

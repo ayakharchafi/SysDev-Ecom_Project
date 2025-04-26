@@ -169,10 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const tableRowsHTML = await response.text();
 
       if (response.ok) {
+
+        contentArea.innerHTML = "";
         
-        const dataTable = document.getElementById("dataTable");
-        const tbody = dataTable.querySelector("tbody");
-        tbody.innerHTML = tableRowsHTML;
+        contentArea.innerHTML = tableRowsHTML;
 
         setupTableRowSelection("dataTable");
       } else {
