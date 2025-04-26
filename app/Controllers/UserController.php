@@ -35,12 +35,9 @@ public function displayRecords($data){
     foreach ($data as $user) {
         $html .= "<tr>";
         $html .= "<td>{$user["user_id"]}</td>";
-        $html .= "<td>{$user["name"]}</td>";
+        $html .= "<td>{$user["user_name"]}</td>";
         $html .= "<td>{$user["user_email"]}</td>";
-        $html .= "<td>{$user["phone"]}</td>";
-        $html .= "<td>{$user["status"]}</td>";
-        $html .= "<td>{$user["created"]}</td>";
-        $html .= "<td>{$user["updated"]}</td>";
+        $html .= "<td>{$user["password"]}</td>";
         $html .= "   <td>";
         $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
         $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";

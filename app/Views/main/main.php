@@ -106,10 +106,7 @@ if (!isset($_SESSION['user'])) {
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Status</th>
-                                <th>Created</th>
-                                <th>Updated</th>
+                                <th>Password</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
