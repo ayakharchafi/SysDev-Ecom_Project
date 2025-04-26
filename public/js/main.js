@@ -364,3 +364,128 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 })
+
+
+
+ // UI switching
+const exportBtn = document.getElementById('exportBtn');
+const importBtn = document.getElementById('importBtn');
+const exportSection = document.getElementById('exportSection');
+const importSection = document.getElementById('importSection');
+
+exportBtn.onclick = () => {
+ exportSection.style.display = 'block';
+ importSection.style.display = 'none';
+ exportBtn.classList.add('active');
+ importBtn.classList.remove('active');
+};
+
+importBtn.onclick = () => {
+ exportSection.style.display = 'none';
+ importSection.style.display = 'block';
+ importBtn.classList.add('active');
+ exportBtn.classList.remove('active');
+};
+
+// Export location handler
+function triggerExportPath() {
+ document.getElementById('exportPathInput').click();
+}
+
+function setExportLocation() {
+ const input = document.getElementById('exportPathInput');
+ if (input.files.length > 0) {
+   // Show the folder name
+   const path = input.files[0].webkitRelativePath;
+   const folder = path.split('/')[0];
+   document.getElementById('exportLocation').value = "C:/Users/Documents/" + folder;
+ }
+}
+
+// Export
+function exportTable() {
+const client = document.getElementById('exportClient').value;
+const location = document.getElementById('exportLocation').value;
+
+if (!client || !location) {
+alert("Please select a client and a location.");
+return;
+}
+
+showModal("Export Successful", `Client ${client}'s data exported to:\n${location}`);
+
+// Clear after success
+document.getElementById('exportClient').value = '';
+document.getElementById('exportLocation').value = '';
+document.getElementById('exportPathInput').value = '';
+}
+function triggerImportFile() {
+document.getElementById('importFileInput').click();
+}
+
+function handleImportFile() {
+const fileInput = document.getElementById('importFileInput');
+if (fileInput.files.length > 0) {
+document.getElementById('importFileName').value = fileInput.files[0].name;
+}
+}
+
+
+// Import
+function importTable() {
+const client = document.getElementById('importClient').value;
+const fileName = document.getElementById('importFileName').value;
+
+if (!client || !fileName) {
+alert("Please select a client and a file to import.");
+return;
+}
+
+showModal("Import Successful", `Imported "${fileName}" into ${client}`);
+
+// Clear after success
+document.getElementById('importClient').value = '';
+document.getElementById('importFileName').value = '';
+document.getElementById('importFileInput').value = '';
+}
+
+// Modal
+function showModal(title, message) {
+ document.getElementById('modalTitle').textContent = title;
+ document.getElementById('modalMessage').textContent = message;
+ document.getElementById('modal1').classList.add('show');
+ document.getElementById('overlay').classList.add('show');
+}
+
+function closeModal() {
+ document.getElementById('modal1').classList.remove('show');
+ document.getElementById('overlay').classList.remove('show');
+}
+
+document.getElementById('exportBtn').addEventListener('click', function () {
+  showSection('export');
+});
+
+document.getElementById('importBtn').addEventListener('click', function () {
+  showSection('import');
+});
+
+function showSection(section) {
+  // Hide all sections
+  document.getElementById('tableContent').style.display = 'none';
+  document.getElementById('importSection').style.display = 'none';
+  document.getElementById('exportSection').style.display = 'none';
+
+  // Reset active state for buttons
+  document.getElementById('exportBtn').classList.remove('active');
+  document.getElementById('importBtn').classList.remove('active');
+
+  // Show selected section
+  if (section === 'import') {
+    document.getElementById('importSection').style.display = 'block';
+    document.getElementById('importBtn').classList.add('active');
+  } else if (section === 'export') {
+    document.getElementById('exportSection').style.display = 'block';
+    document.getElementById('exportBtn').classList.add('active');
+  }
+}

@@ -14,6 +14,7 @@ if (!isset($_SESSION['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="/tern_app/SysDev-Ecom_Project/public/css/importexport.css">
     <link rel="stylesheet" href="/tern_app/SysDev-Ecom_Project/public/css/style_main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -51,10 +52,10 @@ if (!isset($_SESSION['user'])) {
             <div class="sidebar-section">
                 <h3>File Manager</h3>
                 <div class="sidebar-item">
-                    <span>Export</span>
+                    <button id="exportBtn" class="active">Export</button>
                 </div>
                 <div class="sidebar-item">
-                    <span>Import</span>
+                    <button id="importBtn" >Import</button>
                 </div>
             </div>
 
@@ -98,8 +99,8 @@ if (!isset($_SESSION['user'])) {
                 </div>
             </div>
 
-            <div class="content">
-                <div class="table-container">
+            <div class="content" id="tableContent">
+                <div class="table-container"  >
                     <table id="dataTable">
                         <thead>
                             <tr>
@@ -124,6 +125,44 @@ if (!isset($_SESSION['user'])) {
                     </table>
                 </div>
             </div>
+             <!-- Export Section -->
+        <div class="section" id="exportSection" style="display: none;">
+            <h2>Export Data</h2>
+      
+            <label>Select client to export</label>
+            <select id="exportClient">
+              <option value="">-- Select --</option>
+              <option value="OS">OS</option>
+              <option value="MK">MK</option>
+              <option value="BG">BG</option>
+            </select>
+      
+            <label>Select export location</label>
+            <input type="text" id="exportLocation" readonly placeholder="Click to choose export location..." onclick="triggerExportPath()" />
+            <input type="file" id="exportPathInput" webkitdirectory directory style="display:none" onchange="setExportLocation()" />
+      
+            <button class="btn" onclick="exportTable()">Export</button>
+          </div>
+      
+          <!-- Import Section -->
+          <div class="section" id="importSection" style="display: none;">
+            <h2>Import Data</h2>
+      
+            <label>Select client to import to</label>
+            <select id="importClient">
+              <option value="">-- Select --</option>
+              <option value="OS">OS</option>
+              <option value="MK">MK</option>
+              <option value="BG">BG</option>
+            </select>
+      
+            <label>Select file to import</label>
+            <input type="text" id="importFileName" readonly placeholder="Click to choose file..." onclick="triggerImportFile()" />
+            <input type="file" id="importFileInput" style="display: none;" onchange="handleImportFile()" />
+      
+            <button class="btn" onclick="importTable()">Import</button>
+          </div>
+            
         </div>
     </div>
 
@@ -190,6 +229,18 @@ if (!isset($_SESSION['user'])) {
             </div>
         </div>
     </div>
+    <!-- <div class="main">
+       
+      </div> -->
+    
+      <!-- Modal/Dialog Box -->
+      <div class="overlay" id="overlay"></div>
+      <div class="modal1" id="modal1">
+        <h4 id="modalTitle">Success</h4>
+        <p id="modalMessage">The operation was successful.</p>
+        <button onclick="closeModal()">DONE</button>
+      </div>
+    
 
     <script src="/tern_app/SysDev-Ecom_Project/public/js/main.js"></script>
 </body>
