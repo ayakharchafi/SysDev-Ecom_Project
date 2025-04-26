@@ -8,6 +8,11 @@ class User {
     private $user_email;
     private $user_name;
     private $password;
+    private $name;
+    private $phone;
+    private $status;
+    private $created;
+    private $updated;
 
     private $dbConnection;
 
@@ -35,6 +40,56 @@ class User {
         $this->password = $password;
     }
 
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function getPhone() {
+        return $this->phone;
+    }
+
+    public function setPhone($phone) {
+        $this->phone = $phone;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+
+    public function getUser_Email() {
+        return $this->user_email;
+    }
+
+    public function setUser_Email($status) {
+        $this->status = $user_email;
+    }
+
+    public function getCreated() {
+        return $this->created;
+    }
+
+    public function setCreated($created) {
+        $this->created = $created;
+    }
+
+    public function getUpdated() {
+        return $this->updated;
+    }
+
+    public function setUpdated($updated) {
+        $this->updated = $updated;
+    }
+
     public function __construct() {
         $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
     }
@@ -58,7 +113,12 @@ class User {
             $this->user_name = $user['user_name'];
             $this->password = $user['password'];
             $this->user_id = $user['user_id'];
-            $this->user_email = $user['user_email'];
+            $this->name = $user['name'];
+            $this->phone = $user['phone'];
+            $this->status = $user['status'];
+            $this->created = $user['created'];
+            $this->updated = $user['updated'];
+
         }
     
         return $user;
@@ -100,6 +160,29 @@ class User {
             return false;
         }
     }
+
+    public function displayRecords($data){
+        $html = "";
+        foreach ($data as $user) {
+            $html .= "<tr>";
+            $html .= "<td>{$user["user_id"]}</td>";
+            $html .= "<td>{$user["name"]}</td>";
+            $html .= "<td>{$user["user_email"]}</td>";
+            $html .= "<td>{$user["phone"]}</td>";
+            $html .= "<td>{$user["status"]}</td>";
+            $html .= "<td>{$user["created"]}</td>";
+            $html .= "<td>{$user["updated"]}</td>";
+            $html .= "   <td>";
+            $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
+            $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";
+            $html .= "  </td>";
+            $html .= "</tr>";
+            
+        }
+    
+        echo $html;
+    }
+   
 }
 
 ?>
