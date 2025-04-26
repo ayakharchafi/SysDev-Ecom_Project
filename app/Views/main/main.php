@@ -112,11 +112,11 @@ if (!isset($_SESSION['user'])) {
                         </thead>
                         <tbody>
                            <?php 
-                           require_once __DIR__ . '/../../Controllers/UserController.php';
-                                $test  = new UserController;
-                                $data = $test->read();
-                                echo $test->displayRecords($data);
-                                ?>
+                                require_once __DIR__ . '/../../Controllers/UserController.php';
+                                //$test  = new UserController;
+                                //$data = $test->read();
+                                //echo $test->displayRecords($data);
+                            ?>
                         </tbody>
                     </table>
                 </div>

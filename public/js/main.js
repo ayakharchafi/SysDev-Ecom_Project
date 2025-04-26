@@ -163,79 +163,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Users button click handler - Show users table
   usersBtn.addEventListener("click", async function() {
-    console.log("test");
     try {
       const response = await fetch('/tern_app/SysDev-Ecom_Project/app/Controllers/UserController.php');
-      console.log("hello");
-      console.log(await response.text());
-      const users = await response.json();
+      //console.log(await response.text());
+      const tableRowsHTML = await response.text();
 
       if (response.ok) {
-        let usersTableHTML = `
-        <div class="table-container">
-          <h2>Users Management</h2>
-          <p>Showing all system users</p>
-          <table id="dataTable">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Password</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-
-        users.forEach(user => {
-          usersTableHTML += `
-            <tr>
-              <td>${user.user_id}</td>
-              <td>${user.user_name}</td>
-              <td>${user.user_email}</td>
-              <td>${user.password}</td>
-              <td>
-                <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-                <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-              </td>
-            </tr>
-          `;
-        });
-
-        usersTableHTML += `
-            </tbody>
-          </table>
-        </div>
-        `;
-
-        contentArea.innerHTML = usersTableHTML;
-        setupTableRowSelection("dataTable");
         
-        const newDataTable = document.getElementById("dataTable");
-        if (newDataTable && searchInput.value) {
-          const searchTerm = searchInput.value.toLowerCase();
-          const tableRows = newDataTable.querySelectorAll("tbody tr");
-          
-          tableRows.forEach((row) => {
-            let found = false;
-            const cells = row.querySelectorAll("td");
-            
-            cells.forEach((cell) => {
-              const text = cell.textContent.toLowerCase();
-              if (text.includes(searchTerm)) {
-                found = true;
-              }
-            });
-            
-            if (found) {
-              row.style.display = "";
-            } else {
-              row.style.display = "none";
-            }
-          });
-        } else {
-          console.error("Failed to fetch users:", users.error || "Unknown error");
-        }
+        const dataTable = document.getElementById("dataTable");
+        const tbody = dataTable.querySelector("tbody");
+        tbody.innerHTML = tableRowsHTML;
+
+        setupTableRowSelection("dataTable");
+      } else {
+        console.error("Failed to fetch users:", users.error || "Unknown error");
       }
     } catch (error) {
       console.error("Error fetching users:", error);

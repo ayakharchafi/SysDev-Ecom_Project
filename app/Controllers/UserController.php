@@ -20,7 +20,7 @@ class UserController {
         $stmt->execute();
         $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        echo json_encode($users);
+        return json_encode($users);
     }
     public function read() {
         $query = "SELECT * FROM users";
@@ -30,23 +30,29 @@ class UserController {
     }
 
 
-public function displayRecords($data){
-    $html = "";
-    foreach ($data as $user) {
-        $html .= "<tr>";
-        $html .= "<td>{$user["user_id"]}</td>";
-        $html .= "<td>{$user["user_name"]}</td>";
-        $html .= "<td>{$user["user_email"]}</td>";
-        $html .= "<td>{$user["password"]}</td>";
-        $html .= "   <td>";
-        $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
-        $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";
-        $html .= "  </td>";
-        $html .= "</tr>";
+    public function displayRecords($data){
+        $html = "";
+        foreach ($data as $user) {
+            $html .= "<tr>";
+            $html .= "<td>{$user["user_id"]}</td>";
+            $html .= "<td>{$user["user_name"]}</td>";
+            $html .= "<td>{$user["user_email"]}</td>";
+            $html .= "<td>{$user["password"]}</td>";
+            $html .= "   <td>";
+            $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
+            $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";
+            $html .= "  </td>";
+            $html .= "</tr>";
+        }
         
+        echo $html;
     }
-
-    echo $html;
 }
+
+// API endpoint to retrieve all users from the database (used in main.js)
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $test  = new UserController;
+    $data = $test->read();
+    echo $test->displayRecords($data);
 }
 ?>
