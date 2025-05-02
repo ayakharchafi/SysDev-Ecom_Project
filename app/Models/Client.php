@@ -5,7 +5,7 @@ namespace models;
 use database\DatabaseConnectionManager;
 
 
-class Clients {
+class Client {
     private $client_id;
     private $client_name;
 

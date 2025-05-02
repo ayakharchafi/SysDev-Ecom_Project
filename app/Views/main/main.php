@@ -1,6 +1,8 @@
 <?php
 use models\User;
 use controllers\UserController;
+use controllers\ClientController;
+
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
     header('Location: /tern_app/SysDev-Ecom_Project/login');
@@ -37,11 +39,9 @@ if (!isset($_SESSION['user'])) {
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="collapsible-content" id="clientsContent">
-                    <div class="sub-item">Client 1</div>
-                    <div class="sub-item">Client 2</div>
-                    <div class="sub-item">Client 3</div>
-                    <div class="sub-item">Client 4</div>
-                    <div class="sub-item">Client 5</div>
+                    <?php 
+                        require_once __DIR__ . '/../../Controllers/ClientController.php';
+                    ?>
                 </div>
                 <div class="sidebar-item">
                     <span>Users</span>
