@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Two-Factor Authentication</title>
-    <!-- Include your CSS files here -->
+    <link rel="stylesheet" href="/tern_app/SysDev-Ecom_Project/public/css/verify_2fa.css">
 </head>
 <body>
     <div class="container">

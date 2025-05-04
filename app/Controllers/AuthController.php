@@ -42,6 +42,7 @@ class AuthController {
 
                 if($user->getEnabled2FA()) {
                     $code = $user->generateTwoFactorCode();
+                    error_log("code: {$user->getSecret()}");
                     $user->sendTwoFactorEmail($code);
 
                     $_SESSION['awaiting_2fa'] = true;
@@ -87,17 +88,18 @@ class AuthController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $code = $_POST['code'] ?? '';
-            $userId = $_SESSION['pending_user_id'];
+            $user_name = $_SESSION['pending_username'];
 
             $user = new User();
-            $user->setUSerId($userId);
-            $user->readOne();
+            $user->setUsername($user_name);
+            $user->readByUsername($user_name);
 
             if ($user->verifyTwoFactorCode($code)) {
                 $user->clearTwoFactorCode();
                 $this->completeLogin($userId, $_SESSION['pending_username'], $_SESSION['remember_me'] ?? false);
             } else {
                 $_SESSION['error'] = "Invalid verification code";
+                error_log("2FA Verification FAILED: {$user->getSecret()}");
                 header('Location: /tern_app/SysDev-Ecom_Project/verify-2fa');
                 exit;
             }

@@ -123,7 +123,6 @@ class User {
             
             $this->enabled2FA = $user['enabled2FA'];
             $this->secret = $user['secret'];
-            error_log("User secret: " . $this->secret);
             $this->expiresAt = $user['expiresAt'];
         }
     
@@ -214,6 +213,7 @@ class User {
         $stmt->execute();
         
         $this->secret = $hashedCode;
+        error_log("2FA code generated: $hashedCode");
         $this->expiresAt = $expires_at;
         
         return $code;
