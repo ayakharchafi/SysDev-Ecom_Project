@@ -5,6 +5,24 @@ use controllers\DashboardController;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if (isset($_GET)) {
+    if ((isset($_GET['lang']))) {
+        
+        $lang = $_GET['lang'];
+
+        $localeName = explode('_', $_GET['lang'])[0];
+
+        setlocale(LC_ALL,  $localeName.".UTF8");
+
+        bindtextdomain($lang, "locale");
+
+        textdomain($lang);
+
+        echo gettext("Hello");
+        echo '</br>';
+    }
+}
+
 session_set_cookie_params([
     'lifetime' => 86400,
     'path' => '/tern_app/SysDev-Ecom_Project/',
