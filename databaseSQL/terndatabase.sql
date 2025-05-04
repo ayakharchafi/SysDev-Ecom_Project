@@ -265,7 +265,11 @@ CREATE TABLE `users` (
   `user_id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_email` varchar(50) NOT NULL,
   `user_name` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(120) NOT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `enabled2FA` TINYINT(1) DEFAULT 0,
+  `secret` varchar(120) DEFAULT NULL,
+  `expiresAt` DATETIME DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -440,12 +444,12 @@ SET product_subtype = 'US'
 WHERE client_id = 'MK' AND product_type = 'TERNKEY' AND premium_currency = 'USD';
 
 INSERT INTO users (
-  user_email, user_name, password
+  user_email, user_name, password, status, enabled2FA
 ) VALUES
-('ian@terngrp.com', 'Ian', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
-('cathy@terngrp.com', 'Cathy', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
-('melanie.l.swain@gmail.com', 'Melanie', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'), -- password: user1
-('lalinglabrador@gmail.com', 'Ishilia', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S'); -- password: user1
+('ian@terngrp.com', 'Ian', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S', 'TERN', 0), -- password: user1
+('cathy@terngrp.com', 'Cathy', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S', 'TERN', 0), -- password: user1
+('melanie.l.swain@gmail.com', 'Melanie', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S', 'TERN', 1), -- password: user1
+('lalinglabrador@gmail.com', 'Ishilia', '$2y$10$qDHUntbZtrOP5R5Q4GsEqOsbMFSFDAl4Mr8/HBCc94JMiLiTm8m1S', 'TERN', 0); -- password: user1
 
 INSERT INTO internal_users (user_id) VALUES (2);
 INSERT INTO super_user (user_id) VALUES (1);

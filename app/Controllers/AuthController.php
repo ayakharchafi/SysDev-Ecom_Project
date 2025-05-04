@@ -36,24 +36,23 @@ class AuthController {
             $user->readByUsername($username);
 
             if ($user->verifyCredentials($password)) {
-                $_SESSION['error'] = "pass";
-                $_SESSION['user'] = $username;
-                error_log("Login SUCCESS: $username");
+                $_SESSION['pending_user_id'] = $user->getUserId();
+                $_SESSION['pending_username'] = $username;
+                $_SESSION['remember_me'] = $rememberMe;
 
-                // Set cookie if "Remember Me" is checked
-                if ($rememberMe) {
-                    setcookie(
-                        'rememberedUser', 
-                        $username, 
-                        time() + (30 * 24 * 60 * 60), 
-                        '/tern_app/SysDev-Ecom_Project/'
-                    );
+                if($user->getEnabled2FA()) {
+                    $code = $user->generateTwoFactorCode();
+                    error_log("code: {$user->getSecret()}");
+                    $user->sendTwoFactorEmail($code);
+
+                    $_SESSION['awaiting_2fa'] = true;
+                    header('Location:/tern_app/SysDev-Ecom_Project/verify-2fa');
+                    exit;
+                } else {
+                    $this->completeLogin($user->getUserId(), $username, $rememberMe); 
                 }
-
-                header('Location: /tern_app/SysDev-Ecom_Project/dashboard');
-                exit;
             } else {
-                //$_SESSION['error'] = "Invalid credentials";
+                $_SESSION['error'] = "Invalid credentials";
                 error_log("Login FAILED: $username");
                 header('Location: /tern_app/SysDev-Ecom_Project/login');
                 exit;
@@ -61,6 +60,71 @@ class AuthController {
         }
 
         header('Location: /tern_app/SysDev-Ecom_Project/login');
+        exit;
+    }
+
+    public function showVerify2FA() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['awaiting_2fa']) || !isset($_SESSION['pending_user_id'])) {
+            header('Location: /tern_app/SysDev-Ecom_Project/login');
+            exit;
+        }
+
+        require_once __DIR__ . '/../Views/authentication/verify_2fa.php';
+    }
+
+    public function processVerify2FA() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['awaiting_2fa']) || !isset($_SESSION['pending_user_id'])) {
+            header('Location: /tern_app/SysDev-Ecom_Project/login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $code = $_POST['code'] ?? '';
+            $user_name = $_SESSION['pending_username'];
+
+            $user = new User();
+            $user->setUsername($user_name);
+            $user->readByUsername($user_name);
+
+            if ($user->verifyTwoFactorCode($code)) {
+                $user->clearTwoFactorCode();
+                $this->completeLogin($userId, $_SESSION['pending_username'], $_SESSION['remember_me'] ?? false);
+            } else {
+                $_SESSION['error'] = "Invalid verification code";
+                error_log("2FA Verification FAILED: {$user->getSecret()}");
+                header('Location: /tern_app/SysDev-Ecom_Project/verify-2fa');
+                exit;
+            }
+        }
+
+        header('Location: /tern_app/SysDev-Ecom_Project/login');
+        exit;
+    }
+
+    private function completeLogin($userID, $username, $rememberMe) {
+        $_SESSION['user_id'] = $userID;
+        $_SESSION['user'] = $username;
+
+        unset($_SESSION['pending_user_id']);
+        unset($_SESSION['pending_username']);
+        unset($_SESSION['awaiting_2fa']);
+        unset($_SESSION['remember_me']);
+
+        error_log("Login SUCCESS: $username");
+
+        if ($rememberMe) {
+            setcookie('rememberedUser', $username, time() + (30 * 24 * 60 * 60), '/tern_app/SysDev-Ecom_Project/');
+        }
+
+        header('Location: /tern_app/SysDev-Ecom_Project/dashboard');
         exit;
     }
 
@@ -80,5 +144,49 @@ class AuthController {
     private function isLoggedIn()
     {
         return isset($_SESSION['user']);
+    }
+
+    public function showTwoFactorSettings() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!$this-isLoggedIn()) {
+            header('Location: /tern_app/SysDev-Ecom_Project/login');
+            exit;
+        }
+
+        $user = new User();
+        $user->readByUsername($_SESSION['user']);
+        $twoFactorEnabled = $user->getEnabled2FA();
+
+        require_once __DIR__ . '/../Views/authentication/two_factor_settings.php';
+    }
+
+    public function processTwoFactorSettings() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (!$this->isLoggedIn()) {
+            header('Location: /tern_app/SysDev-Ecom_Project/login');
+            exit;
+        }
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user = new User();
+            $user->readByUsername($_SESSION['user']);
+            
+            if (isset($_POST['enable_2FA'])) {
+                $user->enableTwoFactor();
+                // echo "Two-factor authentication has been enabled.";
+            } elseif (isset($_POST['disable_2fa'])) {
+                $user->disableTwoFactor();
+                //echo "Two-factor authentication has been disabled.";
+            }
+        }
+        
+        header('Location: /tern_app/SysDev-Ecom_Project/two-factor-settings');
+        exit;
     }
 }
