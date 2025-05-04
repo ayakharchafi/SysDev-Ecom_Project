@@ -52,6 +52,17 @@ switch ($request) {
         $authController->logout();
         break;
 
+    case 'verify-2fa':
+        include "app/Views/authentication/verify_2fa.php"; 
+        break;
+        
+    case 'process-verify-2fa':
+        echo "hello";
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $authController->processVerify2FA();
+        }
+        break;
+
     default:
         header("HTTP/1.0 404 Not Found");
         echo "404 - Page Not Found";
