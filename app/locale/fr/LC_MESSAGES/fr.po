@@ -126,3 +126,15 @@ msgstr "Utilisateurs désactivés"
 
 msgid "Exit"
 msgstr "Quitter"
+
+msgid "Two Factor Authentication"
+msgstr "Authentification à deux facteurs"
+
+msgid "A verification code has been sent to your email address. Please enter it below to complete login."
+msgstr "Un code de vérification a été envoyé à votre courriel. Veuillez le saisir ci-dessous pour connecter."
+
+msgid "Verification Code:"
+msgstr "Code de vérification :"
+
+msgid "Verify"
+msgstr "Vérifier"
