@@ -1,0 +1,17 @@
+# TERN OCCUPANCY APP
+# MELANIE SWAIN <MELANIE.L.SWAIN@GMAIL.COM>, 2025.
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+
+msgid "Hello"
+msgstr "Saluttt"
+
+msgid "Welcome to Login!"
+msgstr "Bienvenue à la connexion!"
+
+msgid "Sign out"
+msgstr "Déconnecter"

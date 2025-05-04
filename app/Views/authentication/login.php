@@ -1,3 +1,8 @@
+<?php
+  require_once __DIR__ . '/../../../locale.php';
+  // echo $_SESSION['lang'];
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
