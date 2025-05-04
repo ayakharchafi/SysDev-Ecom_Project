@@ -1,6 +1,10 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
+
 use controllers\AuthController;
 use controllers\DashboardController;
+use Dotenv\Dotenv;
+
 // ADD THIS AT THE VERY TOP
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -16,12 +20,15 @@ session_set_cookie_params([
 // Start session before any output
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+    $dotenv = Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
 }
 
 require_once __DIR__ . '/locale.php';
 require_once __DIR__ . '/app/Controllers/AuthController.php';
 require_once __DIR__ . '/app/Controllers/DashboardController.php';
 require_once __DIR__ . '/app/Models/User.php';
+
 
 $authController = new AuthController();
 $dashboardController = new DashboardController();

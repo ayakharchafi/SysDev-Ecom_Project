@@ -5,19 +5,17 @@ namespace database;
 class DatabaseConnectionManager {
 
     private $username;
-    private $password; // password to be stored and read through an environment variable
+    private $password;
     private $server; 
     private $dbname;
 
     private $dbConnection;
 
     function __construct() {
-
-        // username/password etc not yet determined
-        $this->username = "root"; 
-        $this->password = "";
-        $this->server = "localhost";
-        $this->dbname = "terndatabase";
+        $this->username = $_ENV['DB_USERNAME'];
+        $this->password = $_ENV['DB_PASSWORD'];
+        $this->server = $_ENV['DB_HOST'];
+        $this->dbname = $_ENV['DB_DATABASE'];;
 
         try {
         
