@@ -13,6 +13,7 @@ class User {
     private $status;
     private $created;
     private $updated;
+    private $enabled2FA;
 
     private $dbConnection;
 
@@ -118,7 +119,7 @@ class User {
             $this->status = $user['status'];
             $this->created = $user['created'];
             $this->updated = $user['updated'];
-
+            $this->enabled2FA = $user['enabled2fa'];
         }
     
         return $user;
@@ -182,7 +183,27 @@ class User {
     
         echo $html;
     }
-   
+
+    
+    function storeTwoFactorCode($code) {
+        $hashedCode = password_hash($code, PASSWORD_DEFAULT);
+
+        $query = "UPDATE users SET secret = :code WHERE id = :user_id";
+        $stmt = $this->dbConnection->prepare($query);
+
+        $stmt->bindParam(':user_id', $this->user_id);
+        $stmt->bindParam(':code', $code);
+        
+        return $stmt->execute();
+    }
+    
+    function sendTwoFactorEmail($code) {
+        $subject = "Your Authentication Code";
+        $message = "Your verification code is: $code\n\n";
+        $headers = "From: melanie.l.swain@gmail.com";
+        
+        mail($email, $subject, $message, $headers);
+    }
 }
 
 ?>
