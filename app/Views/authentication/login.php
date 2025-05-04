@@ -30,7 +30,7 @@
             <div class="logo"></div>
             <div class="content">
               <div class="frame">
-                <div class="text-wrapper">Welcome To Login!</div>
+                <div class="text-wrapper"><?php echo _('Welcome to Login!')?></div>
               </div>
 
               <div class="frame-2">
