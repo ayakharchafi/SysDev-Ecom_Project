@@ -1,5 +1,5 @@
 <?php
-  require_once __DIR__ . '/../../../locale.php';
+  require __DIR__ . '/../../../locale.php';
   // echo $_SESSION['lang'];
 ?>
 
@@ -35,7 +35,7 @@
             <div class="logo"></div>
             <div class="content">
               <div class="frame">
-                <div class="text-wrapper"><?php echo _('Welcome to Login!')?></div>
+                <div class="text-wrapper"><?= _('Welcome to Login!')?></div>
               </div>
 
               <div class="frame-2">
@@ -44,7 +44,7 @@
                     class="label" 
                     id="user_name" 
                     name="user_name" 
-                    placeholder="User name" 
+                    placeholder="<?= _('Username') ?>" 
                     type="text"
                     value="<?= htmlspecialchars($rememberedUsername ?? '') ?>"
                   >
@@ -55,7 +55,7 @@
                     class="label" 
                     id="password" 
                     name="password" 
-                    placeholder="Password" 
+                    placeholder="<?= _('Password') ?>"
                     type="password"
                   >
                   <div class="password-hide-see" id="togglePassword">
@@ -79,9 +79,9 @@
                 <input type="checkbox" id="rememberMe" name="remember_me" class="remember-checkbox">
                 <label for="rememberMe" class="custom-checkbox">
                   <span class="checkmark">✓</span>
-                  <span class="text-wrapper-3">Remember Me</span>
+                  <span class="text-wrapper-3"><?= _('Remember me') ?></span>
                 </label>
-                <a href="#" class="text-wrapper-4" id="forgotPassword">Forgot Password</a>
+                <a href="#" class="text-wrapper-4" id="forgotPassword"><?= _('Forgot password') ?></a>
               </div>
             </div>
           </div>

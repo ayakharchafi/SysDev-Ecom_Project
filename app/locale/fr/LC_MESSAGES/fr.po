@@ -14,4 +14,115 @@ msgid "Welcome to Login!"
 msgstr "Bienvenue à la connexion!"
 
 msgid "Sign out"
-msgstr "Déconnecter"
+msgstr "Se déconnecter"
+
+msgid "Username"
+msgstr "Nom"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Sign in"
+msgstr "Connecter"
+
+msgid "Remember me"
+msgstr "Se souvenir de moi"
+
+msgid "Forgot password"
+msgstr "Mot de passe oublié"
+
+msgid "Tables"
+msgstr "Tables"
+
+msgid "Clients"
+msgstr "Clients"
+
+msgid "Users"
+msgstr "Utilisateurs"
+
+msgid "File Manager"
+msgstr "Gestionnaire de fichiers"
+
+msgid "Import"
+msgstr "Importer"
+
+msgid "Export"
+msgstr "Exporter"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Back-up"
+msgstr "Sauvegarder"
+
+msgid "Functions"
+msgstr "Fonctions"
+
+msgid "Data Tracking"
+msgstr "Suivi des activités"
+
+msgid "Modify User"
+msgstr "Modifier un utilisateur"
+
+msgid "Create Report"
+msgstr "Créer un rapport"
+
+msgid "Create Client"
+msgstr "Créer un client"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Confirm Sign Out"
+msgstr "Confirmer la déconnexion"
+
+msgid "Are you sure you want to sign out?"
+msgstr "Confirmez-vous la déconnexion ?"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "ID"
+msgstr "Identifiant"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Email"
+msgstr "Courriel"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "Select your display preferences"
+msgstr "Sélectionnez vos préférences d'affichage"
+
+msgid "Light"
+msgstr "Clair"
+
+msgid "Dark"
+msgstr "Sombre"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Select your preferred language"
+msgstr "Sélectionnez votre préférences de langue"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "French"
+msgstr "Français"
+
+msgid "Archived Clients"
+msgstr "Clients archivés"
+
+msgid "Deactivated Users"
+msgstr "Utilisateurs désactivés"
+
+msgid "Exit"
+msgstr "Quitter"

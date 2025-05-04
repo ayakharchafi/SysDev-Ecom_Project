@@ -35,11 +35,11 @@ class UserController {
         $html .= '<table id="dataTable">';
         $html .= '<thead>';
         $html .= "<tr>";
-        $html .= "<th>ID</th>";
-        $html .= "<th>Name</th>";
-        $html .= "<th>Email</th>";
-        $html .= "<th>Password</th>";
-        $html .= "<th>Actions</th>";
+        $html .= "<th>" . _('ID') . "</th>";
+        $html .= "<th>" . _('Name') . "</th>";
+        $html .= "<th>" . _('Email') . "</th>";
+        $html .= "<th>" . _('Password') . "</th>";
+        $html .= "<th>" . _('Actions') . "</th>";
         $html .= "</tr>";
         $html .= "</thead>";
         $html .= "<tbody>";
