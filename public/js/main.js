@@ -1,3 +1,29 @@
+function getTheme() {
+  var theme = localStorage.getItem('preferredTheme');
+  if (theme === 'dark') {
+   document.documentElement.style.setProperty('--bg', '#1e1e1e');
+   document.documentElement.style.setProperty('--text', '#f0f0f0');
+   document.documentElement.style.setProperty('--sidebar-bg', '#121212');
+   document.documentElement.style.setProperty('--button-bg', '#444');
+   document.documentElement.style.setProperty('--button-hover', '#666');
+   document.documentElement.style.setProperty('--exit-bg', '#222');
+   document.documentElement.style.setProperty('--exit-hover', '#444');
+   document.documentElement.style.setProperty('--bg2', '#2c2b2b');
+ } else {
+   document.documentElement.style.setProperty('--bg', '#ffffff');
+   document.documentElement.style.setProperty('--text', '#333');
+   document.documentElement.style.setProperty('--sidebar-bg', 'whitesmoke');
+   document.documentElement.style.setProperty('--button-bg', '#3498db');
+   document.documentElement.style.setProperty('--button-hover', '#2980b9');
+   document.documentElement.style.setProperty('--exit-bg', 'black');
+   document.documentElement.style.setProperty('--exit-hover', '#333');
+   document.documentElement.style.setProperty('--bg2', '#2c2b2b');
+ }
+   
+}
+
+
+
 // Add this function to handle table row selection
 function setupTableRowSelection(tableId) {
   const table = document.getElementById(tableId);
@@ -161,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
+
   // Users button click handler - Show users table
   usersBtn.addEventListener("click", async function() {
     try {
@@ -307,3 +334,4 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 })
+
