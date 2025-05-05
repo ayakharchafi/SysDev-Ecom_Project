@@ -121,9 +121,26 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   // Settings Button - Redirect to settings.html
-  settingsBtn.addEventListener("click", () => {
-    window.location.href = "/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.html"
-  })
+  settingsBtn.addEventListener("click", async function() {
+    try {
+      const response = await fetch('/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php');
+      //console.log(await response.text());
+      const tableRowsHTML = await response.text();
+
+      if (response.ok) {
+
+        contentArea.innerHTML = "";
+        
+        contentArea.innerHTML = tableRowsHTML;
+
+        setupTableRowSelection("dataTable");
+      } else {
+        console.error("Failed to fetch settings:", settings.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    } 
+  });
 
   // Logout Modal
   logoutBtn.addEventListener("click", () => {

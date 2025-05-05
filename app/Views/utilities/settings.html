@@ -242,8 +242,10 @@ a {
             <h2 id="languageTitle">🗣 Language</h2>
             <p id="languageDescription">Select your preferred language</p>
             <div class="language-options">
-                <button class="french-btn" onclick="changeLanguage('french')">French</button>
-                <button class="english-btn" onclick="changeLanguage('english')">English</button>
+              <form method="post" action="/tern_app/SysDev-Ecom_Project/app/Controllers/LanguageController.php">
+                <button type="submit" name="lang" value="fr_CA" class="french-btn">French</button>
+                <button type="submit" name="lang" value="en_CA" class="english-btn">English</button>
+            </form>
             </div>
         </div>
         <br><br><br><br>

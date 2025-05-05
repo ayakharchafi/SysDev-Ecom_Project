@@ -81,9 +81,9 @@ body {
             </div>
 
             <div class="sidebar-section">
-                <h3>Tables</h3>
+                <h3><?= _('Tables')?></h3>
                 <div class="sidebar-item collapsible" id="clientsBtn">
-                    <span>Clients</span>
+                    <span><?= _('Clients')?></span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="collapsible-content" id="clientsContent">
@@ -92,28 +92,28 @@ body {
                     ?>
                 </div>
                 <div class="sidebar-item">
-                    <span>Users</span>
+                    <span><?= _('Users')?></span>
                 </div>
             </div>
 
             <div class="sidebar-section">
-                <h3>File Manager</h3>
+                <h3><?= _('File Manager')?></h3>
                 <div class="sidebar-item">
-                    <span>Export</span>
+                    <span><?= _('Export')?></span>
                 </div>
                 <div class="sidebar-item">
-                    <span>Import</span>
+                    <span><?= _('Import')?></span>
                 </div>
             </div>
 
             <div class="sidebar-footer">
                 <div class="sidebar-item" id="settingsBtn">
                     <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
+                    <span><?= _('Settings')?></span>
                 </div>
                 <div class="sidebar-item" id="logoutBtn">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Log Out</span>
+                    <span><?= _('Sign out')?></span>
                 </div>
             </div>
         </div>
@@ -123,24 +123,23 @@ body {
             <div class="top-bar">
                 <div class="search-container">
                     <i class="fa-solid fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search">
+                    <input type="text" id="searchInput" placeholder="<?= _('Search')?>">
                 </div>
                 <div class="action-buttons">
                     <button class="btn btn-primary">
-                        <span>Back-Up</span>
+                        <span><?= _('Back-up')?></span>
                         <i class="fa-solid fa-download"></i>
                     </button>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" id="functionsBtn">
-                            <span>Functions</span>
+                            <span><?= _('Functions')?></span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="dropdown-content" id="functionsDropdown">
-                            <div class="dropdown-item">Data Tracking</div>
-                            <div class="dropdown-item">Modify User</div>
-                            <div class="dropdown-item">Create Report</div>
-                            <div class="dropdown-item">Batch Update</div>
-                            <div class="dropdown-item">Create Client</div>
+                            <div class="dropdown-item"><?= _('Data Tracking')?></div>
+                            <div class="dropdown-item"><?= _('Modify User')?></div>
+                            <div class="dropdown-item"><?= _('Create Report')?></div>
+                            <div class="dropdown-item"><?= _('Create Client')?></div>
                         </div>
                     </div>
                 </div>
@@ -159,7 +158,7 @@ body {
     <div id="settingsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Settings</h2>
+                <h2><?= _('Settings')?></h2>
                 <span class="close-modal">&times;</span>
             </div>
             <div class="modal-body">
@@ -206,15 +205,15 @@ body {
     <div id="logoutModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Confirm Logout</h2>
+                <h2><?= _('Confirm Sign Out')?></h2>
                 <span class="close-modal">&times;</span>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to log out?</p>
+                <p><?= _('Are you sure you want to log out?')?></p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancelLogoutBtn">Cancel</button>
-                <button class="btn btn-danger" id="confirmLogoutBtn">Logout</button>
+                <button class="btn btn-secondary" id="cancelLogoutBtn"><?= _('Cancel')?></button>
+                <button class="btn btn-danger" id="confirmLogoutBtn"><?= _('Sign out')?></button>
             </div>
         </div>
     </div>

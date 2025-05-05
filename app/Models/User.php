@@ -3,16 +3,21 @@ namespace models;
 require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
 use database\DatabaseConnectionManager;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php'; 
+
 class User {
     private $user_id;
     private $user_email;
     private $user_name;
     private $password;
-    private $name;
-    private $phone;
     private $status;
-    private $created;
-    private $updated;
+    // for 2FA
+    private $enabled2FA;
+    private $secret;
+    private $expiresAt;
 
     private $dbConnection;
 
@@ -40,23 +45,6 @@ class User {
         $this->password = $password;
     }
 
-
-    public function getName() {
-        return $this->name;
-    }
-
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    public function getPhone() {
-        return $this->phone;
-    }
-
-    public function setPhone($phone) {
-        $this->phone = $phone;
-    }
-
     public function getStatus() {
         return $this->status;
     }
@@ -70,30 +58,42 @@ class User {
         return $this->user_email;
     }
 
-    public function setUser_Email($status) {
-        $this->status = $user_email;
+    public function setUser_Email($email) {
+        $this->user_email = $email;
     }
 
-    public function getCreated() {
-        return $this->created;
+    public function getEnabled2FA() {
+        return $this->enabled2FA;
     }
 
-    public function setCreated($created) {
-        $this->created = $created;
+    public function setEnabled2FA($enabled) {
+        $this->enabled2FA = $enabled;
     }
 
-    public function getUpdated() {
-        return $this->updated;
+    public function getSecret() {
+        return $this->secret;
     }
 
-    public function setUpdated($updated) {
-        $this->updated = $updated;
+    public function setSecret($secret) {
+        $this->secret = $secret;
+    }
+
+    public function getExpiresAt() {
+        return $this->expiresAt;
+    }
+
+    public function setExpiresAt($expiresAt) {
+        $this->expiresAt = $expiresAt;
     }
 
     public function __construct() {
         $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
     }
 
+    /**
+     * * * * Read a user by ID from the database
+     * * @return array The user record if found, null otherwise
+     */
     public function readOne() {
         $query = "SELECT * FROM users WHERE user_id = :user_id";
         $stmt = $this->dbConnection->prepare($query);
@@ -101,7 +101,12 @@ class User {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
     }
-
+    
+    /*
+     * * * Read a user by username from the database
+     * @param string $username The username to search for
+     * * @return array The user record if found, null otherwise
+     */
     public function readByUsername($username) {
         $query = "SELECT * FROM users WHERE user_name = :username";
         $stmt = $this->dbConnection->prepare($query);
@@ -113,17 +118,21 @@ class User {
             $this->user_name = $user['user_name'];
             $this->password = $user['password'];
             $this->user_id = $user['user_id'];
-            $this->name = $user['name'];
-            $this->phone = $user['phone'];
             $this->status = $user['status'];
-            $this->created = $user['created'];
-            $this->updated = $user['updated'];
-
+            $this->user_email = $user['user_email'];
+            
+            $this->enabled2FA = $user['enabled2FA'];
+            $this->secret = $user['secret'];
+            $this->expiresAt = $user['expiresAt'];
         }
     
         return $user;
     }
 
+    /*
+     * * * Read all users from the database
+     * * @return array An array of user records
+     */
     public function read() {
         $query = "SELECT * FROM users";
         $stmt = $this->dbConnection->prepare($query);
@@ -131,6 +140,10 @@ class User {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /*
+    * * * Create a new user in the database
+    * * @return bool True if the user was created successfully, false otherwise
+    */
     public function create() {
         if (empty($this->user_name) && empty($this->password)) {
             return false;
@@ -145,15 +158,16 @@ class User {
         return $stmt->execute();
     }
 
-    private $validUsers = [
-        'demo' => 'demo123' // username => password
-    ];
-
+    /**
+     * * * Verify the user's credentials
+     * * @param string $password The password entered by the user
+     * * @return bool True if the credentials are valid, false otherwise
+     */
     public function verifyCredentials($password) {
         $isVerified = password_verify(trim($password), $this->password); // Store the result once
     
         if ($isVerified) {
-            $_SESSION['user_id'] = $this->user_id; // Use $this->user_id properly
+            // $_SESSION['user_id'] = $this->user_id; // Use $this->user_id properly
             return true;
         } else {
             $_SESSION['error'] = "Invalid username or password.";
@@ -166,12 +180,8 @@ class User {
         foreach ($data as $user) {
             $html .= "<tr>";
             $html .= "<td>{$user["user_id"]}</td>";
-            $html .= "<td>{$user["name"]}</td>";
             $html .= "<td>{$user["user_email"]}</td>";
-            $html .= "<td>{$user["phone"]}</td>";
             $html .= "<td>{$user["status"]}</td>";
-            $html .= "<td>{$user["created"]}</td>";
-            $html .= "<td>{$user["updated"]}</td>";
             $html .= "   <td>";
             $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
             $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";
@@ -182,7 +192,149 @@ class User {
     
         echo $html;
     }
-   
+
+    /**
+     * * Generate a 2FA code and store it in the database
+     * * @return string The generated 2FA code (6 digits)
+     */
+    public function generateTwoFactorCode() {
+        $code = random_int(100000, 999999);
+        
+        $hashedCode = password_hash($code, PASSWORD_DEFAULT);
+        
+        // Expiration time 10 minutes from now
+        $expires_at = date('Y-m-d H:i:s', time() + 600);
+        
+        $query = "UPDATE users SET secret = :secret, expiresAt = :expires WHERE user_id = :user_id";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(':secret', $hashedCode);
+        $stmt->bindParam(':expires', $expires_at);
+        $stmt->bindParam(':user_id', $this->user_id);
+        $stmt->execute();
+        
+        $this->secret = $hashedCode;
+        error_log("2FA code generated: $hashedCode");
+        $this->expiresAt = $expires_at;
+        
+        return $code;
+    }
+
+    /**
+     * * Verify the 2FA code entered by the user
+     * Ensures that the code is valid and not expired
+     * @param string $code The code entered by the user
+     * @return bool True if the code is valid, false otherwise
+     */
+    public function verifyTwoFactorCode($code) {
+        $now = new \DateTime();
+        $expires_at = new \DateTime($this->expiresAt);
+        
+        if ($now > $expires_at) {
+            error_log("2FA code has expired.");
+            return false;
+        }
+        if (!password_verify($code, $this->secret)) {
+            error_log("Code verification failed. $this->secret");
+            return false;
+        }
+        return password_verify($code, $this->secret);
+    }
+
+    /**
+     * * Clear the 2FA code from the database
+     * * (after user has successfully logged in)
+     */
+    public function clearTwoFactorCode() {
+        $query = "UPDATE users SET secret = NULL, expiresAt = NULL WHERE user_id = :user_id";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(':user_id', $this->user_id);
+        $stmt->execute();
+        
+        $this->secret = null;
+        $this->expiresAt = null;
+    }
+
+    /**
+     * * Enable 2FA for the user
+     * * @return bool True if the operation was successful
+     */
+    public function enableTwoFactor() {
+        $query = "UPDATE users SET enabled2FA = 1 WHERE user_id = :user_id";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(':user_id', $this->user_id);
+        $result = $stmt->execute();
+        
+        if ($result) {
+            $this->enabled2FA = 1;
+        }
+        
+        return $result;
+    }
+
+    /**
+     * * Disable 2FA for the user
+     * * @return bool True if the operation was successful
+     */
+    public function disableTwoFactor() {
+        $query = "UPDATE users SET enabled2FA = 0 WHERE user_id = :user_id";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(':user_id', $this->user_id);
+        $result = $stmt->execute();
+        
+        if ($result) {
+            $this->enabled2FA = 0;
+        }
+        
+        return $result;
+    }
+
+    /**
+     * * Send the 2FA code to the user's email
+     * * @param string $code The 2FA code to send
+     * * @return bool True if the email was sent successfully
+     */
+    public function sendTwoFactorEmail($code) {
+        if (empty($this->user_email)) {
+            return false;
+        }
+        
+        $subject = "Tern App Authentication Code";
+        $message = "Your verification code is: $code\n\n";
+        $message .= "This code will expire in 10 minutes.\n\n";
+        $message .= "If you did not request this code, please ignore this email.";
+        //$headers = "From: melanie.l.swain@gmail.com";
+        
+        return $this->sendMail($this->user_email, $subject, $message);
+    }
+
+    public function sendMail($to, $subject, $message) {
+        // Use PHPMailer to send the email
+        $mail = new PHPMailer(true); // Enable exceptions for error handling
+        
+        try {
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com'; // Use your SMTP server
+            $mail->SMTPAuth = true;
+            $mail->Username = 'melanie.l.swain@gmail.com';
+            $mail->Password = 'cbnv ejaa izek rzvu';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom('melanie.l.swain@gmail.com', 'Tern App');
+            $mail->addAddress($to, 'Tern App User');
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+
+            $mail->send();
+            echo "Email sent successfully!";
+            return true;
+        } catch (Exception $e) {
+            echo "Error: {$mail->ErrorInfo}";
+            return false;
+        }
+    }
+
 }
 
 ?>
