@@ -168,9 +168,9 @@ body {
                     <div class="form-group">
                         <label>Theme</label>
                         <select>
-                            <option>Light</option>
-                            <option>Dark</option>
-                            <option>System Default</option>
+                            <option  >Light</option>
+                            <option onclick = "changeTheme('dark')" >Dark</option>
+                            <option >System Default</option>
                         </select>
                     </div>
                     <div class="form-group">
