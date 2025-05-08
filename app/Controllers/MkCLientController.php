@@ -77,7 +77,7 @@ class MkClientController {
         
         foreach ($data as $client) {
             $html .= "<tr>";
-            $html .= "<td>{$client["mk_occupancy_reports_id"]}</td>";
+            $html .= "<td>{$client["id"]}</td>";
             $html .= "<td>{$client["location_id"]}</td>";
             $html .= "<td>{$client["location_address"]}</td>";
             $html .= "<td>{$client["location_city"]}, {$client["location_province"]}</td>";
@@ -85,8 +85,8 @@ class MkClientController {
             $html .= "<td>{$client["last_date_of_coverage"]}</td>";
             $html .= "<td>{$client["currency"]} {$client["premium_collected"]}</td>";
             $html .= "<td>";
-            $html .= "<button class='action-btn edit-btn' data-id='{$client["mk_occupancy_reports_id"]}'><i class='fa-solid fa-edit'></i></button>";
-            $html .= "<button class='action-btn delete-btn' data-id='{$client["mk_occupancy_reports_id"]}'><i class='fa-solid fa-trash'></i></button>";
+            $html .= "<button class='action-btn edit-btn' data-id='{$client["id"]}'><i class='fa-solid fa-edit'></i></button>";
+            $html .= "<button class='action-btn delete-btn' data-id='{$client["id"]}'><i class='fa-solid fa-trash'></i></button>";
             $html .= "</td>";
             $html .= "</tr>";
         }
