@@ -35,6 +35,41 @@ $dashboardController = new DashboardController();
 
 $request = $_GET['url'] ?? 'login';
 
+// switch ($request) {
+//     case 'login':
+//         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//             $authController->processLogin();
+//         } else {
+//             $authController->showLogin();
+//         }
+//         break;
+
+//     case 'dashboard':
+//         $dashboardController->showDashboard();
+//         break;
+
+//     case 'logout':
+//         $authController->logout();
+//         break;
+
+//     case 'verify-2fa':
+//         include "app/Views/authentication/verify_2fa.php"; 
+//         break;
+        
+//     case 'process-verify-2fa':
+//         echo "hello";
+//         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//             $authController->processVerify2FA();
+//         }
+//         break;
+
+//     default:
+//         header("HTTP/1.0 404 Not Found");
+//         echo "404 - Page Not Found";
+//         break;
+// }
+
+// Update the switch statement to include routes for client operations
 switch ($request) {
     case 'login':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -62,10 +97,51 @@ switch ($request) {
             $authController->processVerify2FA();
         }
         break;
+        
+    case 'create-client':
+        // Make sure the user is logged in
+        if (!isset($_SESSION['user'])) {
+            header('Location: /tern_app/SysDev-Ecom_Project/login');
+            exit;
+        }
+        include "app/Views/clients/create_client.php";
+        break;
+        
+    case 'mk-clients':
+        // Make sure the user is logged in
+        if (!isset($_SESSION['user'])) {
+            header('Location: /tern_app/SysDev-Ecom_Project/login');
+            exit;
+        }
+        require_once __DIR__ . '/app/Controllers/MkClientController.php';
+        $controller = new controllers\MkClientController();
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $data = $controller->read();
+            echo $controller->displayClients($data);
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Handle POST request for creating a client
+            $data = [
+                'location_id' => $_POST['location_id'] ?? '',
+                'first_date_of_coverage' => $_POST['first_date_of_coverage'] ?? '',
+                'last_date_of_coverage' => $_POST['last_date_of_coverage'] ?? '',
+                'location_address' => $_POST['location_address'] ?? '',
+                'location_postal_code' => $_POST['location_postal_code'] ?? '',
+                'location_city' => $_POST['location_city'] ?? '',
+                'location_province' => $_POST['location_province'] ?? '',
+                'number_of_bedrooms' => $_POST['number_of_bedrooms'] ?? '',
+                'number_of_days_occupied' => $_POST['number_of_days_occupied'] ?? '',
+                'currency' => $_POST['currency'] ?? '',
+                'premium_collected' => $_POST['premium_collected'] ?? ''
+            ];
+            $result = $controller->createClient($data);
+            echo json_encode(['success' => $result, 'message' => $result ? 'Client created successfully' : 'Failed to create client']);
+        }
+        break;
 
     default:
         header("HTTP/1.0 404 Not Found");
         echo "404 - Page Not Found";
         break;
 }
+
 ?>
