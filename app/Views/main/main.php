@@ -2,6 +2,7 @@
 use models\User;
 use controllers\UserController;
 use controllers\ClientController;
+use controllers\MkClientController;
 
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
@@ -87,9 +88,10 @@ body {
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="collapsible-content" id="clientsContent">
-                    <?php 
-                        require_once __DIR__ . '/../../Controllers/ClientController.php';
-                    ?>
+                    <div class="sub-item" data-client-type="mk">MK</div>
+                    <div class="sub-item" data-client-type="os">OS</div>
+                    <div class="sub-item" data-client-type="bg">BG</div>
+                    <div class="sub-item" data-client-type="th">TH</div>
                 </div>
                 <div class="sidebar-item">
                     <span><?= _('Users')?></span>
@@ -124,6 +126,7 @@ body {
                 <div class="search-container">
                     <i class="fa-solid fa-search"></i>
                     <input type="text" id="searchInput" placeholder="<?= _('Search')?>">
+                    <div id="searchResults" class="search-results"></div>
                 </div>
                 <div class="action-buttons">
                     <button class="btn btn-primary">
@@ -139,17 +142,13 @@ body {
                             <div class="dropdown-item"><?= _('Data Tracking')?></div>
                             <div class="dropdown-item"><?= _('Modify User')?></div>
                             <div class="dropdown-item"><?= _('Create Report')?></div>
-                            <div class="dropdown-item"><?= _('Create Client')?></div>
+                            <div class="dropdown-item create-client-btn" data-client-type="mk"><?= _('Create Client')?></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="content">
-                <div class="table-container">
-                    <?php 
-                        require_once __DIR__ . '/../../Controllers/UserController.php';
-                    ?>
-                </div>
+                <!-- Content will be loaded here -->
             </div>
         </div>
     </div>
