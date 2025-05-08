@@ -119,6 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
         contentArea.innerHTML = ""
         contentArea.innerHTML = tableRowsHTML
         setupTableRowSelection("dataTable")
+
+        insertAndRunScripts(contentArea);
       } else {
         const settings = await response.json()
         console.error("Failed to fetch settings:", settings.error || "Unknown error")
@@ -514,4 +516,50 @@ function highlightClient(clientId) {
       }
     })
   }, 500)
+}
+
+function getTheme(theme) {
+
+  theme =  localStorage.getItem('preferredTheme');
+
+  if (theme === 'dark') {
+    document.documentElement.style.setProperty('--bg', '#1e1e1e');
+    document.documentElement.style.setProperty('--text', '#f0f0f0');
+    document.documentElement.style.setProperty('--sidebar-bg', '#121212');
+    document.documentElement.style.setProperty('--button-bg', '#444');
+    document.documentElement.style.setProperty('--button-hover', '#666');
+    document.documentElement.style.setProperty('--exit-bg', '#222');
+    document.documentElement.style.setProperty('--exit-hover', '#444');
+  } else {
+    document.documentElement.style.setProperty('--bg', '#ffffff');
+    document.documentElement.style.setProperty('--text', '#333');
+    document.documentElement.style.setProperty('--sidebar-bg', '#2c3e50');
+    document.documentElement.style.setProperty('--button-bg', '#3498db');
+    document.documentElement.style.setProperty('--button-hover', '#2980b9');
+    document.documentElement.style.setProperty('--exit-bg', 'black');
+    document.documentElement.style.setProperty('--exit-hover', '#333');
+  }
+  
+  // Save theme preference to localStorage
+  localStorage.setItem('preferredTheme', theme);
+}
+
+function insertAndRunScripts(container) {
+
+  // Find all script tags
+  const scripts = container.querySelectorAll('script');
+  scripts.forEach(oldScript => {
+      const newScript = document.createElement('script');
+
+      // Copy attributes like src and type
+      Array.from(oldScript.attributes).forEach(attr => {
+          newScript.setAttribute(attr.name, attr.value);
+      });
+
+      // If it's inline script, copy the content
+      newScript.textContent = oldScript.textContent;
+
+      // Replace old with new to force execution
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
 }
