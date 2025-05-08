@@ -96,7 +96,7 @@ class AuthController {
 
             if ($user->verifyTwoFactorCode($code)) {
                 $user->clearTwoFactorCode();
-                $this->completeLogin($userId, $_SESSION['pending_username'], $_SESSION['remember_me'] ?? false);
+                $this->completeLogin($user->getUserId(), $_SESSION['pending_username'], $_SESSION['remember_me'] ?? false);
             } else {
                 $_SESSION['error'] = "Invalid verification code";
                 error_log("2FA Verification FAILED: {$user->getSecret()}");
@@ -151,7 +151,7 @@ class AuthController {
             session_start();
         }
 
-        if (!$this-isLoggedIn()) {
+        if (!$this->isLoggedIn()) {
             header('Location: /tern_app/SysDev-Ecom_Project/login');
             exit;
         }
