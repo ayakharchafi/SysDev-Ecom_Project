@@ -454,44 +454,45 @@ function submitCreateClientForm() {
 
 // Function to fetch search results
 function fetchSearchResults(searchTerm) {
-  const searchResults = document.getElementById("searchResults")
-  if (!searchResults) return
+  const searchResults = document.getElementById("searchResults");
+  if (!searchResults) return;
 
-  fetch(`/tern_app/SysDev-Ecom_Project/Controllers/MkClientController.php?search=${encodeURIComponent(searchTerm)}`)
+  fetch(`/tern_app/SysDev-Ecom_Project/mkclient/search?search=${encodeURIComponent(searchTerm)}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.length > 0) {
-        let resultsHtml = ""
+        let resultsHtml = "";
         data.forEach((client) => {
           resultsHtml += `
             <div class="search-result-item" data-id="${client.id}">
-                ${client.location_id} - ${client.location_address}, ${client.location_city}
+              ${client.location_id} - ${client.location_address}, ${client.location_city}
             </div>
-          `
-        })
-        searchResults.innerHTML = resultsHtml
-        searchResults.style.display = "block"
+          `;
+        });
 
-        // Add click event to search results
-        const resultItems = document.querySelectorAll(".search-result-item")
+        searchResults.innerHTML = resultsHtml;
+        searchResults.style.display = "block";
+
+        // Add click event to each item
+        const resultItems = document.querySelectorAll(".search-result-item");
         resultItems.forEach((item) => {
           item.addEventListener("click", function () {
-            const clientId = this.getAttribute("data-id")
-            highlightClient(clientId)
-            searchResults.style.display = "none"
-            document.getElementById("searchInput").value = this.textContent.trim()
-          })
-        })
+            const clientId = this.getAttribute("data-id");
+            highlightClient(clientId);
+            searchResults.style.display = "none";
+            document.getElementById("searchInput").value = this.textContent.trim();
+          });
+        });
       } else {
-        searchResults.innerHTML = '<div class="search-result-item">No results found</div>'
-        searchResults.style.display = "block"
+        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+        searchResults.style.display = "block";
       }
     })
     .catch((error) => {
-      console.error("Error fetching search results:", error)
-      searchResults.innerHTML = '<div class="search-result-item">Error fetching results</div>'
-      searchResults.style.display = "block"
-    })
+      console.error("Error fetching search results:", error);
+      searchResults.innerHTML = '<div class="search-result-item">Error fetching results</div>';
+      searchResults.style.display = "block";
+    });
 }
 
 // Also update the highlightClient function to use the correct ID field

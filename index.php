@@ -4,6 +4,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 use controllers\AuthController;
 use controllers\DashboardController;
 use Dotenv\Dotenv;
+use controllers\MkClientController;
+
 
 // ADD THIS AT THE VERY TOP
 error_reporting(E_ALL);
@@ -137,6 +139,17 @@ switch ($request) {
             echo json_encode(['success' => $result, 'message' => $result ? 'Client created successfully' : 'Failed to create client']);
         }
         break;
+
+        case 'mkclient/search':
+            require_once __DIR__ . '/app/Controllers/MkClientController.php'; // if not already required
+            $mkClientController = new MkClientController();
+            $searchTerm = $_GET['search'] ?? '';
+            $results = $mkClientController->searchClients($searchTerm);
+        
+            header('Content-Type: application/json');
+            echo json_encode($results);
+            exit;
+        
 
     default:
         header("HTTP/1.0 404 Not Found");

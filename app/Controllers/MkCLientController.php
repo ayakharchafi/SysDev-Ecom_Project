@@ -21,17 +21,21 @@ class MkClientController {
     }
 
     public function searchClients($searchTerm) {
-        $query = "SELECT * FROM mk_occupancy_reports WHERE 
-                  location_id LIKE :searchTerm OR 
-                  location_address LIKE :searchTerm OR 
-                  location_city LIKE :searchTerm OR 
-                  location_province LIKE :searchTerm";
+        $query = "SELECT id, location_id, location_address, location_city 
+                  FROM mk_occupancy_reports 
+                  WHERE location_id LIKE :searchTerm 
+                  OR location_address LIKE :searchTerm 
+                  OR location_city LIKE :searchTerm 
+                  OR location_province LIKE :searchTerm";
+    
         $stmt = $this->dbConnection->prepare($query);
         $searchParam = "%$searchTerm%";
         $stmt->bindParam(':searchTerm', $searchParam);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+    
+    
 
     public function getClientById($id) {
         $query = "SELECT * FROM mk_occupancy_reports WHERE mk_occupancy_reports_id = :id";
