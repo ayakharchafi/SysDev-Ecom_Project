@@ -20,56 +20,8 @@ if (!isset($_SESSION['user'])) {
     <link rel="stylesheet" href="/tern_app/SysDev-Ecom_Project/public/css/style_main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body  onload = "getTheme()">
- 
-    <style>
-
-:root {
-    --bg: #ffffff;
-    --text: #333;
-    --bg2:#f5f5f5;
-    --sidebar-bg: #2c3e50;
-    --button-bg: #3498db;
-    --button-hover: #2980b9;
-    --exit-bg: black;
-    --exit-hover: #333;
-}
-#searchInput {
-  background-color: var(--bg);
-
-}
-.container{
-    color: var(--text);
-}
-.main-content {
-
-  background-color: var(--sidebar-bg);
-
-}
-th {
-
-  background-color:var(--bg);
-  color:var(--text);
-}
-.content {
-    background-color: var(--bg);
-}
-body {
-    background-color: var(--bg);
-    color: var(--text);
-}
-.sidebar-button {
-    background-color:var(--bg);
-    color: var(--text);
-}
-.sidebar {
-    background-color:var(--bg);
-
-    color: var(--text);
-
-}
-    </style>
-    <div class="container" >
+<body>
+    <div class="container">
         <!-- Left Sidebar -->
         <div class="sidebar">
             <div class="user-profile">
@@ -92,6 +44,7 @@ body {
                     <div class="sub-item" data-client-type="os">OS</div>
                     <div class="sub-item" data-client-type="bg">BG</div>
                     <div class="sub-item" data-client-type="th">TH</div>
+                    <div class="sub-item create-client-btn" data-client-type="mk">Create Client</div>
                 </div>
                 <div class="sidebar-item">
                     <span><?= _('Users')?></span>
@@ -167,9 +120,9 @@ body {
                     <div class="form-group">
                         <label>Theme</label>
                         <select>
-                            <option  >Light</option>
-                            <option onclick = "changeTheme('dark')" >Dark</option>
-                            <option >System Default</option>
+                            <option>Light</option>
+                            <option>Dark</option>
+                            <option>System Default</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -217,11 +170,6 @@ body {
         </div>
     </div>
 
-    <script src="/tern_app/SysDev-Ecom_Project/public/js/main.js">
-
-
-
-    </script>
-  
+    <script src="/tern_app/SysDev-Ecom_Project/public/js/main.js"></script>
 </body>
 </html>

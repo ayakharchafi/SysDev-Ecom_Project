@@ -252,12 +252,12 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 })
 
-// Function to load MK clients
+// Update the loadMkClients function to use the correct route
 function loadMkClients() {
   const contentArea = document.querySelector(".content")
   if (!contentArea) return
 
-  fetch("/tern_app/SysDev-Ecom_Project/Controllers/MkClientController.php")
+  fetch("/tern_app/SysDev-Ecom_Project/mk-clients")
     .then((response) => response.text())
     .then((data) => {
       contentArea.innerHTML = `
@@ -365,14 +365,14 @@ function loadClientsByType(clientType) {
   }
 }
 
-// Function to load create client form
+// Update the loadCreateClientForm function to use the correct route
 function loadCreateClientForm(clientType) {
   const contentArea = document.querySelector(".content")
   if (!contentArea) return
 
   // Currently only MK is implemented
   if (clientType === "mk") {
-    fetch("/tern_app/SysDev-Ecom_Project/Views/clients/create_client.php")
+    fetch("/tern_app/SysDev-Ecom_Project/create-client")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -412,8 +412,7 @@ function loadCreateClientForm(clientType) {
   }
 }
 
-// Update the submitCreateClientForm function to handle the form submission correctly
-
+// Update the submitCreateClientForm function to use the correct route
 function submitCreateClientForm() {
   const form = document.getElementById("createClientForm")
   if (!form) {
@@ -429,7 +428,7 @@ function submitCreateClientForm() {
     console.log(`${key}: ${value}`)
   }
 
-  fetch("/tern_app/SysDev-Ecom_Project/Controllers/MkClientController.php", {
+  fetch("/tern_app/SysDev-Ecom_Project/mk-clients", {
     method: "POST",
     body: formData,
   })

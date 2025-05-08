@@ -41,6 +41,7 @@ class MkClientController {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    // model 
     public function createClient($data) {
         $query = "INSERT INTO mk_occupancy_reports (
             location_id, first_date_of_coverage, last_date_of_coverage, 
@@ -72,6 +73,8 @@ class MkClientController {
         return $stmt->execute();
     }
 
+
+    // view
     public function displayClients($data) {
         $html = "";
         
