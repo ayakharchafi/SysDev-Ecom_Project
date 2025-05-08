@@ -31,11 +31,11 @@ body {
 
 .sidebar {
     width: 250px;
-    background-color:whitesmoke;
+    background-color:var(--sidebar-bg);
     height: 100%;
     padding: 20px;
     box-sizing: border-box;
-    color: rgb(85, 85, 85);
+    color: var(--text);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -47,8 +47,8 @@ body {
 }
 
 .sidebar-button {
-    background-color: white;
-    color: black;
+    background-color:var(--bg);
+    color: var(--text);
     padding: 12px;
     margin-bottom: 12px;
     border: none;
@@ -172,10 +172,10 @@ input[type="radio"] {
     color: rgb(0, 0, 0);
 }
 .settings-options{
-  color: black;
+  color: var(--text);
 }
 .sidebarUsername{
-  color: black;
+  color: var(--text);
 }
 /* Global reset for anchor tags */
 a {
@@ -319,7 +319,7 @@ a {
           } else {
             document.documentElement.style.setProperty('--bg', '#ffffff');
             document.documentElement.style.setProperty('--text', '#333');
-            document.documentElement.style.setProperty('--sidebar-bg', '#2c3e50');
+            document.documentElement.style.setProperty('--sidebar-bg', 'whitesmoke');
             document.documentElement.style.setProperty('--button-bg', '#3498db');
             document.documentElement.style.setProperty('--button-hover', '#2980b9');
             document.documentElement.style.setProperty('--exit-bg', 'black');
@@ -329,7 +329,7 @@ a {
           // Save theme preference to localStorage
           localStorage.setItem('preferredTheme', theme);
         }
-        
+      
         // Apply saved preferences on page load
         document.addEventListener("DOMContentLoaded", function() {
           // Apply saved language if available
