@@ -20,8 +20,69 @@ if (!isset($_SESSION['user'])) {
     <link rel="stylesheet" href="/tern_app/SysDev-Ecom_Project/public/css/style_main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <div class="container">
+<body  onload = "getTheme()">
+ 
+    <style>
+
+:root {
+    --bg: #ffffff;
+    --text: #333;
+    --bg2: #f5f5f5;
+    --sidebar-bg: #2c3e50;
+    --button-bg: #3498db;
+    --button-hover: #2980b9;
+    --exit-bg: black;
+    --exit-hover: #333;
+}
+#searchInput {
+  background-color: var(--bg);
+
+}
+.container{
+    color: var(--text);
+}
+.main-content {
+
+  background-color: var(--sidebar-bg);
+
+}
+.TextInput {
+    background-color: var(--bg2);
+}
+
+th {
+
+  background-color:var(--bg);
+  color:var(--text);
+}
+.content {
+    background-color: var(--bg);
+}
+body {
+    background-color: var(--bg);
+    color: var(--text);
+}
+.sidebar-button {
+    background-color:var(--bg);
+    color: var(--text);
+}
+.sidebar {
+    background-color:var(--bg);
+
+    color: var(--text);
+
+}
+.dropdown-content{
+    background-color:var(--bg);
+}
+input{
+    color: var(--text);
+}
+.modal-content{
+    background-color:var(--bg);
+}
+    </style>
+    <div class="container" >
         <!-- Left Sidebar -->
         <div class="sidebar">
             <div class="user-profile">
@@ -93,12 +154,13 @@ if (!isset($_SESSION['user'])) {
                         </button>
                         <div class="dropdown-content" id="functionsDropdown">
                             <div class="dropdown-item"><?= _('Data Tracking')?></div>
-                            <div class="dropdown-item"><?= _('Modify User')?></div>
+                            <div class="dropdown-item" id  = "modifyBtn"><?= _('Modify User')?></div>
                             <div class="dropdown-item"><?= _('Create Report')?></div>
                             <div class="dropdown-item create-client-btn" data-client-type="mk"><?= _('Create Client')?></div>
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div class="content">
                 <!-- Content will be loaded here -->

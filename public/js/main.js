@@ -24,6 +24,7 @@ function setupTableRowSelection(tableId) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Existing DOM Elements
+  const modifyBtn =  document.getElementById("modifyBtn")
   const clientsBtn = document.getElementById("clientsBtn")
   const clientsContent = document.getElementById("clientsContent")
   const functionsBtn = document.getElementById("functionsBtn")
@@ -107,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
   })
-
   // Settings Button - Redirect to settings.html
   settingsBtn.addEventListener("click", async () => {
     try {
@@ -129,7 +129,26 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching settings:", error)
     }
   })
+  modifyBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/modify_user.php")
+      //console.log(await response.text());
+      const tableRowsHTML = await response.text()
 
+      if (response.ok) {
+        contentArea.innerHTML = ""
+        contentArea.innerHTML = tableRowsHTML
+        setupTableRowSelection("dataTable")
+
+        insertAndRunScripts(contentArea);
+      } else {
+        const settings = await response.json()
+        console.error("Failed to fetch modify_user:", settings.error || "Unknown error")
+      }
+    } catch (error) {
+      console.error("Error fetching modify_user:", error)
+    }
+  })
   // Logout Modal
   logoutBtn.addEventListener("click", () => {
     logoutModal.style.display = "flex"

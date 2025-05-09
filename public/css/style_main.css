@@ -167,6 +167,16 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   font-size: 14px;
 }
+.TextInput {
+  width: 100%;
+  max-width: 390px;
+  padding: 12px 15px 12px 40px;
+  border: none;
+  border-radius: 30px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+}
 
 .action-buttons {
   display: flex;
@@ -654,5 +664,44 @@ tr.highlighted {
 }
 
 .create-client-form .btn-primary:hover {
+  background-color: #00163b;
+}
+
+.create-button {
+  background-color:  #001f4d;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  position: absolute;
+  right: 30px;
+  margin-top: 5px;
+  margin-left: 5px;
+  transition: background-color 0.3s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirm-button {
+  background-color:  #001f4d;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+}
+.confirm-button:hover {
+  background-color: #00163b;
+}
+
+.create-button:hover {
   background-color: #00163b;
 }

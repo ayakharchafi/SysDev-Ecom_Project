@@ -6,7 +6,7 @@ use database\DatabaseConnectionManager;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; 
+require __DIR__.'/../../vendor/autoload.php'; 
 
 class User {
     private $user_id;
@@ -118,12 +118,12 @@ class User {
             $this->user_name = $user['user_name'];
             $this->password = $user['password'];
             $this->user_id = $user['user_id'];
-            $this->status = $user['status'];
+          //  $this->status = $user['status'];
             $this->user_email = $user['user_email'];
             
-            $this->enabled2FA = $user['enabled2FA'];
-            $this->secret = $user['secret'];
-            $this->expiresAt = $user['expiresAt'];
+         //   $this->enabled2FA = $user['enabled2FA'];
+         //   $this->secret = $user['secret'];
+         //   $this->expiresAt = $user['expiresAt'];
         }
     
         return $user;
@@ -145,14 +145,15 @@ class User {
     * * @return bool True if the user was created successfully, false otherwise
     */
     public function create() {
-        if (empty($this->user_name) && empty($this->password)) {
+        if (empty($this->user_name)&&empty($this->$user_email) && empty($this->password)) {
             return false;
         }
 
-        $query = "INSERT INTO users (user_name, password) VALUES (:user_name, :password)";
+        $query = "INSERT INTO users (user_name, user_email, password) VALUES (:user_name, :user_email, :password)";
         $stmt = $this->dbConnection->prepare($query);
 
         $stmt->bindParam(':user_name', $this->user_name);
+        $stmt->bindParam(':user_email', $this->user_name);
         $stmt->bindParam(':password', $this->password);
 
         return $stmt->execute();
