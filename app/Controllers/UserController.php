@@ -1,6 +1,5 @@
 <?php
 namespace controllers;
-//header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../Models/User.php';
 require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
 use models\User;
@@ -64,6 +63,7 @@ class UserController {
 
 // API endpoint to retrieve all users from the database (used in main.js)
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
     $users  = new UserController;
     $data = $users->read();
     echo $users->displayRecords($data);

@@ -1,12 +1,18 @@
 <?php
 namespace models;
-require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
+
+require __DIR__.'/../../vendor/autoload.php'; 
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__."/../../");
+$dotenv->load();
+
+
 use database\DatabaseConnectionManager;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__.'/../../vendor/autoload.php'; 
+
 
 class User {
     private $user_id;

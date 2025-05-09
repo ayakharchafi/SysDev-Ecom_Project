@@ -25,6 +25,7 @@ if (!isset($_SESSION['user'])) {
     <style>
 
 :root {
+    --hoverText: #333 ;
     --bg: #ffffff;
     --text: #333;
     --bg2: #f5f5f5;
@@ -34,9 +35,32 @@ if (!isset($_SESSION['user'])) {
     --exit-bg: black;
     --exit-hover: #333;
 }
+.create-client-container{
+    background-color: var(--sidebar-bg);
+}
+.create-client-form{
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-bg);
+}
 #searchInput {
   background-color: var(--bg);
 
+}
+input{
+    background-color: var(--bg);
+}
+
+select{
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+.sidebar-item:hover {
+  background-color: var(--bg);
+}
+
+tr:hover {
+color: var(--hoverText);
 }
 .container{
     color: var(--text);

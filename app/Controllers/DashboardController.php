@@ -19,6 +19,7 @@ class DashboardController {
         header('Location: /tern_app/SysDev-Ecom_Project/login');
         exit;
     }
+
     $admin = new User();
     $admin->readByUsername('Ian');
     if(isset($_POST['adminPassword'])){

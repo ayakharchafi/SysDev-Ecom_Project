@@ -15,7 +15,7 @@ class DatabaseConnectionManager {
         $this->username = $_ENV['DB_USERNAME'];
         $this->password = $_ENV['DB_PASSWORD'];
         $this->server = $_ENV['DB_HOST'];
-        $this->dbname = $_ENV['DB_DATABASE'];;
+        $this->dbname = $_ENV['DB_DATABASE'];
 
         try {
         
