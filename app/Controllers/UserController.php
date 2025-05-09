@@ -32,9 +32,11 @@ class UserController {
 
     public function displayRecords($data){
         $html = "";
+        $html .= '<button id="deactivateBtn">Deactivate Selected Users</button>';
         $html .= '<table id="dataTable">';
         $html .= '<thead>';
         $html .= "<tr>";
+        $html .= "<th><input type='checkbox' id='selectAll'></th>"; // Select All
         $html .= "<th>" . _('ID') . "</th>";
         $html .= "<th>" . _('Name') . "</th>";
         $html .= "<th>" . _('Email') . "</th>";
@@ -45,18 +47,21 @@ class UserController {
         $html .= "<tbody>";
         foreach ($data as $user) {
             $html .= "<tr>";
+            $html .= "<td><input type='checkbox' class='userCheckbox' value='{$user["user_id"]}'></td>";
             $html .= "<td>{$user["user_id"]}</td>";
             $html .= "<td>{$user["user_name"]}</td>";
             $html .= "<td>{$user["user_email"]}</td>";
             $html .= "<td>{$user["password"]}</td>";
-            $html .= "   <td>";
-            $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
-            $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";
-            $html .= "  </td>";
+            $html .= "<td>";
+            $html .= "<button class='action-btn'><i class='fa-solid fa-edit'></i></button>";
+            $html .= "<button class='action-btn'><i class='fa-solid fa-trash'></i></button>";
+            $html .= "</td>";
             $html .= "</tr>";
         }
         $html .= "</tbody>";
         $html .= "</table>";
+        $html .= "<script src='/tern_app/SysDev-Ecom_Project/public/deactivate.js'></script>"; // Load JS
+        
         
         echo $html;
     }

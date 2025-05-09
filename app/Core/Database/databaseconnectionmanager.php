@@ -1,6 +1,8 @@
 <?php
 
 namespace database;
+require_once dirname(__DIR__) . '/envloader.php';
+loadEnv(__DIR__ . '/../../../.env');
 
 class DatabaseConnectionManager {
 
