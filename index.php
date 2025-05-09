@@ -7,6 +7,7 @@ use Dotenv\Dotenv;
 use controllers\MkClientController;
 
 
+
 // ADD THIS AT THE VERY TOP
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -139,6 +140,20 @@ switch ($request) {
             echo json_encode(['success' => $result, 'message' => $result ? 'Client created successfully' : 'Failed to create client']);
         }
         break;
+        
+        case 'deactivate-users':
+            $input = json_decode(file_get_contents("php://input"), true);
+            $ids = $input['user_ids'];
+        
+            $db = (new \database\DatabaseConnectionManager())->getConnection();
+            $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            $query = "UPDATE users SET status = 'deactivated' WHERE user_id IN ($placeholders)";
+            $stmt = $db->prepare($query);
+            $stmt->execute($ids);
+        
+            echo json_encode(['message' => count($ids) . " user(s) deactivated successfully."]);
+            exit;
+        
 
         case 'mkclient/search':
             require_once __DIR__ . '/app/Controllers/MkClientController.php'; // if not already required
