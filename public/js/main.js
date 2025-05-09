@@ -254,12 +254,12 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 })
 
-// Function to load MK clients
+// Update the loadMkClients function to use the correct route
 function loadMkClients() {
   const contentArea = document.querySelector(".content")
   if (!contentArea) return
 
-  fetch("/tern_app/SysDev-Ecom_Project/Controllers/MkClientController.php")
+  fetch("/tern_app/SysDev-Ecom_Project/mk-clients")
     .then((response) => response.text())
     .then((data) => {
       contentArea.innerHTML = `
@@ -367,14 +367,14 @@ function loadClientsByType(clientType) {
   }
 }
 
-// Function to load create client form
+// Update the loadCreateClientForm function to use the correct route
 function loadCreateClientForm(clientType) {
   const contentArea = document.querySelector(".content")
   if (!contentArea) return
 
   // Currently only MK is implemented
   if (clientType === "mk") {
-    fetch("/tern_app/SysDev-Ecom_Project/Views/clients/create_client.php")
+    fetch("/tern_app/SysDev-Ecom_Project/create-client")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -414,8 +414,7 @@ function loadCreateClientForm(clientType) {
   }
 }
 
-// Update the submitCreateClientForm function to handle the form submission correctly
-
+// Update the submitCreateClientForm function to use the correct route
 function submitCreateClientForm() {
   const form = document.getElementById("createClientForm")
   if (!form) {
@@ -431,7 +430,7 @@ function submitCreateClientForm() {
     console.log(`${key}: ${value}`)
   }
 
-  fetch("/tern_app/SysDev-Ecom_Project/Controllers/MkClientController.php", {
+  fetch("/tern_app/SysDev-Ecom_Project/mk-clients", {
     method: "POST",
     body: formData,
   })
@@ -457,44 +456,45 @@ function submitCreateClientForm() {
 
 // Function to fetch search results
 function fetchSearchResults(searchTerm) {
-  const searchResults = document.getElementById("searchResults")
-  if (!searchResults) return
+  const searchResults = document.getElementById("searchResults");
+  if (!searchResults) return;
 
-  fetch(`/tern_app/SysDev-Ecom_Project/Controllers/MkClientController.php?search=${encodeURIComponent(searchTerm)}`)
+  fetch(`/tern_app/SysDev-Ecom_Project/mkclient/search?search=${encodeURIComponent(searchTerm)}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.length > 0) {
-        let resultsHtml = ""
+        let resultsHtml = "";
         data.forEach((client) => {
           resultsHtml += `
             <div class="search-result-item" data-id="${client.id}">
-                ${client.location_id} - ${client.location_address}, ${client.location_city}
+              ${client.location_id} - ${client.location_address}, ${client.location_city}
             </div>
-          `
-        })
-        searchResults.innerHTML = resultsHtml
-        searchResults.style.display = "block"
+          `;
+        });
 
-        // Add click event to search results
-        const resultItems = document.querySelectorAll(".search-result-item")
+        searchResults.innerHTML = resultsHtml;
+        searchResults.style.display = "block";
+
+        // Add click event to each item
+        const resultItems = document.querySelectorAll(".search-result-item");
         resultItems.forEach((item) => {
           item.addEventListener("click", function () {
-            const clientId = this.getAttribute("data-id")
-            highlightClient(clientId)
-            searchResults.style.display = "none"
-            document.getElementById("searchInput").value = this.textContent.trim()
-          })
-        })
+            const clientId = this.getAttribute("data-id");
+            highlightClient(clientId);
+            searchResults.style.display = "none";
+            document.getElementById("searchInput").value = this.textContent.trim();
+          });
+        });
       } else {
-        searchResults.innerHTML = '<div class="search-result-item">No results found</div>'
-        searchResults.style.display = "block"
+        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+        searchResults.style.display = "block";
       }
     })
     .catch((error) => {
-      console.error("Error fetching search results:", error)
-      searchResults.innerHTML = '<div class="search-result-item">Error fetching results</div>'
-      searchResults.style.display = "block"
-    })
+      console.error("Error fetching search results:", error);
+      searchResults.innerHTML = '<div class="search-result-item">Error fetching results</div>';
+      searchResults.style.display = "block";
+    });
 }
 
 // Also update the highlightClient function to use the correct ID field

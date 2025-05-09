@@ -21,17 +21,21 @@ class MkClientController {
     }
 
     public function searchClients($searchTerm) {
-        $query = "SELECT * FROM mk_occupancy_reports WHERE 
-                  location_id LIKE :searchTerm OR 
-                  location_address LIKE :searchTerm OR 
-                  location_city LIKE :searchTerm OR 
-                  location_province LIKE :searchTerm";
+        $query = "SELECT id, location_id, location_address, location_city 
+                  FROM mk_occupancy_reports 
+                  WHERE location_id LIKE :searchTerm 
+                  OR location_address LIKE :searchTerm 
+                  OR location_city LIKE :searchTerm 
+                  OR location_province LIKE :searchTerm";
+    
         $stmt = $this->dbConnection->prepare($query);
         $searchParam = "%$searchTerm%";
         $stmt->bindParam(':searchTerm', $searchParam);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+    
+    
 
     public function getClientById($id) {
         $query = "SELECT * FROM mk_occupancy_reports WHERE mk_occupancy_reports_id = :id";
@@ -41,6 +45,7 @@ class MkClientController {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    // model 
     public function createClient($data) {
         $query = "INSERT INTO mk_occupancy_reports (
             location_id, first_date_of_coverage, last_date_of_coverage, 
@@ -72,12 +77,14 @@ class MkClientController {
         return $stmt->execute();
     }
 
+
+    // view
     public function displayClients($data) {
         $html = "";
         
         foreach ($data as $client) {
             $html .= "<tr>";
-            $html .= "<td>{$client["mk_occupancy_reports_id"]}</td>";
+            $html .= "<td>{$client["id"]}</td>";
             $html .= "<td>{$client["location_id"]}</td>";
             $html .= "<td>{$client["location_address"]}</td>";
             $html .= "<td>{$client["location_city"]}, {$client["location_province"]}</td>";
@@ -85,8 +92,8 @@ class MkClientController {
             $html .= "<td>{$client["last_date_of_coverage"]}</td>";
             $html .= "<td>{$client["currency"]} {$client["premium_collected"]}</td>";
             $html .= "<td>";
-            $html .= "<button class='action-btn edit-btn' data-id='{$client["mk_occupancy_reports_id"]}'><i class='fa-solid fa-edit'></i></button>";
-            $html .= "<button class='action-btn delete-btn' data-id='{$client["mk_occupancy_reports_id"]}'><i class='fa-solid fa-trash'></i></button>";
+            $html .= "<button class='action-btn edit-btn' data-id='{$client["id"]}'><i class='fa-solid fa-edit'></i></button>";
+            $html .= "<button class='action-btn delete-btn' data-id='{$client["id"]}'><i class='fa-solid fa-trash'></i></button>";
             $html .= "</td>";
             $html .= "</tr>";
         }
