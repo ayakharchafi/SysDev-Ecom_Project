@@ -33,29 +33,6 @@ input[type="radio"] {
     margin-right: 10px;
 }
 
-.exit-button {
-    background-color: var(--exit-bg);
-    color: white;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 14px;
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    transition: background-color 0.3s;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.exit-button:hover {
-    background-color: rgb(145, 8, 8);
-}
-
 .settings-options {
     margin-top: 20px;
 }

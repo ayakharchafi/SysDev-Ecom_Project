@@ -37,7 +37,7 @@ class UserController {
         $html .= "<th>" . _('ID') . "</th>";
         $html .= "<th>" . _('Name') . "</th>";
         $html .= "<th>" . _('Email') . "</th>";
-        $html .= "<th>" . _('Password') . "</th>";
+        $html .= "<th>" . _('Enabled 2FA') . "</th>";
         $html .= "<th>" . _('Actions') . "</th>";
         $html .= "</tr>";
         $html .= "</thead>";
@@ -47,7 +47,7 @@ class UserController {
             $html .= "<td>{$user["user_id"]}</td>";
             $html .= "<td>{$user["user_name"]}</td>";
             $html .= "<td>{$user["user_email"]}</td>";
-            $html .= "<td>{$user["password"]}</td>";
+            $html .= "<td>{$user["enabled2FA"]}</td>";
             $html .= "   <td>";
             $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
             $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";

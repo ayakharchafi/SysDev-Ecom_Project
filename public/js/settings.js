@@ -72,6 +72,26 @@ const translations = {
     // Save theme preference to localStorage
     localStorage.setItem('preferredTheme', theme);
   }
+
+  document.querySelectorAll("#languageForm button").forEach(button => {
+    button.addEventListener("click", function() {
+        let language = this.getAttribute("value");
+
+        fetch("/tern_app/SysDev-Ecom_Project/app/Controllers/LanguageController.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `lang=${language}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Language changed successfully!");
+                location.reload(); // Optional: Reload to apply the new language preference
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+  });
   
   // Apply saved preferences on page load
   document.addEventListener("DOMContentLoaded", function() {
