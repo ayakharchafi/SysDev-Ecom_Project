@@ -86,7 +86,7 @@ const translations = {
         .then(data => {
             if (data.success) {
                 alert("Language changed successfully!");
-                location.reload(); // Optional: Reload to apply the new language preference
+                location.reload();
             }
         })
         .catch(error => console.error("Error:", error));
