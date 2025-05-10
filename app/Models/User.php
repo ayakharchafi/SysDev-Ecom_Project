@@ -127,9 +127,9 @@ class User {
           //  $this->status = $user['status'];
             $this->user_email = $user['user_email'];
             
-         //   $this->enabled2FA = $user['enabled2FA'];
-         //   $this->secret = $user['secret'];
-         //   $this->expiresAt = $user['expiresAt'];
+            $this->enabled2FA = $user['enabled2FA'];
+            $this->secret = $user['secret'];
+            $this->expiresAt = $user['expiresAt'];
         }
     
         return $user;
