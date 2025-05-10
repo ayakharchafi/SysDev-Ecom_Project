@@ -40,8 +40,8 @@ class SettingsController {
             <p id="languageDescription">{$this->translate('Select your preferred language')}</p>
             <div class="language-options">
                 <form id="languageForm">
-                    <button type="submit" name="lang" value="fr_CA" class="french-btn">{$this->translate('French')}</button>
-                    <button type="submit" name="lang" value="en_CA" class="english-btn">{$this->translate('English')}</button>
+                    <button type="submit" name="lang" value="fr" class="french-btn">{$this->translate('French')}</button>
+                    <button type="submit" name="lang" value="en" class="english-btn">{$this->translate('English')}</button>
                 </form>
             </div>
         </div>
