@@ -136,7 +136,7 @@ class MkClientController {
            $html .= "<tr><td colspan='8' class='text-center'>No clients found</td></tr>";
        }
        
-       return $html;
+       echo $html;
    }
 }
 
