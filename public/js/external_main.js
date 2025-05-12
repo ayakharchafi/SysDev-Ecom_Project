@@ -24,11 +24,8 @@ function setupTableRowSelection(tableId) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Existing DOM Elements
-  const modifyBtn =  document.getElementById("modifyBtn")
   const clientsBtn = document.getElementById("clientsBtn")
   const clientsContent = document.getElementById("clientsContent")
-  const functionsBtn = document.getElementById("functionsBtn")
-  const functionsDropdown = document.getElementById("functionsDropdown")
   const settingsBtn = document.getElementById("settingsBtn")
   const logoutBtn = document.getElementById("logoutBtn")
   const logoutModal = document.getElementById("logoutModal")
@@ -41,9 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const contentArea = document.querySelector(".content")
   const subItems = document.querySelectorAll(".sub-item")
   const searchResults = document.getElementById("searchResults")
-  const importBtn = document.getElementById("importBtn")
-  const exportBtn = document.getElementById("exportBtn")
-
+  const externalInput = document.getElementById("externalInput")
+ const roleBox = document.getElementById("roleBox")
   // Initialize row selection for the default table
   setupTableRowSelection("dataTable")
 
@@ -65,52 +61,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  // Toggle Functions dropdown with animation
-  functionsBtn.addEventListener("click", (e) => {
-    e.stopPropagation()
-    functionsDropdown.classList.toggle("active")
-
-    // Rotate the chevron icon smoothly
-    const icon = functionsBtn.querySelector("i")
-    if (functionsDropdown.classList.contains("active")) {
-      icon.style.transform = "rotate(180deg)"
-      icon.style.transition = "transform 0.3s ease"
-    } else {
-      icon.style.transform = "rotate(0deg)"
-      icon.style.transition = "transform 0.3s ease"
+  function showExternalInput(){
+    if(roleBox.options[roleBox.selectedIndex].text == 'External'){
+  externalInput.style.display = "flex"
+    }else{
+      externalInput.style.display = "none"
     }
-  })
+ 
+   }
 
-  // Close Functions dropdown when clicking outside
-  document.addEventListener("click", (e) => {
-    if (!functionsBtn.contains(e.target) && !functionsDropdown.contains(e.target)) {
-      functionsDropdown.classList.remove("active")
-      const icon = functionsBtn.querySelector("i")
-      icon.style.transform = "rotate(0deg)"
-    }
-  })
 
-  // Handle Functions dropdown items
-  const dropdownItems = functionsDropdown.querySelectorAll(".dropdown-item")
-  dropdownItems.forEach((item) => {
-    if (item.classList.contains("create-client-btn")) {
-      item.addEventListener("click", function () {
-        const clientType = this.getAttribute("data-client-type")
-        loadCreateClientForm(clientType)
-        functionsDropdown.classList.remove("active")
-        const icon = functionsBtn.querySelector("i")
-        icon.style.transform = "rotate(0deg)"
-      })
-    } else {
-      item.addEventListener("click", function () {
-        alert(`Function selected: ${this.textContent}`)
-        functionsDropdown.classList.remove("active")
-        const icon = functionsBtn.querySelector("i")
-        icon.style.transform = "rotate(0deg)"
-      })
-    }
-  })
-  // Settings Button - Use settings.php
+  // Settings Button - Redirect to settings.html
   settingsBtn.addEventListener("click", async () => {
     try {
       const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php")
@@ -131,30 +92,12 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching settings:", error)
     }
   })
-  modifyBtn.addEventListener("click", async () => {
-    try {
-      const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/modify_user.php")
-      //console.log(await response.text());
-      const tableRowsHTML = await response.text()
 
-      if (response.ok) {
-        contentArea.innerHTML = ""
-        contentArea.innerHTML = tableRowsHTML
-        setupTableRowSelection("dataTable")
-
-        insertAndRunScripts(contentArea);
-      } else {
-        const settings = await response.json()
-        console.error("Failed to fetch modify_user:", settings.error || "Unknown error")
-      }
-    } catch (error) {
-      console.error("Error fetching modify_user:", error)
-    }
-  })
   // Logout Modal
   logoutBtn.addEventListener("click", () => {
     logoutModal.style.display = "flex"
   })
+
 
   cancelLogoutBtn.addEventListener("click", () => {
     logoutModal.style.display = "none"
@@ -181,6 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.style.display = "none"
     })
   })
+
+  
 
   // Close modals when clicking outside
   window.addEventListener("click", (e) => {
@@ -251,41 +196,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-    // import button click handler - Show import page
-    importBtn.addEventListener('click', async () => {
-      // fetch('/tern_app/SysDev-Ecom_Project/app/Views/utilities/importview.php')
-      //     .then(response => response.text())
-      //     .then(html => {
-      //         contentDiv.innerHTML = html;
-      //     })
-      //     .catch(error => console.error('Error loading import page:', error));
-          try {
-            const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/importview.php")
-            //console.log(await response.text());
-            const tableRowsHTML = await response.text()
-      
-            if (response.ok) {
-              contentArea.innerHTML = ""
-              contentArea.innerHTML = tableRowsHTML
-              setupTableRowSelection("dataTable")
-            } else {
-              const users = await response.json()
-              console.error("Failed to fetch users:", users.error || "Unknown error")
-            }
-          } catch (error) {
-            console.error("Error fetching users:", error)
-          }
-  })
-
   // Client sub-items click handler - Show client-specific tables
   subItems.forEach((item) => {
     item.addEventListener("click", function () {
       const clientType = this.getAttribute("data-client-type")
 
       if (clientType && !this.classList.contains("create-client-btn")) {
-        loadClientsByType(clientType)
+        loadClientsByType(clientType.toLowerCase())
       } else if (this.classList.contains("create-client-btn")) {
-        loadCreateClientForm(clientType)
+        loadCreateClientForm(clientType.toLowerCase())
       }
     })
   })
@@ -610,8 +529,3 @@ function insertAndRunScripts(container) {
       oldScript.parentNode.replaceChild(newScript, oldScript);
   });
 }
-
-
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-    }

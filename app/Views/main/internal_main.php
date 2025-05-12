@@ -132,6 +132,7 @@ input{
                     <div class="sub-item" data-client-type="os">OS</div>
                     <div class="sub-item" data-client-type="bg">BG</div>
                     <div class="sub-item" data-client-type="th">TH</div>
+                    <div class="sub-item create-client-btn" data-client-type="mk">Create Client</div>
                 </div>
                 <div class="sidebar-item">
                     <span><?= _('Users')?></span>
@@ -140,10 +141,10 @@ input{
 
             <div class="sidebar-section">
                 <h3><?= _('File Manager')?></h3>
-                <div class="sidebar-item"  id="exportBtn">
+                <div class="sidebar-item">
                     <span><?= _('Export')?></span>
                 </div>
-                <div class="sidebar-item"  id="importBtn">
+                <div class="sidebar-item">
                     <span><?= _('Import')?></span>
                 </div>
             </div>
@@ -181,7 +182,6 @@ input{
                         </button>
                         <div class="dropdown-content" id="functionsDropdown">
                             <div class="dropdown-item"><?= _('Data Tracking')?></div>
-                            <div class="dropdown-item" id  = "modifyBtn"><?= _('Modify User')?></div>
                             <div class="dropdown-item"><?= _('Create Report')?></div>
                             <div class="dropdown-item create-client-btn" data-client-type="mk"><?= _('Create Client')?></div>
                         </div>
@@ -259,6 +259,6 @@ input{
         </div>
     </div>
 
-    <script src="/tern_app/SysDev-Ecom_Project/public/js/main.js"></script>
+    <script src="/tern_app/SysDev-Ecom_Project/public/js/internal_main.js"></script>
 </body>
 </html>

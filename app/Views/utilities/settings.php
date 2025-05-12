@@ -39,16 +39,15 @@ class SettingsController {
             <h2 id="languageTitle">{$this->translate('Language')}</h2>
             <p id="languageDescription">{$this->translate('Select your preferred language')}</p>
             <div class="language-options">
-                <form method="post" action="/tern_app/SysDev-Ecom_Project/app/Controllers/LanguageController.php">
-                    <button type="submit" name="lang" value="fr_CA" class="french-btn">{$this->translate('French')}</button>
-                    <button type="submit" name="lang" value="en_CA" class="english-btn">{$this->translate('English')}</button>
+                <form id="languageForm">
+                    <button type="submit" name="lang" value="fr" class="french-btn">{$this->translate('French')}</button>
+                    <button type="submit" name="lang" value="en" class="english-btn">{$this->translate('English')}</button>
                 </form>
             </div>
         </div>
         <br><br>
         <h2 class="settings-button" id="archivedClients">{$this->translate('Archived Clients')}</h2>
         <h2 class="settings-button" id="deactivatedUsers">{$this->translate('Deactivated Users')}</h2>
-        <button class="exit-button" id="exitBtn">{$this->translate('Exit')}</button>
     </div>
 
     <script src="/tern_app/SysDev-Ecom_Project/public/js/settings.js"></script>

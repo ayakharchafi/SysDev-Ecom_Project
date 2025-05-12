@@ -5,17 +5,11 @@ namespace models;
 use database\DatabaseConnectionManager;
 
 
-class Client {
+class Clients {
     private $client_id;
     private $client_name;
 
     private $dbConnection;
-    
-
-    public function __construct() {
-        // Initialize the database connection
-        $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
-    }
 
     public function getClientId() {
         return $this->client_id;
@@ -45,20 +39,10 @@ class Client {
     }
 
     public function read() {
-        $query = "SELECT * FROM client";
+        $query = "SELECT * FROM clients";
         $stmt = $this->dbConnection->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    public function displayOptions($data){
-        $html = "";
-        
-        foreach ($data as $client) {
-          $html .=  "  <option value='{$client["client_name"]}'> {$client["client_name"]} </option> ";
-        }
-     
-        return $html;
     }
 }
 ?>

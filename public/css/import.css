@@ -1,0 +1,40 @@
+.import-form {
+    background-color: var(--bg2);
+    color: var(--text);
+    padding: 40px;
+    margin: 40px auto;
+    border-radius: 10px;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.import-form h2 {
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.import-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+#importBtn, #importbtn {
+    background-color: var(--button-bg);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#importbtn:hover {
+    background-color: var(--button-hover);
+}
