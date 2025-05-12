@@ -59,6 +59,7 @@ class UserController {
         $html .= "<th>" . _('Name') . "</th>";
         $html .= "<th>" . _('Email') . "</th>";
         $html .= "<th>" . _('Role') . "</th>";
+        $html .= "<th>" . _('Enabled 2FA') . "</th>";
         $html .= "<th>" . _('Actions') . "</th>";
         $html .= "</tr>";
         $html .= "</thead>";
@@ -73,6 +74,7 @@ class UserController {
             }else{   
                     $html .= "<td>Internal</td>";
             }
+            $html .= "<td>{$user["enabled2FA"]}</td>";
             $html .= "   <td>";
             $html .= "   <button class= 'action-btn'><i class= 'fa-solid fa-edit'></i></button>";
             $html .= "    <button class= 'action-btn'><i class= 'fa-solid fa-trash'></i></button>";

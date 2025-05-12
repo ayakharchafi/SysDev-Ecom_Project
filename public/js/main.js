@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
   })
-  // Settings Button - Redirect to settings.html
+  // Settings Button - Use settings.php
   settingsBtn.addEventListener("click", async () => {
     try {
       const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php")

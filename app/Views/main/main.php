@@ -170,10 +170,11 @@ input{
                     <div id="searchResults" class="search-results"></div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-primary">
+                    <!--No need for backup button if it only backs up automatically-->
+                    <!--<button class="btn btn-primary">
                         <span><?= _('Back-up')?></span>
                         <i class="fa-solid fa-download"></i>
-                    </button>
+                    </button>-->
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" id="functionsBtn">
                             <span><?= _('Functions')?></span>
