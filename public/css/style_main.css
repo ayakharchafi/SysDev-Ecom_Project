@@ -681,6 +681,7 @@ tr.highlighted {
   margin-left: 5px;
   transition: background-color 0.3s;
 
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -704,4 +705,12 @@ tr.highlighted {
 
 .create-button:hover {
   background-color: #00163b;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
 }

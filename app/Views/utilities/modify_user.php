@@ -36,7 +36,7 @@ class ModifyController {
                         </button>
                         <div class="dropdown-content" id="mfunctionsDropdown">
                             <div class="dropdown-item" id = "createUserBtn">{$this->translate('Create User')}</div>
-                            <div class="dropdown-item">{$this->translate('Deactivate')}</div>
+                            <div class="dropdown-item" id = "deleteUserBtn">{$this->translate('Delete User')}</div>
                         </div>
                     </div>
                 </div>

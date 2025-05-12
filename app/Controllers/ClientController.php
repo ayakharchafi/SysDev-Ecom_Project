@@ -41,6 +41,8 @@ class ClientController{
         return $html;
     }
 
+
+
     public function searchClients($searchTerm) {
         $query = "SELECT * FROM client WHERE client_name LIKE :searchTerm OR client_id LIKE :searchTerm";
         $stmt = $this->dbConnection->prepare($query);

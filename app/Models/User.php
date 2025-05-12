@@ -21,10 +21,10 @@ class User {
     private $password;
     private $status;
     // for 2FA
-    private $enabled2FA;
+    private int $enabled2FA = 0;
     private $secret;
     private $expiresAt;
-
+    private $client_id;
     private $dbConnection;
 
     public function getUserId() {
@@ -34,6 +34,14 @@ class User {
     public function setUserId($id) {
         $this->user_id = $id;
     }    
+    
+    public function getClientId() {
+        return $this->client_id;
+    }
+
+    public function setClientId($id) {
+        $this->client_id = $id;
+    }
 
     public function getUsername() {
         return $this->user_name;
@@ -107,14 +115,22 @@ class User {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
     }
-    
+    public function readUserID() {
+        $query = "SELECT user_id FROM users WHERE user_name = :user_name";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(':user_name', $this->user_name);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
     /*
      * * * Read a user by username from the database
      * @param string $username The username to search for
      * * @return array The user record if found, null otherwise
      */
     public function readByUsername($username) {
-        $query = "SELECT * FROM users WHERE user_name = :username";
+        $query = " SELECT users.`user_id` as user_id, `user_email`, `user_name`, `password`, external_users.client_id as client_id, enabled2FA, secret, expiresAt, status  FROM `users`
+         left JOIN external_users ON users.user_id = external_users.user_id 
+         left JOIN internal_users ON users.user_id = internal_users.user_id WHERE user_name = :username";
         $stmt = $this->dbConnection->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
@@ -124,15 +140,30 @@ class User {
             $this->user_name = $user['user_name'];
             $this->password = $user['password'];
             $this->user_id = $user['user_id'];
-          //  $this->status = $user['status'];
+            $this->client_id = $user['client_id'];
             $this->user_email = $user['user_email'];
-            
-            $this->enabled2FA = $user['enabled2FA'];
+            $this->status = $user['status'];
+          $this->enabled2FA = $user['enabled2FA'];
             $this->secret = $user['secret'];
             $this->expiresAt = $user['expiresAt'];
         }
     
         return $user;
+    }
+
+    public function readClientName() {
+        $query = " SELECT  external_users.client_id as client_id FROM `users`
+         left JOIN external_users ON users.user_id = external_users.user_id WHERE client_id = :client_id";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(':client_id', $this->client_id);
+        $stmt->execute();
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+    
+
+
+
+    
+        return  $user['client_id'];
     }
 
     /*
@@ -154,14 +185,40 @@ class User {
         if (empty($this->user_name)&&empty($this->$user_email) && empty($this->password)) {
             return false;
         }
+if(isset($this->client_id)){
+    $query = "INSERT INTO users (user_name, user_email, password) VALUES (:user_name, :user_email, :password);
+              INSERT INTO `external_users` (`user_id`, `client_id`) VALUES (LAST_INSERT_ID(), :client_id);";
+    $stmt = $this->dbConnection->prepare($query);
 
+    $stmt->bindParam(':user_name', $this->user_name);
+    $stmt->bindParam(':user_email', $this->user_email);
+    $stmt->bindParam(':password', $this->password);
+    $stmt->bindParam(':client_id', $this->client_id);
+
+
+}else{
         $query = "INSERT INTO users (user_name, user_email, password) VALUES (:user_name, :user_email, :password)";
         $stmt = $this->dbConnection->prepare($query);
 
         $stmt->bindParam(':user_name', $this->user_name);
-        $stmt->bindParam(':user_email', $this->user_name);
+        $stmt->bindParam(':user_email', $this->user_email);
         $stmt->bindParam(':password', $this->password);
+}
+        return $stmt->execute();
+    }
 
+
+    public function delete($id) {
+
+if(isset($id)){
+    $query = "DELETE FROM `users` WHERE user_id = :user_id;";
+    $stmt = $this->dbConnection->prepare($query);
+
+    $stmt->bindParam(':user_id',$id);
+
+
+
+}
         return $stmt->execute();
     }
 
