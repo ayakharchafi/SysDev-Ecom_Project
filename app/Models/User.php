@@ -195,6 +195,7 @@ if(isset($this->client_id)){
     $stmt->bindParam(':password', $this->password);
     $stmt->bindParam(':client_id', $this->client_id);
 
+
 }else{
         $query = "INSERT INTO users (user_name, user_email, password) VALUES (:user_name, :user_email, :password)";
         $stmt = $this->dbConnection->prepare($query);
@@ -322,9 +323,9 @@ if(isset($id)){
      * * @return bool True if the operation was successful
      */
     public function enableTwoFactor() {
-        $query = "UPDATE users SET enabled2FA = 1 WHERE user_name = :user_name";
+        $query = "UPDATE users SET enabled2FA = 1 WHERE user_id = :user_id";
         $stmt = $this->dbConnection->prepare($query);
-        $stmt->bindParam(':user_name', $this->user_name);
+        $stmt->bindParam(':user_id', $this->user_id);
         $result = $stmt->execute();
         
         if ($result) {

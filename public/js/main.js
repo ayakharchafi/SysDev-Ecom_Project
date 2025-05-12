@@ -582,3 +582,8 @@ function insertAndRunScripts(container) {
       oldScript.parentNode.replaceChild(newScript, oldScript);
   });
 }
+
+
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
