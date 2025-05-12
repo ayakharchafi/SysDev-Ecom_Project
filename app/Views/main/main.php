@@ -129,7 +129,6 @@ input{
                     <div class="sub-item" data-client-type="os">OS</div>
                     <div class="sub-item" data-client-type="bg">BG</div>
                     <div class="sub-item" data-client-type="th">TH</div>
-                    <div class="sub-item create-client-btn" data-client-type="mk">Create Client</div>
                 </div>
                 <div class="sidebar-item">
                     <span><?= _('Users')?></span>
