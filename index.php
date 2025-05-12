@@ -155,6 +155,10 @@ switch ($request) {
         header("HTTP/1.0 404 Not Found");
         echo "404 - Page Not Found";
         break;
+    if ($_SERVER['REQUEST_URI'] === '/tern_app/SysDev-Ecom_Project/import') {
+            include __DIR__ . '/views/utilities/importview.php';
+            exit;
+        }
 }
 
 ?>

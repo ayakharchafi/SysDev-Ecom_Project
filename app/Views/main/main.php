@@ -140,10 +140,10 @@ input{
 
             <div class="sidebar-section">
                 <h3><?= _('File Manager')?></h3>
-                <div class="sidebar-item">
+                <div class="sidebar-item"  id="exportBtn">
                     <span><?= _('Export')?></span>
                 </div>
-                <div class="sidebar-item">
+                <div class="sidebar-item"  id="importBtn">
                     <span><?= _('Import')?></span>
                 </div>
             </div>

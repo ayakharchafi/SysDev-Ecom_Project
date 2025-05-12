@@ -41,6 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const contentArea = document.querySelector(".content")
   const subItems = document.querySelectorAll(".sub-item")
   const searchResults = document.getElementById("searchResults")
+  const importBtn = document.getElementById("importBtn")
+  const exportBtn = document.getElementById("exportBtn")
 
   // Initialize row selection for the default table
   setupTableRowSelection("dataTable")
@@ -247,6 +249,32 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("Error fetching users:", error)
     }
+  })
+
+    // import button click handler - Show import page
+    importBtn.addEventListener('click', async () => {
+      // fetch('/tern_app/SysDev-Ecom_Project/app/Views/utilities/importview.php')
+      //     .then(response => response.text())
+      //     .then(html => {
+      //         contentDiv.innerHTML = html;
+      //     })
+      //     .catch(error => console.error('Error loading import page:', error));
+          try {
+            const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/importview.php")
+            //console.log(await response.text());
+            const tableRowsHTML = await response.text()
+      
+            if (response.ok) {
+              contentArea.innerHTML = ""
+              contentArea.innerHTML = tableRowsHTML
+              setupTableRowSelection("dataTable")
+            } else {
+              const users = await response.json()
+              console.error("Failed to fetch users:", users.error || "Unknown error")
+            }
+          } catch (error) {
+            console.error("Error fetching users:", error)
+          }
   })
 
   // Client sub-items click handler - Show client-specific tables
