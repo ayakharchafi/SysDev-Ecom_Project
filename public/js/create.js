@@ -3,6 +3,8 @@ const cfunctionsDropdown = document.getElementById("cfunctionsDropdown")
 const CreateModal = document.getElementById("CreateModal")
 //const createUserBtn = document.getElementById("createUserBtn")
 //const contentArea = document.querySelector(".content")
+const roleBox = document.getElementById("roleBox")
+const externalInput = document.getElementById("externalInput")
 const CreateBtn = document.getElementById("CreateBtn")
 const closeModalBtns = document.querySelectorAll(".close-modal")
 
@@ -83,3 +85,11 @@ const closeModalBtns = document.querySelectorAll(".close-modal")
       modal.style.display = "none"
     })
   })
+
+  function showExternalInput(){
+    if(roleBox.options[roleBox.selectedIndex].text == "External"){
+      externalInput.style.display = "flex"
+    }else{
+           externalInput.style.display = "none"
+    }
+  }

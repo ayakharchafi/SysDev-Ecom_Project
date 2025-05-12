@@ -22,19 +22,33 @@ class DashboardController {
 
     $admin = new User();
     $admin->readByUsername('Ian');
+    $currentUser  = new User();
+    $currentUser->readByUsername("{$_SESSION['user']}");
     if(isset($_POST['adminPassword'])){
     if($admin->verifyCredentials($_POST['adminPassword'])){
         $createdUser = new User();
         $createdUser->setUsername($_POST['NewUsername']);
         $createdUser->setPassword(password_hash($_POST['NewPassword'], PASSWORD_BCRYPT));
         $createdUser->setUser_Email($_POST['NewEmail']);
+      if($_POST['newRole'] == "External"){
+        if(isset($_POST['newClient'])){
+            $createdUser->setClientId($_POST['newClient']);
+            $createdUser->create();
+        }
+    }else{
         $createdUser->create();
+        }
         echo "<script type='text/javascript'>alert('User Has been Created');</script>";
         }else{
             echo "<script type='text/javascript'>alert('Admin Password is Invalid');</script>";
         }
+   
     }
-
+      
+    if(!null == $currentUser->getClientId()){
+        require_once __DIR__ . '/../Views/main/external_main.php';
+    }else{
     require_once __DIR__ . '/../Views/main/main.php';
-    }
+    }   
+}
 }

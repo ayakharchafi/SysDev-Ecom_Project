@@ -30,6 +30,8 @@ class ClientController{
         echo $html;
     }
 
+
+
     public function searchClients($searchTerm) {
         $query = "SELECT * FROM client WHERE client_name LIKE :searchTerm";
         $stmt = $this->dbConnection->prepare($query);
