@@ -24,8 +24,11 @@ function setupTableRowSelection(tableId) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Existing DOM Elements
+
   const clientsBtn = document.getElementById("clientsBtn")
   const clientsContent = document.getElementById("clientsContent")
+  const functionsBtn = document.getElementById("functionsBtn")
+  const functionsDropdown = document.getElementById("functionsDropdown")
   const settingsBtn = document.getElementById("settingsBtn")
   const logoutBtn = document.getElementById("logoutBtn")
   const logoutModal = document.getElementById("logoutModal")
@@ -38,8 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const contentArea = document.querySelector(".content")
   const subItems = document.querySelectorAll(".sub-item")
   const searchResults = document.getElementById("searchResults")
-  const externalInput = document.getElementById("externalInput")
- const roleBox = document.getElementById("roleBox")
+
   // Initialize row selection for the default table
   setupTableRowSelection("dataTable")
 
@@ -61,17 +63,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  function showExternalInput(){
-    if(roleBox.options[roleBox.selectedIndex].text == 'External'){
-  externalInput.style.display = "flex"
-    }else{
-      externalInput.style.display = "none"
+  // Toggle Functions dropdown with animation
+  functionsBtn.addEventListener("click", (e) => {
+    e.stopPropagation()
+    functionsDropdown.classList.toggle("active")
+
+    // Rotate the chevron icon smoothly
+    const icon = functionsBtn.querySelector("i")
+    if (functionsDropdown.classList.contains("active")) {
+      icon.style.transform = "rotate(180deg)"
+      icon.style.transition = "transform 0.3s ease"
+    } else {
+      icon.style.transform = "rotate(0deg)"
+      icon.style.transition = "transform 0.3s ease"
     }
- 
-   }
+  })
 
+  // Close Functions dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!functionsBtn.contains(e.target) && !functionsDropdown.contains(e.target)) {
+      functionsDropdown.classList.remove("active")
+      const icon = functionsBtn.querySelector("i")
+      icon.style.transform = "rotate(0deg)"
+    }
+  })
 
-  // Settings Button - Redirect to settings.html
+  // Handle Functions dropdown items
+  const dropdownItems = functionsDropdown.querySelectorAll(".dropdown-item")
+  dropdownItems.forEach((item) => {
+    if (item.classList.contains("create-client-btn")) {
+      item.addEventListener("click", function () {
+        const clientType = this.getAttribute("data-client-type")
+        loadCreateClientForm(clientType)
+        functionsDropdown.classList.remove("active")
+        const icon = functionsBtn.querySelector("i")
+        icon.style.transform = "rotate(0deg)"
+      })
+    } else {
+      item.addEventListener("click", function () {
+        alert(`Function selected: ${this.textContent}`)
+        functionsDropdown.classList.remove("active")
+        const icon = functionsBtn.querySelector("i")
+        icon.style.transform = "rotate(0deg)"
+      })
+    }
+  })
+  // Settings Button - Use settings.php
   settingsBtn.addEventListener("click", async () => {
     try {
       const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php")
@@ -92,12 +129,10 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching settings:", error)
     }
   })
-
   // Logout Modal
   logoutBtn.addEventListener("click", () => {
     logoutModal.style.display = "flex"
   })
-
 
   cancelLogoutBtn.addEventListener("click", () => {
     logoutModal.style.display = "none"
@@ -124,8 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.style.display = "none"
     })
   })
-
-  
 
   // Close modals when clicking outside
   window.addEventListener("click", (e) => {
@@ -202,9 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const clientType = this.getAttribute("data-client-type")
 
       if (clientType && !this.classList.contains("create-client-btn")) {
-        loadClientsByType(clientType.toLowerCase())
+        loadClientsByType(clientType)
       } else if (this.classList.contains("create-client-btn")) {
-        loadCreateClientForm(clientType.toLowerCase())
+        loadCreateClientForm(clientType)
       }
     })
   })

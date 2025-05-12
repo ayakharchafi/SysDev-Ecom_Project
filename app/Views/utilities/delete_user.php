@@ -79,14 +79,14 @@ class CreateUserController
                     <input type="text" id="searchInput" placeholder="{$this->translate('Search')}">
                     <div id="searchResults" class="search-results"></div>
                 </div>
-                <h2>Modify User - Create User </h2>
+                <h2>Modify User - Delete User </h2>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" id="cfunctionsBtn">
                             <span>{$this->translate("Modify Functions")}</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </button>
                         <div class="dropdown-content" id="cfunctionsDropdown">
-                        <div class="dropdown-item" id = "createUserBtn">{$this->translate(
+                            <div class="dropdown-item" id = "createUserBtn">{$this->translate(
             "Create User"
         )}</div>
                             <div class="dropdown-item" id = "deleteUserBtn">{$this->translate(
@@ -100,7 +100,7 @@ class CreateUserController
             
 
                     <form   action = "/tern_app/SysDev-Ecom_Project/dashboard" method = "POST" >
-<div class = "row">
+
 
 <div class = "column" >
                 <div class="search-container">
@@ -108,7 +108,7 @@ class CreateUserController
                     <label style = "color: white;" for="">Username:</label>
                     <br>
                     <br>
-                    <input type="text" required class = "TextInput" placeholder="Enter Username"  name ="NewUsername"  >
+                    <input type="text" required class = "TextInput" placeholder="Enter Username"  name ="deleteUsername"  >
 </div>
                 <div class="search-container">
                 <br>
@@ -116,7 +116,7 @@ class CreateUserController
                     <label  style = "color: white;"for="">Email:</label>
                     <br>
                     <br>
-                    <input type="text" required  pattern="[^ @]*@[^ @]*" class = "TextInput" placeholder="Enter Email"    name = "NewEmail" >
+                    <input type="text" required  pattern="[^ @]*@[^ @]*" class = "TextInput" placeholder="Enter Email"    name = "deleteEmail" >
                 </div>
                 <div class="search-container">
                 <br>
@@ -124,42 +124,12 @@ class CreateUserController
                     <label style = "color: white;" for="">Password:</label>
                     <br>
                     <br>
-                    <input type="password" required class = "TextInput" placeholder="Enter Password"  name = "NewPassword" >
+                    <input type="password" required class = "TextInput" placeholder="Enter Password"  name = "deletePassword" >
 
                 </div>
 
                 </div>
 
-                <div class = "column" >
-                <br>
-                <h2 style = "color: white;">
-                  Enable 2FA
-                </h2>     
-  <Select class = "confirm-button"  name = "2FA" >
-
-<option value="enabled">Enable 2FA</option>
-<option value=" ">Disable 2FA</option>
-    </Select>
-    <br>
-    <br>
-                    <h2 style = "color: white;">
-                    Enter User Type
-                </h2>
-<Select class = "confirm-button" onchange ="showExternalInput()" id="roleBox" name = "newRole" >
-<option value="Internal">Internal</option>
-<option value="External">External</option>
-    </Select>
-    <br>
-    <br> 
-    <div style = "display: none;" id="externalInput">
-                 
-    <Select class = "confirm-button" name  = "newClient">
-    {$this->translate($options)}
-          </Select>
-
-    </div>
-</div>
-                </div>
 
 
                   <!-- Logout Confirmation Modal -->
@@ -194,7 +164,7 @@ class CreateUserController
 
                 </div>
                 <div class = "create-button" id="CreateBtn">
-                    <span>{$this->translate("Create")}</span>
+                    <span>{$this->translate("Delete")}</span>
                 </div>
 
     <script src="/tern_app/SysDev-Ecom_Project/public/js/create.js"></script>

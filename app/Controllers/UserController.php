@@ -28,7 +28,7 @@ class UserController {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
     public function readRoles() {
-        $query = " SELECT users.`user_id` as user_id, `user_email`, `user_name`, `password`, external_users.client_id FROM `users`
+        $query = " SELECT users.`user_id` as user_id, `user_email`, `user_name`, `password`, external_users.client_id,enabled2FA FROM `users`
          left JOIN external_users ON users.user_id = external_users.user_id 
          left JOIN internal_users ON users.user_id = internal_users.user_id 
          ORDER BY `users`.`user_id`";

@@ -9,11 +9,6 @@ if (!isset($_SESSION['user'])) {
     header('Location: /tern_app/SysDev-Ecom_Project/login');
     exit;
 }
-
-$currentUser = new User();
-$currentUser->readByUsername($_SESSION['user'])
-
-
 ?>
 
 <!DOCTYPE html>
@@ -133,7 +128,11 @@ input{
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="collapsible-content" id="clientsContent">
-                    <div class="sub-item"  data-client-type="<?php echo $currentUser->readClientName(); ?>"> <?php echo $currentUser->readClientName(); ?></div>
+                    <div class="sub-item" data-client-type="mk">MK</div>
+                    <div class="sub-item" data-client-type="os">OS</div>
+                    <div class="sub-item" data-client-type="bg">BG</div>
+                    <div class="sub-item" data-client-type="th">TH</div>
+                    <div class="sub-item create-client-btn" data-client-type="mk">Create Client</div>
                 </div>
                 <div class="sidebar-item">
                     <span><?= _('Users')?></span>
@@ -145,7 +144,9 @@ input{
                 <div class="sidebar-item">
                     <span><?= _('Export')?></span>
                 </div>
-
+                <div class="sidebar-item">
+                    <span><?= _('Import')?></span>
+                </div>
             </div>
 
             <div class="sidebar-footer">
@@ -167,6 +168,24 @@ input{
                     <i class="fa-solid fa-search"></i>
                     <input type="text" id="searchInput" placeholder="<?= _('Search')?>">
                     <div id="searchResults" class="search-results"></div>
+                </div>
+                <div class="action-buttons">
+                    <!--No need for backup button if it only backs up automatically-->
+                    <!--<button class="btn btn-primary">
+                        <span><?= _('Back-up')?></span>
+                        <i class="fa-solid fa-download"></i>
+                    </button>-->
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" id="functionsBtn">
+                            <span><?= _('Functions')?></span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-content" id="functionsDropdown">
+                            <div class="dropdown-item"><?= _('Data Tracking')?></div>
+                            <div class="dropdown-item"><?= _('Create Report')?></div>
+                            <div class="dropdown-item create-client-btn" data-client-type="mk"><?= _('Create Client')?></div>
+                        </div>
+                    </div>
                 </div>
                 
             </div>
@@ -240,6 +259,6 @@ input{
         </div>
     </div>
 
-    <script src="/tern_app/SysDev-Ecom_Project/public/js/external_main.js"></script>
+    <script src="/tern_app/SysDev-Ecom_Project/public/js/internal_main.js"></script>
 </body>
 </html>

@@ -21,7 +21,7 @@ class User {
     private $password;
     private $status;
     // for 2FA
-    private $enabled2FA;
+    private int $enabled2FA = 0;
     private $secret;
     private $expiresAt;
     private $client_id;
@@ -128,7 +128,7 @@ class User {
      * * @return array The user record if found, null otherwise
      */
     public function readByUsername($username) {
-        $query = " SELECT users.`user_id` as user_id, `user_email`, `user_name`, `password`, external_users.client_id as client_id FROM `users`
+        $query = " SELECT users.`user_id` as user_id, `user_email`, `user_name`, `password`, external_users.client_id as client_id, enabled2FA, secret, expiresAt, status  FROM `users`
          left JOIN external_users ON users.user_id = external_users.user_id 
          left JOIN internal_users ON users.user_id = internal_users.user_id WHERE user_name = :username";
         $stmt = $this->dbConnection->prepare($query);
@@ -141,10 +141,9 @@ class User {
             $this->password = $user['password'];
             $this->user_id = $user['user_id'];
             $this->client_id = $user['client_id'];
-          //  $this->status = $user['status'];
             $this->user_email = $user['user_email'];
-            
-            $this->enabled2FA = $user['enabled2FA'];
+            $this->status = $user['status'];
+          $this->enabled2FA = $user['enabled2FA'];
             $this->secret = $user['secret'];
             $this->expiresAt = $user['expiresAt'];
         }
@@ -207,6 +206,20 @@ if(isset($this->client_id)){
         return $stmt->execute();
     }
 
+
+    public function delete($id) {
+
+if(isset($id)){
+    $query = "DELETE FROM `users` WHERE user_id = :user_id;";
+    $stmt = $this->dbConnection->prepare($query);
+
+    $stmt->bindParam(':user_id',$id);
+
+
+
+}
+        return $stmt->execute();
+    }
 
     /**
      * * * Verify the user's credentials
@@ -309,9 +322,9 @@ if(isset($this->client_id)){
      * * @return bool True if the operation was successful
      */
     public function enableTwoFactor() {
-        $query = "UPDATE users SET enabled2FA = 1 WHERE user_id = :user_id";
+        $query = "UPDATE users SET enabled2FA = 1 WHERE user_name = :user_name";
         $stmt = $this->dbConnection->prepare($query);
-        $stmt->bindParam(':user_id', $this->user_id);
+        $stmt->bindParam(':user_name', $this->user_name);
         $result = $stmt->execute();
         
         if ($result) {
