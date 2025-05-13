@@ -1,27 +1,39 @@
-// Add this function to handle table row selection
+// // Add this function to handle table row selection
+// function setupTableRowSelection(tableId) {
+//   const table = document.getElementById(tableId)
+//   if (!table) return
+
+//   const rows = table.querySelectorAll("tbody tr")
+
+//   rows.forEach((row) => {
+//     // Add click event listener to each row
+//     row.addEventListener("click", function (e) {
+//       // Skip if clicking on action buttons or checkboxes
+//       if (e.target.closest(".action-btn") || e.target.type === "checkbox") {
+//         return
+//       }
+
+//       // Remove 'selected' class from all rows
+//       rows.forEach((r) => r.classList.remove("selected"))
+
+//       // Add 'selected' class to clicked row
+//       this.classList.add("selected")
+//     })
+//   })
+// }
 function setupTableRowSelection(tableId) {
   const table = document.getElementById(tableId)
   if (!table) return
 
   const rows = table.querySelectorAll("tbody tr")
-
   rows.forEach((row) => {
-    // Add click event listener to each row
     row.addEventListener("click", function (e) {
-      // Skip if clicking on action buttons or checkboxes
-      if (e.target.closest(".action-btn") || e.target.type === "checkbox") {
-        return
-      }
-
-      // Remove 'selected' class from all rows
+      if (e.target.closest(".action-btn") || e.target.type === "checkbox") return
       rows.forEach((r) => r.classList.remove("selected"))
-
-      // Add 'selected' class to clicked row
       this.classList.add("selected")
     })
   })
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   // Existing DOM Elements
   const modifyBtn =  document.getElementById("modifyBtn")
@@ -250,6 +262,50 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching users:", error)
     }
   })
+// TODO: ADD FOR ARCHIVED
+// … inside document.addEventListener("DOMContentLoaded", () => { …
+
+  // After you load settings HTML into contentArea:
+  settingsBtn.addEventListener("click", async () => {
+    const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php");
+    const html = await response.text();
+    contentArea.innerHTML = html;
+
+    // re-init table selection if any tables in settings view:
+    setupTableRowSelection("dataTable");
+
+    // wire up the Archived Clients link
+    const archivedBtn = document.getElementById("archivedClients");
+    if (archivedBtn) {
+      archivedBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const resp = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/archived_clients.php");
+        const fragment = await resp.text();
+        contentArea.innerHTML = fragment;
+        setupTableRowSelection("dataTable");
+      });
+    }
+  const deactBtn = document.getElementById("deactivatedUsers");
+  if (deactBtn) {
+    deactBtn.addEventListener("click", e => {
+      e.preventDefault();
+      loadDeactivatedUsers();
+    });
+  }
+
+  // Inject the two page-specific scripts so their loader functions exist
+  [ "archived_clients.js", "deactivated_users.js" ].forEach(filename => {
+    const script = document.createElement("script");
+    script.src = `/tern_app/SysDev-Ecom_Project/public/js/${filename}`;
+    contentArea.appendChild(script);
+  });
+
+    // … then your existing settings.js loader if you have other per-page scripts …
+  });
+
+// …
+
+
 
     // import button click handler - Show import page
     importBtn.addEventListener('click', async () => {
@@ -301,14 +357,14 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 })
 
-// Update the loadMkClients function to use the correct route
+// … all your existing code above …
 function loadMkClients() {
-  const contentArea = document.querySelector(".content")
-  if (!contentArea) return
+  const contentArea = document.querySelector(".content");
+  if (!contentArea) return;
 
   fetch("/tern_app/SysDev-Ecom_Project/mk-clients")
-    .then((response) => response.text())
-    .then((data) => {
+    .then(res => res.text())
+    .then(html => {
       contentArea.innerHTML = `
         <div class="table-container">
           <div class="table-header">
@@ -320,6 +376,7 @@ function loadMkClients() {
           <table id="dataTable">
             <thead>
               <tr>
+                <th><input type="checkbox" id="selectAllMk"></th>
                 <th>ID</th>
                 <th>Location ID</th>
                 <th>Address</th>
@@ -331,26 +388,62 @@ function loadMkClients() {
               </tr>
             </thead>
             <tbody id="tableBody">
-              ${data}
+              ${html}
             </tbody>
           </table>
+          <div class="table-footer" style="margin-top:10px; text-align:right;">
+            <button id="archiveClientsBtn" class="btn btn-secondary">
+              <i class="fa-solid fa-archive"></i> Archive Clients Selected
+            </button>
+          </div>
         </div>
-      `
+      `;
 
-      // Add event listener to the create button
-      const createBtn = document.getElementById("createMkClientBtn")
-      if (createBtn) {
-        createBtn.addEventListener("click", () => {
-          loadCreateClientForm("mk")
-        })
-      }
+      // Re-bind handlers
+      document.getElementById("createMkClientBtn").addEventListener("click", () => loadCreateClientForm("mk"));
+      document.getElementById("selectAllMk").addEventListener("change", e => {
+        document.querySelectorAll("#dataTable tbody input[type=checkbox]")
+          .forEach(cb => cb.checked = e.target.checked);
+      });
+      document.getElementById("archiveClientsBtn").addEventListener("click", archiveSelectedClients);
 
-      setupTableRowSelection("dataTable")
+      setupTableRowSelection("dataTable");
     })
-    .catch((error) => {
-      console.error("Error loading clients:", error)
-      contentArea.innerHTML = '<div class="error-message">Error loading clients. Please try again.</div>'
-    })
+    .catch(err => console.error("Error loading MK Clients:", err));
+}
+
+function archiveSelectedClients() {
+  const checks = document.querySelectorAll(
+    '#dataTable tbody input[type="checkbox"]:checked'
+  );
+  if (!checks.length) return alert('Please select at least one client to archive.');
+  if (!confirm(`Archive ${checks.length} client(s)?`)) return;
+
+  const ids = Array.from(checks).map(cb => cb.value);
+
+  fetch('/tern_app/SysDev-Ecom_Project/archive-clients', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ids })
+  })
+  .then(res => res.json())
+  .then(({ success, message }) => {
+    alert(message);
+    if (success) loadMkClients();
+  })
+  .catch(err => {
+    console.error('Archive error:', err);
+    alert('Unexpected error archiving clients.');
+  });
+}
+
+// … rest of your existing code …
+
+
+// after you inject the button into the DOM:
+const archiveBtn = document.getElementById('archiveClientsBtn');
+if (archiveBtn) {
+  archiveBtn.addEventListener('click', archiveSelectedClients);
 }
 
 // Function to load clients by type

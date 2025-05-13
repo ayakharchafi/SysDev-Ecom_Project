@@ -108,7 +108,41 @@ switch ($request) {
         }
         include "app/Views/clients/create_client.php";
         break;
-        
+      
+
+      // archive batch:
+if ($_SERVER['REQUEST_METHOD']==='POST' 
+    && strpos($_SERVER['REQUEST_URI'],'/archive-clients')!==false) {
+    $payload = json_decode(file_get_contents('php://input'), true);
+    $ids = $payload['ids'] ?? [];
+    // call your controller
+    require_once __DIR__.'/app/Controllers/MkClientController.php';
+    $ctrl = new controllers\MkClientController();
+    $success = $ctrl->archiveClients($ids);
+    header('Content-Type: application/json');
+    echo json_encode([
+      'success'=> $success,
+      'message'=> $success ? 'Clients archived.' : 'Failed to archive.'
+    ]);
+    exit;
+}
+
+// restore batch:
+if ($_SERVER['REQUEST_METHOD']==='POST' 
+    && strpos($_SERVER['REQUEST_URI'],'/restore-clients')!==false) {
+    $payload = json_decode(file_get_contents('php://input'), true);
+    $ids = $payload['ids'] ?? [];
+    require_once __DIR__.'/app/Controllers/MkClientController.php';
+    $ctrl = new controllers\MkClientController();
+    $success = $ctrl->restoreClients($ids);
+    header('Content-Type: application/json');
+    echo json_encode([
+      'success'=> $success,
+      'message'=> $success ? 'Clients restored.' : 'Failed to restore.'
+    ]);
+    exit;
+}
+  
     case 'mk-clients':
         // Make sure the user is logged in
         if (!isset($_SESSION['user'])) {
@@ -117,10 +151,13 @@ switch ($request) {
         }
         require_once __DIR__ . '/app/Controllers/MkClientController.php';
         $controller = new controllers\MkClientController();
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $data = $controller->read();
-            echo $controller->displayClients($data);
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+       if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // look for archived flag in query string
+    $archived = isset($_GET['archived']) && $_GET['archived']==='1';
+    // pass it into read()
+    $data = $controller->read($archived);
+    echo $controller->displayClients($data);
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Handle POST request for creating a client
             $data = [
                 'location_id' => $_POST['location_id'] ?? '',
@@ -149,7 +186,48 @@ switch ($request) {
             header('Content-Type: application/json');
             echo json_encode($results);
             exit;
-        
+   
+
+
+case 'archive-clients':
+    header('Content-Type: application/json');
+    $ids = json_decode(file_get_contents('php://input'), true)['ids'] ?? [];
+    require_once __DIR__ . '/app/Controllers/ArchivedClientController.php';
+    $ctrl = new controllers\ArchivedClientController();
+    $ok = $ctrl->archiveClients($ids);
+    echo json_encode([
+      'success' => $ok,
+      'message' => $ok
+        ? "Archived {$ok} client(s)."
+        : "Failed to archive clients."
+    ]);
+    exit;
+
+case 'restore-clients':
+    header('Content-Type: application/json');
+    $ids = json_decode(file_get_contents('php://input'), true)['ids'] ?? [];
+    require_once __DIR__ . '/app/Controllers/ArchivedClientController.php';
+    $ctrl = new controllers\ArchivedClientController();
+    $ok = $ctrl->restoreClients($ids);
+    echo json_encode([
+      'success' => $ok,
+      'message' => $ok
+        ? "Restored {$ok} client(s)."
+        : "Failed to restore clients."
+    ]);
+    exit;
+
+// index.php (the switch on $_GET['url'])
+case 'deactivated-users':
+    // ensure logged in, if you like
+    if (!isset($_SESSION['user'])) {
+      header('Location:/tern_app/SysDev-Ecom_Project/login');
+      exit;
+    }
+    // just echo the fragment
+    include __DIR__ . '/app/Views/utilities/desactivate_users.php';
+    exit;
+
 
     default:
         header("HTTP/1.0 404 Not Found");

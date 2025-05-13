@@ -13,12 +13,12 @@ class MkClientController {
        $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
    }
 
-   public function read() {
-       $query = "SELECT * FROM mk_occupancy_reports";
-       $stmt = $this->dbConnection->prepare($query);
-       $stmt->execute();
-       return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-   }
+//    public function read() {
+//        $query = "SELECT * FROM mk_occupancy_reports";
+//        $stmt = $this->dbConnection->prepare($query);
+//        $stmt->execute();
+//        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+//    }
 
    public function searchClients($searchTerm) {
        $query = "SELECT * FROM mk_occupancy_reports WHERE 
@@ -32,6 +32,39 @@ class MkClientController {
        $stmt->execute();
        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
    }
+   // Move into class MkClientController
+/**
+ * Mark these clients as archived in the DB.
+ */
+public function archiveClients(array $ids): bool {
+    if (empty($ids)) return false;
+    // make sure they’re ints
+    $in = implode(',', array_map('intval', $ids));
+    $sql = "UPDATE mk_occupancy_reports
+            SET archived = 1
+            WHERE id IN ($in)";
+    // exec() returns number of rows affected or false
+    return $this->dbConnection->exec($sql) !== false;
+}
+
+
+
+public function restoreClients(array $ids): bool {
+    if (empty($ids)) return false;
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+    $sql = "UPDATE mk_occupancy_reports SET is_archived = 0 WHERE id IN ($placeholders)";
+    $stmt = $this->dbConnection->prepare($sql);
+    return $stmt->execute($ids);
+}
+
+// Adjust your read() to only pull active clients
+public function read(bool $archived = false) {
+    $sql = "SELECT * FROM mk_occupancy_reports WHERE is_archived = ?";
+    $stmt = $this->dbConnection->prepare($sql);
+    $stmt->execute([$archived ? 1 : 0]);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
 
    public function getClientById($id) {
        $query = "SELECT * FROM mk_occupancy_reports WHERE id = :id";
@@ -113,32 +146,33 @@ class MkClientController {
        return $stmt->execute();
    }
 
-   public function displayClients($data) {
+  public function displayClients($data) {
        $html = "";
-       
-       foreach ($data as $client) {
-           $html .= "<tr>";
-           $html .= "<td>{$client["id"]}</td>";
-           $html .= "<td>{$client["location_id"]}</td>";
-           $html .= "<td>{$client["location_address"]}</td>";
-           $html .= "<td>{$client["location_city"]}, {$client["location_province"]}</td>";
-           $html .= "<td>{$client["first_date_of_coverage"]}</td>";
-           $html .= "<td>{$client["last_date_of_coverage"]}</td>";
-           $html .= "<td>{$client["currency"]} {$client["premium_collected"]}</td>";
-           $html .= "<td>";
-           $html .= "<button class='action-btn edit-btn' data-id='{$client["id"]}'><i class='fa-solid fa-edit'></i></button>";
-           $html .= "<button class='action-btn delete-btn' data-id='{$client["id"]}'><i class='fa-solid fa-trash'></i></button>";
-           $html .= "</td>";
-           $html .= "</tr>";
-       }
-       
        if (empty($data)) {
            $html .= "<tr><td colspan='8' class='text-center'>No clients found</td></tr>";
+       } else {
+           foreach ($data as $client) {
+               $html .= "<tr>";
+               // checkbox column
+               $html .= "<td><input type='checkbox' class='archiveCheckbox' value='{$client["id"]}'></td>";
+               $html .= "<td>{$client["id"]}</td>";
+               $html .= "<td>{$client["location_id"]}</td>";
+               $html .= "<td>{$client["location_address"]}</td>";
+               $html .= "<td>{$client["location_city"]}, {$client["location_province"]}</td>";
+               $html .= "<td>{$client["first_date_of_coverage"]}</td>";
+               $html .= "<td>{$client["last_date_of_coverage"]}</td>";
+               $html .= "<td>{$client["currency"]} {$client["premium_collected"]}</td>";
+               $html .= "<td>";
+               $html .= "<button class='action-btn edit-btn' data-id='{$client["id"]}'><i class='fa-solid fa-edit'></i></button>";
+               $html .= "<button class='action-btn delete-btn' data-id='{$client["id"]}'><i class='fa-solid fa-trash'></i></button>";
+               $html .= "</td>";
+               $html .= "</tr>";
+           }
        }
-       
        return $html;
    }
 }
+
 
 // API endpoint to handle client search requests
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
