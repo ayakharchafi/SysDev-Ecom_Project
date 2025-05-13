@@ -63,7 +63,7 @@ const translations = {
     } else {
       document.documentElement.style.setProperty('--bg', '#ffffff');
       document.documentElement.style.setProperty('--text', '#333');
-      document.documentElement.style.setProperty('--sidebar-bg', 'whitesmoke');
+      document.documentElement.style.setProperty('--sidebar-bg', ' #2c3e50');
       document.documentElement.style.setProperty('--button-bg', '#3498db');
       document.documentElement.style.setProperty('--button-hover', '#2980b9');
       document.documentElement.style.setProperty('--exit-bg', 'black');

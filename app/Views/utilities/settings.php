@@ -1,5 +1,5 @@
-    <?php
-namespace controllers;
+<?php
+//namespace controllers;
 
 use views\utilities\settings;
 

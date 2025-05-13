@@ -1,8 +1,8 @@
 const cfunctionsBtn = document.getElementById("cfunctionsBtn")
 const cfunctionsDropdown = document.getElementById("cfunctionsDropdown")
 const CreateModal = document.getElementById("CreateModal")
-const createUserBtn = document.getElementById("createUserBtn")
-const deleteUserBtn = document.getElementById("deleteUserBtn")
+const createUserBtnC = document.getElementById("createUserBtn")
+const deleteUserBtnC = document.getElementById("deleteUserBtn")
 const roleBox = document.getElementById("roleBox")
 const externalInput = document.getElementById("externalInput")
 const CreateBtn = document.getElementById("CreateBtn")
@@ -115,7 +115,48 @@ const closeModalBtns = document.querySelectorAll(".close-modal")
     }
   })
 
-  deleteUserBtn.addEventListener("click", async () => {
+  deleteUserBtnC.addEventListener("click", async () => {
+    try {
+      const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/delete_user.php")
+      //console.log(await response.text());
+      const tableRowsHTML = await response.text()
+
+      if (response.ok) {
+        contentArea.innerHTML = ""
+        contentArea.innerHTML = tableRowsHTML
+        setupTableRowSelection("dataTable")
+
+        insertAndRunScripts(contentArea);
+      } else {
+        const settings = await response.json()
+        console.error("Failed to fetch create_user:", settings.error || "Unknown error")
+      }
+    } catch (error) {
+      console.error("Error fetching create_user:", error)
+    }
+  })
+  createUserBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/create_user.php")
+      //console.log(await response.text());
+      const tableRowsHTML = await response.text()
+
+      if (response.ok) {
+        contentArea.innerHTML = ""
+        contentArea.innerHTML = tableRowsHTML
+        setupTableRowSelection("dataTable")
+
+        insertAndRunScripts(contentArea);
+      } else {
+        const settings = await response.json()
+        console.error("Failed to fetch create_user:", settings.error || "Unknown error")
+      }
+    } catch (error) {
+      console.error("Error fetching create_user:", error)
+    }
+  })
+
+  deleteUserBtnC.addEventListener("click", async () => {
     try {
       const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/delete_user.php")
       //console.log(await response.text());
