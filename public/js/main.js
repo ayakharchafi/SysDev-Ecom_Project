@@ -752,9 +752,11 @@ if (window.location.href.includes("mk-clients") || document.querySelector("h2")?
 
   // Close search results when clicking outside
   document.addEventListener("click", (event) => {
+    if(!searchResults){
     if (searchResults && !event.target.closest(".search-container")) {
       searchResults.style.display = "none"
     } 
+  }
   }) 
 
 
@@ -892,3 +894,13 @@ function highlightUser(userId) {
     });
   }, 500);
 }
+
+
+
+
+
+
+
+
+
+
