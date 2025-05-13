@@ -411,6 +411,8 @@ ALTER TABLE `super_user`
   ADD CONSTRAINT `super_user_user_id_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
+ALTER TABLE mk_occupancy_reports
+  ADD COLUMN is_archived TINYINT(1) NOT NULL DEFAULT 0;
 --
 -- Insert data into tables
 --

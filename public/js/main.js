@@ -1,27 +1,39 @@
-// Add this function to handle table row selection
+// // Add this function to handle table row selection
+// function setupTableRowSelection(tableId) {
+//   const table = document.getElementById(tableId)
+//   if (!table) return
+
+//   const rows = table.querySelectorAll("tbody tr")
+
+//   rows.forEach((row) => {
+//     // Add click event listener to each row
+//     row.addEventListener("click", function (e) {
+//       // Skip if clicking on action buttons or checkboxes
+//       if (e.target.closest(".action-btn") || e.target.type === "checkbox") {
+//         return
+//       }
+
+//       // Remove 'selected' class from all rows
+//       rows.forEach((r) => r.classList.remove("selected"))
+
+//       // Add 'selected' class to clicked row
+//       this.classList.add("selected")
+//     })
+//   })
+// }
 function setupTableRowSelection(tableId) {
   const table = document.getElementById(tableId)
   if (!table) return
 
   const rows = table.querySelectorAll("tbody tr")
-
   rows.forEach((row) => {
-    // Add click event listener to each row
     row.addEventListener("click", function (e) {
-      // Skip if clicking on action buttons or checkboxes
-      if (e.target.closest(".action-btn") || e.target.type === "checkbox") {
-        return
-      }
-
-      // Remove 'selected' class from all rows
+      if (e.target.closest(".action-btn") || e.target.type === "checkbox") return
       rows.forEach((r) => r.classList.remove("selected"))
-
-      // Add 'selected' class to clicked row
       this.classList.add("selected")
     })
   })
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   // Existing DOM Elements
   const modifyBtn =  document.getElementById("modifyBtn")
@@ -189,47 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  // Enhanced Search functionality with autocomplete
-  if (searchInput) {
-    searchInput.addEventListener("input", function () {
-      const searchTerm = this.value.trim()
-
-      if (searchTerm.length > 2) {
-        fetchSearchResults(searchTerm)
-      } else {
-        if (searchResults) {
-          searchResults.style.display = "none"
-        }
-
-        // Fall back to basic filtering for short search terms
-        const tableRows = dataTable ? dataTable.querySelectorAll("tbody tr") : []
-        tableRows.forEach((row) => {
-          let found = false
-          const cells = row.querySelectorAll("td")
-
-          cells.forEach((cell) => {
-            const text = cell.textContent.toLowerCase()
-            if (text.includes(searchTerm.toLowerCase())) {
-              found = true
-            }
-          })
-
-          if (found || searchTerm === "") {
-            row.style.display = ""
-          } else {
-            row.style.display = "none"
-          }
-        })
-      }
-    })
-  }
-
-  // Close search results when clicking outside
-  document.addEventListener("click", (event) => {
-    if (searchResults && !event.target.closest(".search-container")) {
-      searchResults.style.display = "none"
-    }
-  })
 
   // Users button click handler - Show users table
   usersBtn.addEventListener("click", async () => {
@@ -250,6 +221,50 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching users:", error)
     }
   })
+// TODO: ADD FOR ARCHIVED
+// … inside document.addEventListener("DOMContentLoaded", () => { …
+
+  // After you load settings HTML into contentArea:
+  settingsBtn.addEventListener("click", async () => {
+    const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php");
+    const html = await response.text();
+    contentArea.innerHTML = html;
+
+    // re-init table selection if any tables in settings view:
+    setupTableRowSelection("dataTable");
+
+    // wire up the Archived Clients link
+    const archivedBtn = document.getElementById("archivedClients");
+    if (archivedBtn) {
+      archivedBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const resp = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/archived_clients.php");
+        const fragment = await resp.text();
+        contentArea.innerHTML = fragment;
+        setupTableRowSelection("dataTable");
+      });
+    }
+  const deactBtn = document.getElementById("deactivatedUsers");
+  if (deactBtn) {
+    deactBtn.addEventListener("click", e => {
+      e.preventDefault();
+      loadDeactivatedUsers();
+    });
+  }
+
+  // Inject the two page-specific scripts so their loader functions exist
+  [ "archived_clients.js", "deactivated_users.js" ].forEach(filename => {
+    const script = document.createElement("script");
+    script.src = `/tern_app/SysDev-Ecom_Project/public/js/${filename}`;
+    contentArea.appendChild(script);
+  });
+
+    // … then your existing settings.js loader if you have other per-page scripts …
+  });
+
+// …
+
+
 
     // import button click handler - Show import page
     importBtn.addEventListener('click', async () => {
@@ -301,14 +316,14 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 })
 
-// Update the loadMkClients function to use the correct route
+// … all your existing code above …
 function loadMkClients() {
-  const contentArea = document.querySelector(".content")
-  if (!contentArea) return
+  const contentArea = document.querySelector(".content");
+  if (!contentArea) return;
 
   fetch("/tern_app/SysDev-Ecom_Project/mk-clients")
-    .then((response) => response.text())
-    .then((data) => {
+    .then(res => res.text())
+    .then(html => {
       contentArea.innerHTML = `
         <div class="table-container">
           <div class="table-header">
@@ -320,6 +335,7 @@ function loadMkClients() {
           <table id="dataTable">
             <thead>
               <tr>
+                <th><input type="checkbox" id="selectAllMk"></th>
                 <th>ID</th>
                 <th>Location ID</th>
                 <th>Address</th>
@@ -331,26 +347,62 @@ function loadMkClients() {
               </tr>
             </thead>
             <tbody id="tableBody">
-              ${data}
+              ${html}
             </tbody>
           </table>
+          <div class="table-footer" style="margin-top:10px; text-align:right;">
+            <button id="archiveClientsBtn" class="btn btn-secondary">
+              <i class="fa-solid fa-archive"></i> Archive Clients Selected
+            </button>
+          </div>
         </div>
-      `
+      `;
 
-      // Add event listener to the create button
-      const createBtn = document.getElementById("createMkClientBtn")
-      if (createBtn) {
-        createBtn.addEventListener("click", () => {
-          loadCreateClientForm("mk")
-        })
-      }
+      // Re-bind handlers
+      document.getElementById("createMkClientBtn").addEventListener("click", () => loadCreateClientForm("mk"));
+      document.getElementById("selectAllMk").addEventListener("change", e => {
+        document.querySelectorAll("#dataTable tbody input[type=checkbox]")
+          .forEach(cb => cb.checked = e.target.checked);
+      });
+      document.getElementById("archiveClientsBtn").addEventListener("click", archiveSelectedClients);
 
-      setupTableRowSelection("dataTable")
+      setupTableRowSelection("dataTable");
     })
-    .catch((error) => {
-      console.error("Error loading clients:", error)
-      contentArea.innerHTML = '<div class="error-message">Error loading clients. Please try again.</div>'
-    })
+    .catch(err => console.error("Error loading MK Clients:", err));
+}
+
+function archiveSelectedClients() {
+  const checks = document.querySelectorAll(
+    '#dataTable tbody input[type="checkbox"]:checked'
+  );
+  if (!checks.length) return alert('Please select at least one client to archive.');
+  if (!confirm(`Archive ${checks.length} client(s)?`)) return;
+
+  const ids = Array.from(checks).map(cb => cb.value);
+
+  fetch('/tern_app/SysDev-Ecom_Project/archive-clients', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ids })
+  })
+  .then(res => res.json())
+  .then(({ success, message }) => {
+    alert(message);
+    if (success) loadMkClients();
+  })
+  .catch(err => {
+    console.error('Archive error:', err);
+    alert('Unexpected error archiving clients.');
+  });
+}
+
+// … rest of your existing code …
+
+
+// after you inject the button into the DOM:
+const archiveBtn = document.getElementById('archiveClientsBtn');
+if (archiveBtn) {
+  archiveBtn.addEventListener('click', archiveSelectedClients);
 }
 
 // Function to load clients by type
@@ -501,6 +553,187 @@ function submitCreateClientForm() {
     })
 }
 
+
+function getTheme(theme) {
+
+  theme =  localStorage.getItem('preferredTheme');
+
+  if (theme === 'dark') {
+    document.documentElement.style.setProperty('--bg', '#1e1e1e');
+    document.documentElement.style.setProperty('--text', '#f0f0f0');
+    document.documentElement.style.setProperty('--sidebar-bg', '#121212');
+    document.documentElement.style.setProperty('--button-bg', '#444');
+    document.documentElement.style.setProperty('--button-hover', '#666');
+    document.documentElement.style.setProperty('--exit-bg', '#222');
+    document.documentElement.style.setProperty('--exit-hover', '#444');
+  } else {
+    document.documentElement.style.setProperty('--bg', '#ffffff');
+    document.documentElement.style.setProperty('--text', '#333');
+    document.documentElement.style.setProperty('--sidebar-bg', '#2c3e50');
+    document.documentElement.style.setProperty('--button-bg', '#3498db');
+    document.documentElement.style.setProperty('--button-hover', '#2980b9');
+    document.documentElement.style.setProperty('--exit-bg', 'black');
+    document.documentElement.style.setProperty('--exit-hover', '#333');
+  }
+  
+  // Save theme preference to localStorage
+  localStorage.setItem('preferredTheme', theme);
+}
+
+function insertAndRunScripts(container) {
+
+  // Find all script tags
+  const scripts = container.querySelectorAll('script');
+  scripts.forEach(oldScript => {
+      const newScript = document.createElement('script');
+
+      // Copy attributes like src and type
+      Array.from(oldScript.attributes).forEach(attr => {
+          newScript.setAttribute(attr.name, attr.value);
+      });
+
+      // If it's inline script, copy the content
+      newScript.textContent = oldScript.textContent;
+
+      // Replace old with new to force execution
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+}
+
+
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+    
+
+  // Enhanced Search functionality with autocomplete
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      const searchTerm = this.value.trim()
+
+      if (searchTerm.length > 2) {
+       // Choose appropriate function based on current content
+if (window.location.href.includes("mk-clients") || document.querySelector("h2")?.textContent.includes("MK Clients")) {
+  //fetchSearchResults(searchTerm); // MK clients
+} else {
+  //fetchUserSearchResults(searchTerm); // USERS
+}
+
+      }/* else {
+        if (searchResults) {
+          searchResults.style.display = "none"
+        }
+
+        // Fall back to basic filtering for short search terms
+        const tableRows = dataTable ? dataTable.querySelectorAll("tbody tr") : []
+        tableRows.forEach((row) => {
+          let found = false
+          const cells = row.querySelectorAll("td")
+
+          cells.forEach((cell) => {
+            const text = cell.textContent.toLowerCase()
+            if (text.includes(searchTerm.toLowerCase())) {
+              found = true
+            }
+          })
+
+          if (found || searchTerm === "") {
+            row.style.display = ""
+          } else {
+            row.style.display = "none"
+        }
+        })
+      }
+    })
+
+
+    function fetchUserSearchResults(searchTerm) {
+      console.log('searching for user')
+  const searchResults = document.getElementById("searchResults");
+  if (!searchResults) return;
+
+  fetch(`/tern_app/SysDev-Ecom_Project/app/Controllers/UserController.php?search=${encodeURIComponent(searchTerm)}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.length > 0) {
+        let resultsHtml = "";
+        data.forEach((user) => {
+          resultsHtml += `
+            <div class="search-result-item" data-id="${user.user_id}">
+              ${user.user_name} - ${user.user_email}
+            </div>
+          `;
+        });
+
+        searchResults.innerHTML = resultsHtml;
+        searchResults.style.display = "block";
+
+        // Add click event to each result
+        const resultItems = document.querySelectorAll(".search-result-item");
+        resultItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            const userId = this.getAttribute("data-id");
+            highlightUser(userId);
+            searchResults.style.display = "none";
+            document.getElementById("searchInput").value = this.textContent.trim();
+          });
+        });
+      } else {
+        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+        searchResults.style.display = "block";
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching user search results:", error);
+      searchResults.innerHTML = '<div class="search-result-item">Error fetching results</div>';
+      searchResults.style.display = "block";
+    });
+}
+function highlightUser(userId) {
+  // Load users if not already loaded
+  usersBtn.click();
+
+  // Wait for the table to populate
+  setTimeout(() => {
+    const rows = document.querySelectorAll("#dataTable tbody tr");
+    rows.forEach((row) => {
+      row.classList.remove("highlighted");
+      const idCell = row.querySelector("td:first-child");
+      if (idCell && idCell.textContent.trim() === userId) {
+        row.classList.add("highlighted");
+        row.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  }, 500);
+}
+
+
+  }
+
+
+
+  
 // Function to fetch search results
 function fetchSearchResults(searchTerm) {
   const searchResults = document.getElementById("searchResults");
@@ -565,53 +798,202 @@ function highlightClient(clientId) {
   }, 500)
 }
 
-function getTheme(theme) {
+*/
 
-  theme =  localStorage.getItem('preferredTheme');
 
-  if (theme === 'dark') {
-    document.documentElement.style.setProperty('--bg', '#1e1e1e');
-    document.documentElement.style.setProperty('--text', '#f0f0f0');
-    document.documentElement.style.setProperty('--sidebar-bg', '#121212');
-    document.documentElement.style.setProperty('--button-bg', '#444');
-    document.documentElement.style.setProperty('--button-hover', '#666');
-    document.documentElement.style.setProperty('--exit-bg', '#222');
-    document.documentElement.style.setProperty('--exit-hover', '#444');
-  } else {
-    document.documentElement.style.setProperty('--bg', '#ffffff');
-    document.documentElement.style.setProperty('--text', '#333');
-    document.documentElement.style.setProperty('--sidebar-bg', '#2c3e50');
-    document.documentElement.style.setProperty('--button-bg', '#3498db');
-    document.documentElement.style.setProperty('--button-hover', '#2980b9');
-    document.documentElement.style.setProperty('--exit-bg', 'black');
-    document.documentElement.style.setProperty('--exit-hover', '#333');
+
+  // Enhanced Search functionality with autocomplete
+  if (searchInput) {
+    console.log('user')
+    searchInput.addEventListener("input", function () {
+      const searchTerm = this.value.trim()
+
+      if (searchTerm.length > 2) {
+if (window.location.href.includes("mk-clients") || document.querySelector("h2")?.textContent.includes("MK Clients")) {
+  fetchSearchResults(searchTerm); // MK clients
+} else {
+  fetchUserSearchResults(searchTerm); // USERS
+}
+
+      } else {
+        if (searchResults) {
+          searchResults.style.display = "none"
+        }
+
+        // Fall back to basic filtering for short search terms
+        const tableRows = dataTable ? dataTable.querySelectorAll("tbody tr") : []
+        tableRows.forEach((row) => {
+          let found = false
+          const cells = row.querySelectorAll("td")
+
+          cells.forEach((cell) => {
+            const text = cell.textContent.toLowerCase()
+            if (text.includes(searchTerm.toLowerCase())) {
+              found = true
+            }
+          })
+
+          if (found || searchTerm === "") {
+            row.style.display = ""
+          } else {
+            row.style.display = "none"
+          }
+        })
+      }
+    })
   }
+
+  // Close search results when clicking outside
+  document.addEventListener("click", (event) => {
+    if(!searchResults){
+    if (searchResults && !event.target.closest(".search-container")) {
+      searchResults.style.display = "none"
+    } 
+  }
+  }) 
+
+
+
+
   
-  // Save theme preference to localStorage
-  localStorage.setItem('preferredTheme', theme);
+    function fetchUserSearchResults(searchTerm) {
+  //   console.log('searching for user')
+  const searchResults = document.getElementById("searchResults");
+  if (!searchResults) return;
+
+  fetch(`/tern_app/SysDev-Ecom_Project/app/Controllers/UserController.php?search=${encodeURIComponent(searchTerm)}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      if (data.length > 0) {
+        let resultsHtml = "";
+        data.forEach((user) => {
+          resultsHtml += `
+            <div class="search-result-item" data-id="${user.user_id}">
+              ${user.user_name} - ${user.user_email}
+            </div>
+          `;
+        });
+
+        searchResults.innerHTML = resultsHtml;
+        searchResults.style.display = "block";
+
+        // Add click event to each result
+        const resultItems = document.querySelectorAll(".search-result-item");
+        resultItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            const userId = this.getAttribute("data-id");
+            highlightUser(userId);
+            searchResults.style.display = "none";
+            document.getElementById("searchInput").value = this.textContent.trim();
+          });
+        });
+      } else {
+        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+        searchResults.style.display = "block";
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching search results:", error);
+      searchResults.innerHTML = '<div class="search-result-item">Error fetching results</div>';
+      searchResults.style.display = "block";
+    });
 }
 
-function insertAndRunScripts(container) {
 
-  // Find all script tags
-  const scripts = container.querySelectorAll('script');
-  scripts.forEach(oldScript => {
-      const newScript = document.createElement('script');
 
-      // Copy attributes like src and type
-      Array.from(oldScript.attributes).forEach(attr => {
-          newScript.setAttribute(attr.name, attr.value);
-      });
 
-      // If it's inline script, copy the content
-      newScript.textContent = oldScript.textContent;
+  
+function fetchSearchResults(searchTerm) {
+  const searchResults = document.getElementById("searchResults");
+  if (!searchResults) return;
 
-      // Replace old with new to force execution
-      oldScript.parentNode.replaceChild(newScript, oldScript);
-  });
+  fetch(`/tern_app/SysDev-Ecom_Project/mkclient/search?search=${encodeURIComponent(searchTerm)}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.length > 0) {
+        console.log(data)
+        let resultsHtml = "";
+        data.forEach((client) => {
+          resultsHtml += `
+            <div class="search-result-item" data-id="${client.id}">
+              ${client.location_id} - ${client.location_address}, ${client.location_city}
+            </div>
+          `;
+        });
+
+        searchResults.innerHTML = resultsHtml;
+        searchResults.style.display = "block";
+
+        // Add click event to each item
+        const resultItems = document.querySelectorAll(".search-result-item");
+        resultItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            const clientId = this.getAttribute("data-id");
+            highlightClient(clientId);
+            searchResults.style.display = "none";
+            document.getElementById("searchInput").value = this.textContent.trim();
+          });
+        });
+      } else {
+        searchResults.innerHTML = '<div class="search-result-item">No results found</div>';
+        searchResults.style.display = "block";
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching search results:", error);
+      searchResults.innerHTML = '<div class="search-result-item">Error fetching results</div>';
+      searchResults.style.display = "block";
+    });
 }
 
 
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-    }
+
+function highlightClient(clientId) {
+  // First, load MK clients if not already loaded
+  loadMkClients()
+
+  // Wait a bit for the table to load, then highlight the row
+  setTimeout(() => {
+    const rows = document.querySelectorAll("#tableBody tr")
+    rows.forEach((row) => {
+      row.classList.remove("highlighted")
+
+      const idCell = row.querySelector("td:first-child")
+      if (idCell && idCell.textContent === clientId) {
+        row.classList.add("highlighted")
+        row.scrollIntoView({ behavior: "smooth", block: "center" })
+      }
+    })
+  }, 500)
+}
+
+function highlightUser(userId) {
+    const usersBtn = document.querySelector(".sidebar-item:not(.collapsible) span").parentElement
+
+  // Load users if not already loaded
+  usersBtn.click();
+
+  // Wait for the table to populate
+  setTimeout(() => {
+    const rows = document.querySelectorAll("#dataTable tbody tr");
+    rows.forEach((row) => {
+      row.classList.remove("highlighted");
+      const idCell = row.querySelector("td:first-child");
+      if (idCell && idCell.textContent.trim() === userId) {
+        row.classList.add("highlighted");
+        row.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  }, 500);
+}
+
+
+
+
+
+
+
+
+
+

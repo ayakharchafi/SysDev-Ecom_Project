@@ -1,10 +1,12 @@
-const mfunctionsBtn = document.getElementById("mfunctionsBtn")
-const mfunctionsDropdown = document.getElementById("mfunctionsDropdown")
-const createUserBtn = document.getElementById("createUserBtn")
-const deleteUserBtn = document.getElementById("deleteUserBtn")
-const contentArea = document.querySelector(".content")
-//const CreateBtn = document.getElementById("logoutBtn")
-//const CreateModal = document.getElementById("logoutModal")
+
+
+var mfunctionsBtn = document.getElementById("mfunctionsBtn")
+var mfunctionsDropdown = document.getElementById("mfunctionsDropdown")
+var createUserBtn = document.getElementById("createUserBtn")
+var deleteUserBtn = document.getElementById("deleteUserBtn")
+var contentArea = document.querySelector(".content")
+//var CreateBtn = document.getElementById("logoutBtn")
+//var CreateModal = document.getElementById("logoutModal")
 
   // Toggle Functions dropdown with animation
   mfunctionsBtn.addEventListener("click", (e) => {
@@ -12,7 +14,7 @@ const contentArea = document.querySelector(".content")
     mfunctionsDropdown.classList.toggle("active")
 
     // Rotate the chevron icon smoothly
-    const icon = mfunctionsBtn.querySelector("i")
+    var icon = mfunctionsBtn.querySelector("i")
     if (mfunctionsDropdown.classList.contains("active")) {
       icon.style.transform = "rotate(180deg)"
       icon.style.transition = "transform 0.3s ease"
@@ -26,27 +28,27 @@ const contentArea = document.querySelector(".content")
   document.addEventListener("click", (e) => {
     if (!mfunctionsBtn.contains(e.target) && !mfunctionsDropdown.contains(e.target)) {
       mfunctionsDropdown.classList.remove("active")
-      const icon = mfunctionsBtn.querySelector("i")
+      var icon = mfunctionsBtn.querySelector("i")
       icon.style.transform = "rotate(0deg)"
     }
   })
 
   // Handle Functions dropdown items
-  const mdropdownItems = mfunctionsDropdown.querySelectorAll(".dropdown-item")
+  var mdropdownItems = mfunctionsDropdown.querySelectorAll(".dropdown-item")
   mdropdownItems.forEach((item) => {
     if (item.classList.contains("create-client-btn")) {
       item.addEventListener("click", function () {
-        const clientType = this.getAttribute("data-client-type")
+        var clientType = this.getAttribute("data-client-type")
         loadCreateClientForm(clientType)
         mfunctionsDropdown.classList.remove("active")
-        const icon = mfunctionsBtn.querySelector("i")
+        var icon = mfunctionsBtn.querySelector("i")
         icon.style.transform = "rotate(0deg)"
       })
     } else {
       item.addEventListener("click", function () {
         alert(`Function selected: ${this.textContent}`)
         mfunctionsDropdown.classList.remove("active")
-        const icon = mfunctionsBtn.querySelector("i")
+        var icon = mfunctionsBtn.querySelector("i")
         icon.style.transform = "rotate(0deg)"
       })
     }
@@ -54,9 +56,10 @@ const contentArea = document.querySelector(".content")
 
   createUserBtn.addEventListener("click", async () => {
     try {
-      const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/create_user.php")
+      console.log("create")
+      var response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/create_user.php")
       //console.log(await response.text());
-      const tableRowsHTML = await response.text()
+      var tableRowsHTML = await response.text()
 
       if (response.ok) {
         contentArea.innerHTML = ""
@@ -65,7 +68,7 @@ const contentArea = document.querySelector(".content")
 
         insertAndRunScripts(contentArea);
       } else {
-        const settings = await response.json()
+        var settings = await response.json()
         console.error("Failed to fetch create_user:", settings.error || "Unknown error")
       }
     } catch (error) {
@@ -75,9 +78,9 @@ const contentArea = document.querySelector(".content")
 
   deleteUserBtn.addEventListener("click", async () => {
     try {
-      const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/delete_user.php")
+      var response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/delete_user.php")
       //console.log(await response.text());
-      const tableRowsHTML = await response.text()
+      var tableRowsHTML = await response.text()
 
       if (response.ok) {
         contentArea.innerHTML = ""
@@ -86,7 +89,7 @@ const contentArea = document.querySelector(".content")
 
         insertAndRunScripts(contentArea);
       } else {
-        const settings = await response.json()
+        var settings = await response.json()
         console.error("Failed to fetch create_user:", settings.error || "Unknown error")
       }
     } catch (error) {

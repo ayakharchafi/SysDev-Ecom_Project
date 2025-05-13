@@ -132,19 +132,20 @@ const translations = {
       });
     });
     
-    // Get the Archived Clients button
-    const archivedClientsBtn = document.getElementById("archivedClients");
-    
-    // Add click event listener to redirect to archived_clients.html
-    archivedClientsBtn.addEventListener("click", function() {
-      window.location.href = "/tern_app/SysDev-Ecom_Project/app/Views/utilities/archived_clients.html";
-    });
-    
-    // Get the Deactivated Users button (for future implementation)
-    const deactivatedUsersBtn = document.getElementById("deactivatedUsers");
-    
-    // Add click event listener for future implementation
-    deactivatedUsersBtn.addEventListener("click", function() {
-      window.location.href = "/tern_app/SysDev-Ecom_Project/app/Views/utilities/desactivate_users.html";
-    });
+   
+    // instead of a full‐page redirect, hook up our AJAX loader:
+const archivedClientsLink = document.getElementById("archivedClients");
+if (archivedClientsLink) {
+  archivedClientsLink.addEventListener("click", e => {
+    e.preventDefault();
+    loadArchivedClients();
   });
+}
+  const deactivatedUsersBtn = document.getElementById("deactivatedUsers");
+  if (deactivatedUsersBtn) {
+    deactivatedUsersBtn.addEventListener("click", e => {
+      e.preventDefault();
+      loadDeactivatedUsers();    // this now fetches via /deactivated-users
+    });
+  }
+});
