@@ -50,6 +50,19 @@ class UserController {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function searchUsers($term) {
+    $query = "SELECT * FROM users WHERE user_name LIKE :term OR user_email LIKE :term OR user_id LIKE :term";
+    $stmt = $this->dbConnection->prepare($query);
+    $searchTerm = "%" . $term . "%";
+
+    // 👇 DEBUG LINE — REMOVE LATER
+    error_log("Searching for: $searchTerm");
+
+    $stmt->bindParam(':term', $searchTerm);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
     public function displayRecords($data){
         $html = "";
         $html .= '<table id="dataTable">';
@@ -88,12 +101,22 @@ class UserController {
     }
 }
 
-// API endpoint to retrieve all users from the database (used in main.js)
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    $users  = new UserController;
-    $data = $users->readRoles();
+// API endpoint to handle user search requests
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
+    $users = new UserController();
+    $searchTerm = $_GET['search'];
+    $data = $users->searchUsers($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($data);
+    exit;
+}
+
+// API endpoint to get all users (for table loading)
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['search'])) {
+    $users = new UserController();
+    $data = $users->read();
     echo $users->displayRecords($data);
-
+    exit;
 }
 ?>
