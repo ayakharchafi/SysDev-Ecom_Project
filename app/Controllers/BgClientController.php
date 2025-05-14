@@ -46,6 +46,7 @@ class BgClientController {
         
         foreach ($data as $client) {
             $html .= "<tr>";
+            $html .= "<td><input type='checkbox'><td>";
             $html .= "<td>{$client["booking_version_code"]}</td>";
             $html .= "<td>{$client["property_code"]}</td>";
             $html .= "<td>{$client["full_address"]}</td>";

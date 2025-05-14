@@ -336,6 +336,7 @@ function loadMkClients() {
             <thead>
               <tr>
                 <th><input type="checkbox" id="selectAllMk"></th>
+                <th></th>
                 <th>ID</th>
                 <th>Location ID</th>
                 <th>Address</th>
@@ -369,6 +370,172 @@ function loadMkClients() {
       setupTableRowSelection("dataTable");
     })
     .catch(err => console.error("Error loading MK Clients:", err));
+}
+
+function loadBgClients() {
+  const contentArea = document.querySelector(".content");
+  if (!contentArea) return;
+
+  fetch("/tern_app/SysDev-Ecom_Project/bg-clients")
+    .then(res => res.text())
+    .then(html => {
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <h2>BG Clients</h2>
+            <button id="createBgClientBtn" class="btn btn-primary">
+              <i class="fa-solid fa-plus"></i> Create BG Client
+            </button>
+          </div>
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="selectAllBg"></th>
+                <th></th>
+                <th>ID</th>
+                <th>Location ID</th>
+                <th>Address</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Premium</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              ${html}
+            </tbody>
+          </table>
+          <div class="table-footer" style="margin-top:10px; text-align:right;">
+            <button id="archiveClientsBtn" class="btn btn-secondary">
+              <i class="fa-solid fa-archive"></i> Archive Clients Selected
+            </button>
+          </div>
+        </div>
+      `;
+
+      // Re-bind handlers
+      document.getElementById("createBgClientBtn").addEventListener("click", () => loadCreateClientForm("bg"));
+      document.getElementById("selectAllBg").addEventListener("change", e => {
+        document.querySelectorAll("#dataTable tbody input[type=checkbox]")
+          .forEach(cb => cb.checked = e.target.checked);
+      });
+      document.getElementById("archiveClientsBtn").addEventListener("click", archiveSelectedClients);
+
+      setupTableRowSelection("dataTable");
+    })
+    .catch(err => console.error("Error loading MK Clients:", err));
+}
+
+function loadThClients() {
+  const contentArea = document.querySelector(".content");
+  if (!contentArea) return;
+
+  fetch("/tern_app/SysDev-Ecom_Project/th-clients")
+    .then(res => res.text())
+    .then(html => {
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <h2>TH Clients</h2>
+            <button id="createThClientBtn" class="btn btn-primary">
+              <i class="fa-solid fa-plus"></i> Create TH Client
+            </button>
+          </div>
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="selectAllTh"></th>
+                <th></th>
+                <th>ID</th>
+                <th>Location ID</th>
+                <th>Address</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Premium</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              ${html}
+            </tbody>
+          </table>
+          <div class="table-footer" style="margin-top:10px; text-align:right;">
+            <button id="archiveClientsBtn" class="btn btn-secondary">
+              <i class="fa-solid fa-archive"></i> Archive Clients Selected
+            </button>
+          </div>
+        </div>
+      `;
+
+      // Re-bind handlers
+      document.getElementById("createThClientBtn").addEventListener("click", () => loadCreateClientForm("th"));
+      document.getElementById("selectAllTh").addEventListener("change", e => {
+        document.querySelectorAll("#dataTable tbody input[type=checkbox]")
+          .forEach(cb => cb.checked = e.target.checked);
+      });
+      document.getElementById("archiveClientsBtn").addEventListener("click", archiveSelectedClients);
+
+      setupTableRowSelection("dataTable");
+    })
+    .catch(err => console.error("Error loading TH Clients:", err));
+}
+
+function loadOsClients() {
+  const contentArea = document.querySelector(".content");
+  if (!contentArea) return;
+
+  fetch("/tern_app/SysDev-Ecom_Project/os-clients")
+    .then(res => res.text())
+    .then(html => {
+      contentArea.innerHTML = `
+        <div class="table-container">
+          <div class="table-header">
+            <h2>OS Clients</h2>
+            <button id="createOsClientBtn" class="btn btn-primary">
+              <i class="fa-solid fa-plus"></i> Create OS Client
+            </button>
+          </div>
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="selectAllOs"></th>
+                <th></th>
+                <th>ID</th>
+                <th>Client Name</th>
+                <th>Location ID</th>
+                <th>Address</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Premium</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              ${html}
+            </tbody>
+          </table>
+          <div class="table-footer" style="margin-top:10px; text-align:right;">
+            <button id="archiveClientsBtn" class="btn btn-secondary">
+              <i class="fa-solid fa-archive"></i> Archive Clients Selected
+            </button>
+          </div>
+        </div>
+      `;
+
+      // Re-bind handlers
+      document.getElementById("createOsClientBtn").addEventListener("click", () => loadCreateClientForm("os"));
+      document.getElementById("selectAllOs").addEventListener("change", e => {
+        document.querySelectorAll("#dataTable tbody input[type=checkbox]")
+          .forEach(cb => cb.checked = e.target.checked);
+      });
+      document.getElementById("archiveClientsBtn").addEventListener("click", archiveSelectedClients);
+
+      setupTableRowSelection("dataTable");
+    })
+    .catch(err => console.error("Error loading Os Clients:", err));
 }
 
 function archiveSelectedClients() {
@@ -408,9 +575,25 @@ if (archiveBtn) {
 // Function to load clients by type
 function loadClientsByType(clientType) {
   // Currently only MK is implemented
-  if (clientType === "mk") {
+  switch (clientType) 
+  {
+  case "mk":{
     loadMkClients()
-  } else {
+  break;
+    }
+    case "bg":{
+loadBgClients()
+  break;
+    }
+   case "os":{
+loadOsClients()
+  break;
+    }
+   case "th":{
+loadThClients()
+  break;
+    }
+  default :{
     const contentArea = document.querySelector(".content")
     if (contentArea) {
       contentArea.innerHTML = `
@@ -464,6 +647,7 @@ function loadClientsByType(clientType) {
       setupTableRowSelection("dataTable")
     }
   }
+}
 }
 
 // Update the loadCreateClientForm function to use the correct route
