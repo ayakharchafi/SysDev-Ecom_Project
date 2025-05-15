@@ -72,8 +72,56 @@ if(isset($_POST['uploadfile'])){
 
 }
 ?>
+<style>
+    .import-wrapper {
+        max-width: 500px;
+        margin: 80px auto;
+        background-color: #f5f5f5;
+        padding: 30px 40px;
+        border-radius: 12px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
 
-<form method="post" action=" <?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" enctype="multipart/form-data">
-    <input type="file" name="csvfile">
-    <button class= "btn" name="uploadfile">import</button>
-</form>
+    .import-wrapper h2 {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .import-wrapper input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: white;
+        font-size: 15px;
+        margin-bottom: 25px;
+    }
+
+    .import-wrapper button {
+        width: 120px;
+        padding: 10px 15px;
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .import-wrapper button:hover {
+        background-color: #2980b9;
+    }
+</style>
+
+<div class="import-wrapper">
+    <h2>Select the CSV file:</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" enctype="multipart/form-data">
+        <input type="file" name="csvfile" accept=".csv" required>
+        <button type="submit" name="uploadfile">import</button>
+    </form>
+</div>
