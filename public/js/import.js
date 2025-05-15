@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   
-    const importBtn = document.getElementById("importbtn");  
+    const importBtn = document.getElementById("importbutton");  
     if (!button) {
         console.error("Button not found!");
         return;
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const client = document.getElementById("clientSelect").value;
       const fileInput = document.getElementById("csvFile");
       const file = fileInput.files[0];
-  
+   
       if (!client || !file) {
         alert("Please select both client and a CSV file.");
         return;

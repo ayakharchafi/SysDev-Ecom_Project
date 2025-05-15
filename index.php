@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST'
     // look for archived flag in query string
     $archived = isset($_GET['archived']) && $_GET['archived']==='1';
     // pass it into read()
-    $data = $controller->read($archived);
+     $data = $controller->read($archived);
     echo $controller->displayClients($data);
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Handle POST request for creating a client

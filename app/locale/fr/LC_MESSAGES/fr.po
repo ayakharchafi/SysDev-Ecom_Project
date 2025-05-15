@@ -8,7 +8,7 @@ msgstr ""
 "Language: fr\n"
 
 msgid "Hello"
-msgstr "Saluttt"
+msgstr "Salut"
 
 msgid "Welcome to Login!"
 msgstr "Bienvenue à la connexion!"

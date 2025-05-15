@@ -3,52 +3,26 @@ require_once __DIR__ . '/app/Core/Database/databaseconnectionmanager.php';
 
 use database\DatabaseConnectionManager;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $client = $_POST['client'];
+// Fetch clients from DB
+$stmt = $pdo->query("SELECT id, name, table_name FROM clients");
+$clients = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
-    if (!isset($_FILES['csv']) || $_FILES['csv']['error'] !== 0) {
-        echo "File upload failed.";
-        exit;
-    }
+<form action="handle_import.php" method="post" enctype="multipart/form-data">
+  <label for="client">Select Client:</label>
+  <select name="client_table" id="client" required>
+    <?php foreach ($clients as $client): ?>
+      <option value="<?= htmlspecialchars($client['table_name']) ?>">
+        <?= htmlspecialchars($client['name']) ?>
+      </option>
+    <?php endforeach; ?>
+  </select>
 
-    $file = $_FILES['csv']['tmp_name'];
-    $filename = $_FILES['csv']['name'];
+  <br><br>
 
-    if (pathinfo($filename, PATHINFO_EXTENSION) !== 'csv') {
-        echo "Only CSV files are allowed.";
-        exit;
-    }
+  <label for="csv_file">Select CSV file:</label>
+  <input type="file" name="csv_file" id="csv_file" accept=".csv" required>
 
-    // Use DatabaseConnectionManager to get PDO
-    $dbManager = new DatabaseConnectionManager();
-    $pdo = $dbManager->getConnection();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $handle = fopen($file, "r");
-    if (!$handle) {
-        echo "Unable to open file.";
-        exit;
-    }
-
-    $header = fgetcsv($handle, 1000, ",");
-    $columns = array_map(function ($col) {
-        return "`" . preg_replace('/[^a-zA-Z0-9_]/', '_', strtolower(trim($col))) . "` VARCHAR(255)";
-    }, $header);
-
-    $tableName = "client_" . strtolower($client) . "_" . time();
-
-    // Create table
-    $createTableSQL = "CREATE TABLE `$tableName` (" . implode(", ", $columns) . ")";
-    $pdo->exec($createTableSQL);
-
-    // Insert rows
-    $insertSQL = "INSERT INTO `$tableName` VALUES (" . rtrim(str_repeat("?,", count($header)), ",") . ")";
-    $stmt = $pdo->prepare($insertSQL);
-
-    while (($data = fgetcsv($handle, 1000, ",")) !== false) {
-        $stmt->execute($data);
-    }
-
-    fclose($handle);
-    echo "CSV data imported to table: $tableName";
-}
+  <br><br>
+  <input type="submit" value="Import CSV">
+</form>

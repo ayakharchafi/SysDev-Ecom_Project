@@ -169,13 +169,10 @@ public function read(bool $archived = false) {
                $html .= "</tr>";
            }
        }
-<<<<<<< HEAD
-       return $html;
-=======
+
        
-       echo $html;
->>>>>>> 554820bf216ea4dd689edc481787b4c50ebc1c4a
-   }
+       return $html;
+    }
 }
 
 

@@ -1,4 +1,4 @@
-.import-form {
+.export-form {
     background-color: var(--bg2);
     color: var(--text);
     padding: 40px;
@@ -9,12 +9,12 @@
     font-family: Arial, sans-serif;
 }
 
-.import-form h2 {
+.export-form h2 {
     margin-bottom: 10px;
     color: var(--text);
 }
 
-.import-form select {
+.export-form select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -24,7 +24,7 @@
     color: var(--text);
 }
 
-#importBtn, #importbutton {
+#exportBtn, #exportbutton {
     background-color: var(--button-bg);
     color: white;
     padding: 10px 20px;
@@ -35,6 +35,6 @@
     transition: background-color 0.3s ease;
 }
 
-#importbutton:hover {
+#exportbutton:hover {
     background-color: var(--button-hover);
 }
