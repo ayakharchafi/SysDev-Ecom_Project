@@ -35,6 +35,12 @@ if (!isset($_SESSION['user'])) {
     --exit-bg: black;
     --exit-hover: #333;
 }
+h2{
+    color: var(--text);
+}
+.import-form{
+  background-color: var(--bg);
+}
 .dropdown-item:hover{
     color: var(--sidebar-bg);
 }

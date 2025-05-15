@@ -46,6 +46,7 @@ class OsClientController {
         
         foreach ($data as $client) {
             $html .= "<tr>";
+            $html .= "<td><input type='checkbox'><td>";           
             $html .= "<td>{$client["id"]}</td>";
             $html .= "<td>{$client["guest_name"]}</td>";
             $html .= "<td>{$client["client_name"]}</td>";
