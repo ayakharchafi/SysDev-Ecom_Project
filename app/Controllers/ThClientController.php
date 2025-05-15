@@ -46,6 +46,7 @@ class ThClientController {
         
         foreach ($data as $client) {
             $html .= "<tr>";
+            $html .= "<td><input type='checkbox'><td>";           
             $html .= "<td>{$client["contract_file_name"]}</td>";
             $html .= "<td>{$client["property_name"]}</td>";
             $html .= "<td>{$client["unit_address"]}</td>";
