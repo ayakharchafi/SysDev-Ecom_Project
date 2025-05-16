@@ -1,26 +1,4 @@
-// // Add this function to handle table row selection
-// function setupTableRowSelection(tableId) {
-//   const table = document.getElementById(tableId)
-//   if (!table) return
 
-//   const rows = table.querySelectorAll("tbody tr")
-
-//   rows.forEach((row) => {
-//     // Add click event listener to each row
-//     row.addEventListener("click", function (e) {
-//       // Skip if clicking on action buttons or checkboxes
-//       if (e.target.closest(".action-btn") || e.target.type === "checkbox") {
-//         return
-//       }
-
-//       // Remove 'selected' class from all rows
-//       rows.forEach((r) => r.classList.remove("selected"))
-
-//       // Add 'selected' class to clicked row
-//       this.classList.add("selected")
-//     })
-//   })
-// }
 function setupTableRowSelection(tableId) {
   const table = document.getElementById(tableId)
   if (!table) return
@@ -37,7 +15,6 @@ function setupTableRowSelection(tableId) {
 
 }
 document.addEventListener("DOMContentLoaded", () => {
-  // Existing DOM Elements
     var btn = document.getElementById('restoreBtn')
   const modifyBtn =  document.getElementById("modifyBtn")
   const clientsBtn = document.getElementById("clientsBtn")
@@ -125,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     }
   })
-  // Settings Button - Use settings.php
+  
   settingsBtn.addEventListener("click", async () => {
     try {
       const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php")
@@ -205,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
 
-  // Users button click handler - Show users table
+ 
   usersBtn.addEventListener("click", async () => {
     try {
       const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Controllers/UserController.php")
@@ -224,19 +201,16 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching users:", error)
     }
   })
-// TODO: ADD FOR ARCHIVED
-// … inside document.addEventListener("DOMContentLoaded", () => { …
 
-  // After you load settings HTML into contentArea:
   settingsBtn.addEventListener("click", async () => {
     const response = await fetch("/tern_app/SysDev-Ecom_Project/app/Views/utilities/settings.php");
     const html = await response.text();
     contentArea.innerHTML = html;
 
-    // re-init table selection if any tables in settings view:
+    
     setupTableRowSelection("dataTable");
 
-    // wire up the Archived Clients link
+    
     const archivedBtn = document.getElementById("archivedClients");
     if (archivedBtn) {
       archivedBtn.addEventListener("click", async (e) => {
@@ -255,19 +229,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Inject the two page-specific scripts so their loader functions exist
+ 
   [ "archived_clients.js", "deactivated_users.js" ].forEach(filename => {
     const script = document.createElement("script");
     script.src = `/tern_app/SysDev-Ecom_Project/public/js/${filename}`;
     contentArea.appendChild(script);
   });
 
-    //  then your existing settings.js loader if you have other per-page scripts 
+
   });
-
-// 
-
-
 
     // import button click handler - Show import page
     importBtn.addEventListener('click', async () => {
@@ -333,88 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 })
 
-// function loadMkClients(page = 1) {
-//   const contentArea = document.querySelector(".content");
-//   if (!contentArea) return;
-
-//   fetch(`/tern_app/SysDev-Ecom_Project/mk-clients?page=${page}&limit=10`)
-//     .then(res => res.json())
-//     .then(({ rows, total, page, limit }) => {
-//       const totalPages = Math.ceil(total / limit);
-//       let tableRows = '';
-
-//       rows.forEach(row => {
-//         tableRows += `
-//           <tr>
-//             <td><input type="checkbox" value="${row.id}"></td>
-//             <td>${row.id}</td>
-//             <td>${row.location_id}</td>
-//             <td>${row.location_address}</td>
-//             <td>${row.location_city}</td>
-//             <td>${row.first_date_of_coverage}</td>
-//             <td>${row.last_date_of_coverage}</td>
-//             <td>${row.premium_collected}</td>
-//             <td>
-//               <button class="action-btn"><i class="fa-solid fa-edit"></i></button>
-//               <button class="action-btn"><i class="fa-solid fa-trash"></i></button>
-//             </td>
-//           </tr>`;
-//       });
-
-//       // Render table
-//       contentArea.innerHTML = `
-//         <div class="table-container">
-//           <div class="table-header">
-//             <h2>MK Clients</h2>
-//             <button id="createMkClientBtn" class="btn btn-primary">
-//               <i class="fa-solid fa-plus"></i> Create MK Client
-//             </button>
-//           </div>
-//           <table id="dataTable">
-//             <thead>
-//               <tr>
-//                 <th><input type="checkbox" id="selectAllMk"></th>
-//                 <th>ID</th>
-//                 <th>Location ID</th>
-//                 <th>Address</th>
-//                 <th>Location</th>
-//                 <th>Start Date</th>
-//                 <th>End Date</th>
-//                 <th>Premium</th>
-//                 <th>Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody id="tableBody">
-//               ${tableRows}
-//             </tbody>
-//           </table>
-//           <div class="table-footer" style="text-align:right;">
-//             <div class="pagination">
-//               ${generatePagination(totalPages, page)}
-//             </div>
-//           </div>
-//         </div>
-//       `;
-
-//       // Pagination click
-//       document.querySelectorAll('.page-link').forEach(btn => {
-//         btn.addEventListener('click', () => {
-//           const newPage = parseInt(btn.dataset.page);
-//           loadMkClients(newPage);
-//         });
-//       });
-//     });
-// }
-// function generatePagination(totalPages, currentPage) {
-//   let html = '';
-//   for (let i = 1; i <= totalPages; i++) {
-//     html += `<button class="page-link ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-//   }
-//   return html;
-// }
-
-
-// … all your existing code above …
 function loadMkClients() {
   const contentArea = document.querySelector(".content");
   if (!contentArea) return;
@@ -645,9 +533,6 @@ function archiveSelectedClients() {
 
   const ids = Array.from(checks).map(cb => cb.innerHTML);
 
-
-
-
   fetch(`/tern_app/SysDev-Ecom_Project/archive-clients? ids= ${ids}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -666,12 +551,6 @@ function archiveSelectedClients() {
   });
 }
 
-
-
-// … rest of your existing code …
-
-
-// after you inject the button into the DOM:
 const archiveBtn = document.getElementById('archiveClientsBtn');
 if (archiveBtn) {
   archiveBtn.addEventListener('click', archiveSelectedClients);

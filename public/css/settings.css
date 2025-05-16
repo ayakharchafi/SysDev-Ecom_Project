@@ -5,7 +5,8 @@
 }
 #archivedClients:hover {
   background-color: #eee;
-}/* Common button base */
+}
+
 .theme-options button,
 .language-options button {
   display: inline-block;
@@ -21,13 +22,13 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Hover state */
+
 .theme-options button:hover,
 .language-options button:hover {
   background-color: #e0e0e0;
 }
 
-/* Active (selected) states */
+
 .light-theme.active {
   background-color: #ffffff;
   border-color: #999;
@@ -52,7 +53,7 @@
   color: #ffffff;
 }
 
-/* Optional container spacing */
+
 .theme-options,
 .language-options {
   display: flex;

@@ -4,22 +4,18 @@ require_once __DIR__ . '/../Models/os_occupancy_reports.php';
 require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
 use models\Os_occupancy_reports;
 use database\DatabaseConnectionManager;
-
 class OsClientController {
     private $dbConnection;
-
     public function __construct() {
         // Initialize the database connection
         $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
     }
-
     public function read() {
         $query = "SELECT * FROM os_occupancy_reports";
         $stmt = $this->dbConnection->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
     public function searchClients($searchTerm) {
         $query = "SELECT * FROM os_occupancy_reports WHERE 
                   guest_name LIKE :searchTerm OR 
@@ -32,7 +28,6 @@ class OsClientController {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
     public function getClientById($id) {
         $query = "SELECT * FROM os_occupancy_reports WHERE id = :id";
         $stmt = $this->dbConnection->prepare($query);
@@ -40,10 +35,8 @@ class OsClientController {
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-
     public function displayClients($data) {
         $html = "";
-        
         foreach ($data as $client) {
             $html .= "<tr>";
             $html .= "<td><input type='checkbox'><td>";           
@@ -61,15 +54,12 @@ class OsClientController {
             $html .= "</td>";
             $html .= "</tr>";
         }
-        
         if (empty($data)) {
             $html .= "<tr><td colspan='9' class='text-center'>No clients found</td></tr>";
         }
-        
         return $html;
     }
 }
-
 // API endpoint to handle client search requests
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
     $clients = new OsClientController();
@@ -78,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
     echo json_encode($data);
     exit;
 }
-
 // API endpoint to get all clients
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['search']) && !isset($_GET['id'])) {
     $clients = new OsClientController();
@@ -86,13 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['search']) && !isset($_
     echo $clients->displayClients($data);
     exit;
 }
-
 // API endpoint to get a specific client by ID
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $clients = new OsClientController();
     $clientId = $_GET['id'];
     $client = $clients->getClientById($clientId);
-    
     if ($client) {
         echo json_encode($client);
     } else {

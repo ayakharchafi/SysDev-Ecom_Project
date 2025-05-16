@@ -1,21 +1,16 @@
 <?php
 //namespace controllers;
-
 use views\utilities\settings;
-
 class SettingsController {
     public function displaySettings() {
         echo $this->getSettingsHTML();
     }
-
     private function translate($text) {
         return _($text);
     }
-
     private function getSettingsHTML() {
           $archivedHref  = '/tern_app/SysDev-Ecom_Project/app/Views/utilities/archived_clients.php';
     $deactivatedHref = '/tern_app/SysDev-Ecom_Project/app/Views/utilities/desactivate_users.php';
-
         return <<<HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +20,6 @@ class SettingsController {
     <title>Settings</title>
     <link rel="stylesheet" href="/tern_app/SysDev-Ecom_Project/public/css/settings.css">
     <style>
-        /* Hover styles for links */
         #archivedClients, #deactivatedUsers {
             display: inline-block;
             padding: 8px 12px;
@@ -68,14 +62,12 @@ class SettingsController {
         <h2><a id="archivedClients" href="{$archivedHref}">{$this->translate('Archived Clients')}</a></h2>
          <h2><a id="deactivatedUsers" href="{$deactivatedHref}">{$this->translate('Deactivated Users')}</a></h2>
     </div>
-
     <script src="/tern_app/SysDev-Ecom_Project/public/js/settings.js"></script>
 </body>
 </html>
 HTML;
     }
 }
-
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $settings = new SettingsController();
     $settings->displaySettings();

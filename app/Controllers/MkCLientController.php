@@ -4,22 +4,18 @@ require_once __DIR__ . '/../Models/mk_occupancy_reports.php';
 require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
 use models\Mk_occupancy_reports;
 use database\DatabaseConnectionManager;
-
 class MkClientController {
    private $dbConnection;
-
    public function __construct() {
        // Initialize the database connection
        $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
    }
-
    public function read() {
        $query = "SELECT * FROM mk_occupancy_reports";
        $stmt = $this->dbConnection->prepare($query);
        $stmt->execute();
        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
    }
-
    public function searchClients($searchTerm) {
        $query = "SELECT * FROM mk_occupancy_reports WHERE 
                  location_id LIKE :searchTerm OR 
@@ -32,7 +28,6 @@ class MkClientController {
        $stmt->execute();
        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
    }
-
    public function getClientById($id) {
        $query = "SELECT * FROM mk_occupancy_reports WHERE id = :id";
        $stmt = $this->dbConnection->prepare($query);
@@ -40,7 +35,6 @@ class MkClientController {
        $stmt->execute();
        return $stmt->fetch(\PDO::FETCH_ASSOC);
    }
-
    public function createClient($data) {
        $query = "INSERT INTO mk_occupancy_reports (
            location_id, first_date_of_coverage, last_date_of_coverage, 
@@ -53,9 +47,7 @@ class MkClientController {
            :location_province, :number_of_bedrooms, :number_of_days_occupied, 
            :currency, :premium_collected
        )";
-       
        $stmt = $this->dbConnection->prepare($query);
-       
        // Bind parameters
        $stmt->bindParam(':location_id', $data['location_id']);
        $stmt->bindParam(':first_date_of_coverage', $data['first_date_of_coverage']);
@@ -68,10 +60,8 @@ class MkClientController {
        $stmt->bindParam(':number_of_days_occupied', $data['number_of_days_occupied']);
        $stmt->bindParam(':currency', $data['currency']);
        $stmt->bindParam(':premium_collected', $data['premium_collected']);
-       
        return $stmt->execute();
    }
-
    public function updateClient($data) {
        $query = "UPDATE mk_occupancy_reports SET 
            location_id = :location_id,
@@ -86,9 +76,7 @@ class MkClientController {
            currency = :currency,
            premium_collected = :premium_collected
        WHERE id = :id";
-       
        $stmt = $this->dbConnection->prepare($query);
-       
        // Bind parameters
        $stmt->bindParam(':id', $data['id']);
        $stmt->bindParam(':location_id', $data['location_id']);
@@ -102,20 +90,16 @@ class MkClientController {
        $stmt->bindParam(':number_of_days_occupied', $data['number_of_days_occupied']);
        $stmt->bindParam(':currency', $data['currency']);
        $stmt->bindParam(':premium_collected', $data['premium_collected']);
-       
        return $stmt->execute();
    }
-
    public function deleteClient($id) {
        $query = "DELETE FROM mk_occupancy_reports WHERE id = :id";
        $stmt = $this->dbConnection->prepare($query);
        $stmt->bindParam(':id', $id);
        return $stmt->execute();
    }
-
    public function displayClients($data) {
        $html = "";
-       
        foreach ($data as $client) {
            $html .= "<tr>";
            $html .= "<td ><td>";
@@ -132,17 +116,13 @@ class MkClientController {
            $html .= "</td>";
            $html .= "</tr>";
        }
-       
        if (empty($data)) {
            $html .= "<tr><td colspan='8' class='text-center'>No clients found</td></tr>";
        }
-
-       
        return $html;
     }
 }
-
-// API endpoint to handle client search requests
+// handles client search
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
    $clients = new MkClientController();
    $searchTerm = $_GET['search'];
@@ -150,21 +130,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
    echo json_encode($data);
    exit;
 }
-
-// API endpoint to get all clients
+//gets all client 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['search']) && !isset($_GET['id'])) {
    $clients = new MkClientController();
    $data = $clients->read();
    echo $clients->displayClients($data);
    exit;
 }
-
-// API endpoint to get a specific client by ID
+// gets specific client by id
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
    $clients = new MkClientController();
    $clientId = $_GET['id'];
    $client = $clients->getClientById($clientId);
-   
    if ($client) {
        echo json_encode($client);
    } else {
@@ -172,11 +149,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
    }
    exit;
 }
-
 // API endpoint to create a new client
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['_method'])) {
    $clients = new MkClientController();
-   
    // Get the data from the POST request
    $data = [
        'location_id' => $_POST['location_id'] ?? '',
@@ -191,18 +166,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['_method'])) {
        'currency' => $_POST['currency'] ?? '',
        'premium_collected' => $_POST['premium_collected'] ?? ''
    ];
-   
    // Validate required fields
    $requiredFields = ['location_id', 'first_date_of_coverage', 'last_date_of_coverage', 
                      'location_address', 'location_city', 'location_province'];
-   
    $missingFields = [];
    foreach ($requiredFields as $field) {
        if (empty($data[$field])) {
            $missingFields[] = $field;
        }
    }
-   
    if (!empty($missingFields)) {
        echo json_encode([
            'success' => false, 
@@ -210,9 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['_method'])) {
        ]);
        exit;
    }
-   
    $result = $clients->createClient($data);
-   
    if ($result) {
        echo json_encode(['success' => true, 'message' => 'Client created successfully']);
    } else {
@@ -220,11 +190,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['_method'])) {
    }
    exit;
 }
-
 // API endpoint to update a client
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
    $clients = new MkClientController();
-   
    // Get the data from the POST request
    $data = [
        'id' => $_POST['id'] ?? '',
@@ -240,7 +208,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST[
        'currency' => $_POST['currency'] ?? '',
        'premium_collected' => $_POST['premium_collected'] ?? ''
    ];
-   
    // Validate required fields
    if (empty($data['id'])) {
        echo json_encode([
@@ -249,9 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST[
        ]);
        exit;
    }
-   
    $result = $clients->updateClient($data);
-   
    if ($result) {
        echo json_encode(['success' => true, 'message' => 'Client updated successfully']);
    } else {
@@ -259,14 +224,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST[
    }
    exit;
 }
-
 // API endpoint to delete a client
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST['_method'] === 'DELETE') {
    $clients = new MkClientController();
-   
    // Get the client ID from the POST request
    $clientId = $_POST['id'] ?? '';
-   
    // Validate required fields
    if (empty($clientId)) {
        echo json_encode([
@@ -275,9 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST[
        ]);
        exit;
    }
-   
    $result = $clients->deleteClient($clientId);
-   
    if ($result) {
        echo json_encode(['success' => true, 'message' => 'Client deleted successfully']);
    } else {

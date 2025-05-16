@@ -4,22 +4,18 @@ require_once __DIR__ . '/../Models/th_gl_reports.php';
 require_once __DIR__ . '/../Core/Database/databaseconnectionmanager.php';
 use models\Th_gl_reports;
 use database\DatabaseConnectionManager;
-
 class ThClientController {
     private $dbConnection;
-
     public function __construct() {
         // Initialize the database connection
         $this->dbConnection = (new DatabaseConnectionManager())->getConnection();
     }
-
     public function read() {
         $query = "SELECT * FROM th_gl_reports";
         $stmt = $this->dbConnection->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
     public function searchClients($searchTerm) {
         $query = "SELECT * FROM th_gl_reports WHERE 
                   contract_file_name LIKE :searchTerm OR 
@@ -32,7 +28,6 @@ class ThClientController {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
     public function getClientById($contractFileName) {
         $query = "SELECT * FROM th_gl_reports WHERE contract_file_name = :contract_file_name";
         $stmt = $this->dbConnection->prepare($query);
@@ -40,10 +35,8 @@ class ThClientController {
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-
     public function displayClients($data) {
         $html = "";
-        
         foreach ($data as $client) {
             $html .= "<tr>";
             $html .= "<td><input type='checkbox'><td>";           
@@ -60,15 +53,12 @@ class ThClientController {
             $html .= "</td>";
             $html .= "</tr>";
         }
-        
         if (empty($data)) {
             $html .= "<tr><td colspan='8' class='text-center'>No clients found</td></tr>";
         }
-        
         return $html;
     }
 }
-
 // API endpoint to handle client search requests
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
     $clients = new ThClientController();
@@ -77,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
     echo json_encode($data);
     exit;
 }
-
 // API endpoint to get all clients
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['search']) && !isset($_GET['id'])) {
     $clients = new ThClientController();
@@ -85,13 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['search']) && !isset($_
     echo $clients->displayClients($data);
     exit;
 }
-
 // API endpoint to get a specific client by ID
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
     $clients = new ThClientController();
     $clientId = $_GET['id'];
     $client = $clients->getClientById($clientId);
-    
     if ($client) {
         echo json_encode($client);
     } else {

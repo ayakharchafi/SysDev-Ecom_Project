@@ -1,5 +1,3 @@
-// 1) Load archived clients and inject a Restore button
-
 
 function loadArchivedClients() {
   const contentArea = document.querySelector('.content');
@@ -18,7 +16,7 @@ function loadArchivedClients() {
       var btn = document.getElementById('restoreBtn')
       btn.addEventListener('click', restoreSelectedClients);
 
-// 2) Restore selected archived clients
+
 function restoreSelectedClients() {
 
   const checks = document.querySelectorAll(

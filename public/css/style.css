@@ -1,11 +1,11 @@
-/* ===== NEW ADDITION ===== */
+
 .login-form {
   display: contents; /* Critical for layout preservation */
   width: 100%;
   height: 100%;
 }
 
-/* ===== EXISTING STYLES BELOW - NO CHANGES MADE ===== */
+
 .login-page {
   background-color: #ffffff;
   display: flex;

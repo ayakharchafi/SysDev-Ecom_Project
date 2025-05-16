@@ -2,7 +2,6 @@
 namespace controllers;
 use models\User;
 use database\DatabaseConnectionManager;
-
 require_once __DIR__.'/../Models/User.php';
 require_once __DIR__.'/../Core\Database\databaseconnectionmanager.php';
 class DashboardController {
@@ -12,22 +11,18 @@ class DashboardController {
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-
     // Check if user is logged in
     if (empty($_SESSION['user'])) {
         error_log("Dashboard access denied - no session");
         header('Location: /tern_app/SysDev-Ecom_Project/login');
         exit;
     }
-
     $admin = new User();
     $admin->readByUsername('Ian');
     $currentUser  = new User();
     $currentUser->readByUsername("{$_SESSION['user']}");
     if(isset($_POST['adminPassword'])){
     if($admin->verifyCredentials($_POST['adminPassword'])){
-
-
     if(isset($_POST['NewUsername'])){
         $createdUser = new User();
         $createdUser->setUsername($_POST['NewUsername']);
@@ -36,7 +31,6 @@ class DashboardController {
        // if( $_POST['2FA'] == "enabled"){
                 $createdUser->enableTwoFactor();
       //  }
-        
       if($_POST['newRole'] == "External"){
         if(isset($_POST['newClient'])){
             $createdUser->setClientId($_POST['newClient']);
@@ -48,12 +42,10 @@ class DashboardController {
         }
     }else if(isset($_POST['deleteUsername'])){
         $createdUser = new User();
-
       $data = $createdUser->readByUsername($_POST['deleteUsername']);
       if(isset($data['password'])){
         if(password_verify($_POST['deletePassword'],$data['password'])){
         if($data['user_email'] == $_POST['deleteEmail']){
-            
             $createdUser->delete($data['user_id']);
             echo "<script type='text/javascript'>alert('User has been Deleted');</script>";
         }else{
@@ -64,12 +56,9 @@ class DashboardController {
     }
 }
     }
- 
         }else{
             echo "<script type='text/javascript'>alert('Admin Password is Invalid');</script>";
         }
-   
-  
 }
     if(!null == $currentUser->getClientId()){
         require_once __DIR__ . '/../Views/main/external_main.php';

@@ -1,6 +1,6 @@
 // public/js/deactivated_users.js
 
-// 1) Pull in the fragment & append your “Activate” button wiring
+
 function loadDeactivatedUsers() {
   const contentArea = document.querySelector('.content');
  fetch('/tern_app/SysDev-Ecom_Project/deactivated-users')
@@ -9,7 +9,7 @@ function loadDeactivatedUsers() {
     contentArea.innerHTML = html;
     setupTableRowSelection('dataTable');
 
-      // bind “select all” toggle
+     
       document.getElementById('selectAllDeact')
         .addEventListener('change', e => {
           document
@@ -17,14 +17,14 @@ function loadDeactivatedUsers() {
             .forEach(cb => cb.checked = e.target.checked);
         });
 
-      // bind activation action
+     
       document.getElementById('activateUsersBtn')
         .addEventListener('click', activateSelectedUsers);
     })
     .catch(console.error);
 }
 
-// 2) Handle “Activate Users Selected”
+
 function activateSelectedUsers() {
   const checks = document.querySelectorAll(
     '#dataTable tbody input[type="checkbox"]:checked'
@@ -52,6 +52,6 @@ function activateSelectedUsers() {
   });
 }
 
-// expose for dynamic injection
+
 window.loadDeactivatedUsers    = loadDeactivatedUsers;
 window.activateSelectedUsers   = activateSelectedUsers;
