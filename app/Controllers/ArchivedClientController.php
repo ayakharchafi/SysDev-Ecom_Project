@@ -11,9 +11,11 @@ class ArchivedClientController {
         if (empty($ids)) return 0;
         $in  = str_repeat('?,', count($ids)-1) . '?';
         $this->dbConnection->beginTransaction();
+        // its going to copy the same rows of mk clients to archived clients in the display
         $copySql = "INSERT INTO archived_clients SELECT * FROM mk_occupancy_reports WHERE id IN ($in)";
         $stmt1 = $this->dbConnection->prepare($copySql);
         $stmt1->execute($ids);
+        // after copying this deletes the client from mk clients so that they arent in both tables
         $delSql  = "DELETE FROM mk_occupancy_reports WHERE id IN ($in)";
         $stmt2 = $this->dbConnection->prepare($delSql);
         $stmt2->execute($ids);
@@ -24,9 +26,11 @@ class ArchivedClientController {
         if (empty($ids)) return 0;
         $in  = str_repeat('?,', count($ids)-1) . '?';
         $this->dbConnection->beginTransaction();
+        // copy back the archived client info to the mk tables 
         $copySql = "INSERT INTO mk_occupancy_reports SELECT * FROM archived_clients WHERE id IN ($in)";
         $stmt1 = $this->dbConnection->prepare($copySql);
         $stmt1->execute($ids);
+        // removes it from the archived client table
         $delSql  = "DELETE FROM archived_clients WHERE id IN ($in)";
         $stmt2 = $this->dbConnection->prepare($delSql);
         $stmt2->execute($ids);
