@@ -131,6 +131,44 @@ switch ($request) {
         }
         include "app/Views/clients/create_row.php";
         break;
+    case 'archive-clients':
+    header('Content-Type: application/json');
+    $ids = json_decode(file_get_contents('php://input'), true)['ids'] ?? [];
+    require_once __DIR__ . '/app/Controllers/ArchivedClientController.php';
+    $ctrl = new controllers\ArchivedClientController();
+    $ok = $ctrl->archiveClients($ids);
+    echo json_encode([
+      'success' => $ok,
+      'message' => $ok
+        ? "Archived {$ok} client(s)."
+        : "Failed to archive clients."
+    ]);
+    exit;
+
+case 'restore-clients':
+    header('Content-Type: application/json');
+    $ids = json_decode(file_get_contents('php://input'), true)['ids'] ?? [];
+    require_once __DIR__ . '/app/Controllers/ArchivedClientController.php';
+    $ctrl = new controllers\ArchivedClientController();
+    $ok = $ctrl->restoreClients($ids);
+    echo json_encode([
+      'success' => $ok,
+      'message' => $ok
+        ? "Restored {$ok} client(s)."
+        : "Failed to restore clients."
+    ]);
+    exit;
+
+// index.php (the switch on $_GET['url'])
+case 'deactivated-users':
+    // ensure logged in, if you like
+    if (!isset($_SESSION['user'])) {
+      header('Location:/tern_app/SysDev-Ecom_Project/login');
+      exit;
+    }
+    // just echo the fragment
+    include __DIR__ . '/app/Views/utilities/desactivate_users.php';
+    exit;
         
     case 'mk-clients':
         // Make sure the user is logged in
