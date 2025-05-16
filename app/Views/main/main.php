@@ -34,6 +34,7 @@ if (!isset($_SESSION['user'])) {
     --button-hover: #2980b9;
     --exit-bg: black;
     --exit-hover: #333;
+   
 }
 h2{
     color: var(--text);
@@ -113,6 +114,12 @@ input{
 }
 .modal-content{
     background-color:var(--bg);
+}
+.selected {
+    background-color: lightblue;
+}
+.selected:hover {
+    background-color: #48a8e7;
 }
     </style>
     <div class="container" >

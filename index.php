@@ -133,7 +133,7 @@ switch ($request) {
         break;
     case 'archive-clients':
     header('Content-Type: application/json');
-    $ids = json_decode(file_get_contents('php://input'), true)['ids'] ?? [];
+    $ids =  explode(",",$_REQUEST['ids']);
     require_once __DIR__ . '/app/Controllers/ArchivedClientController.php';
     $ctrl = new controllers\ArchivedClientController();
     $ok = $ctrl->archiveClients($ids);
@@ -147,7 +147,7 @@ switch ($request) {
 
 case 'restore-clients':
     header('Content-Type: application/json');
-    $ids = json_decode(file_get_contents('php://input'), true)['ids'] ?? [];
+    $ids =  explode(",",$_REQUEST['ids']);
     require_once __DIR__ . '/app/Controllers/ArchivedClientController.php';
     $ctrl = new controllers\ArchivedClientController();
     $ok = $ctrl->restoreClients($ids);

@@ -1,10 +1,20 @@
 <?php
+use database\DatabaseConnectionManager;
+use controllers\ArchivedClientController;
+require __DIR__.'/../../../vendor/autoload.php'; 
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__."/../../../");
+$dotenv->load();
+
+require_once __DIR__ . '/../../Controllers/ArchivedClientController.php';
 // app/Views/utilities/archived_clients.php
 // — a fragment only, to be injected into the dashboard
 
 // For now we’re using a static array; later you can swap this for
 // a real controller call (e.g. (new MkClientController())->readArchived()).
-$clients = [
+ $ac = new ArchivedClientController();
+
+$clients = $ac->read() ;
     // [
     //   'id'                      => 1,
     //   'location_id'             => 'MK001',
@@ -27,9 +37,12 @@ $clients = [
     //   'currency'                => 'USD',
     //   'premium_collected'       => '200.00',
     // ],
-];
-?>
 
+
+
+
+
+?>
 <div class="table-container">
   <div class="table-header">
     <h2>Archived Clients</h2>
@@ -56,7 +69,7 @@ $clients = [
         <?php foreach ($clients as $c): ?>
           <tr>
             <td><input type="checkbox" value="<?= $c['id'] ?>"></td>
-            <td><?= $c['id'] ?></td>
+            <td id = "idBox"><?= $c['id'] ?></td>
             <td><?= htmlspecialchars($c['location_id']) ?></td>
             <td><?= htmlspecialchars($c['location_address']) ?></td>
             <td><?= htmlspecialchars("{$c['location_city']}, {$c['location_province']}") ?></td>
@@ -78,7 +91,9 @@ $clients = [
   </table>
 
   <br>
-  <button id="restoreBtn" class="btn btn-primary">
+  <button id="restoreBtn"  class="btn btn-primary">
     <i class="fa-solid fa-rotate-right"></i> Restore Selected
   </button>
+  <script src = "/tern_app/SysDev-Ecom_Project/public/js/archived_clients.js"></script>
 </div>
+

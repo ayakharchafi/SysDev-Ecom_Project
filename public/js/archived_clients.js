@@ -1,38 +1,37 @@
 // 1) Load archived clients and inject a Restore button
+
+
 function loadArchivedClients() {
   const contentArea = document.querySelector('.content');
-  fetch('/tern_app/SysDev-Ecom_Project/mk-clients?archived=1')
+  fetch('/tern_app/SysDev-Ecom_Project/app/Views/utilities/archived_clients.php ')
     .then(res => res.text())
     .then(html => {
       contentArea.innerHTML = html;
       setupTableRowSelection('dataTable');
 
-      // Append Restore button
-      const btn = document.createElement('button');
-      btn.id = 'restoreClientsBtn';
-      btn.className = 'btn btn-primary';
-      btn.innerHTML = '<i class="fa-solid fa-undo"></i> Restore Clients Selected';
       contentArea.querySelector('.table-container').insertAdjacentElement('beforeend', btn);
 
-      btn.addEventListener('click', restoreSelectedClients);
     })
     .catch(err => console.error('Error loading archived clients:', err));
 }
 
+      var btn = document.getElementById('restoreBtn')
+      btn.addEventListener('click', restoreSelectedClients);
+
 // 2) Restore selected archived clients
 function restoreSelectedClients() {
+
   const checks = document.querySelectorAll(
-    '#dataTable tbody input[type="checkbox"]:checked'
+    '#dataTable tbody .selected #idBox'
   );
-  if (!checks.length) return alert('Please select at least one client to restore.');
-  if (!confirm(`Restore ${checks.length} client(s)?`)) return;
+  if (!checks.length) return alert('Please select at least one client to archive.');
+  if (!confirm(`Archive ${checks.length} client(s)?`)) return;
 
-  const ids = Array.from(checks).map(cb => cb.value);
-
-  fetch('/tern_app/SysDev-Ecom_Project/restore-clients', {
+  const ids = Array.from(checks).map(cb => cb.innerHTML);
+  fetch(`/tern_app/SysDev-Ecom_Project/app/Views/utilities/restore_clients.php ${ids}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ids })
+    body:  JSON.parse(JSON.stringify({ ids }))
   })
   .then(res => res.json())
   .then(({ success, message }) => {

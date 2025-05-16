@@ -33,9 +33,12 @@ function setupTableRowSelection(tableId) {
       this.classList.add("selected")
     })
   })
+
+
 }
 document.addEventListener("DOMContentLoaded", () => {
   // Existing DOM Elements
+    var btn = document.getElementById('restoreBtn')
   const modifyBtn =  document.getElementById("modifyBtn")
   const clientsBtn = document.getElementById("clientsBtn")
   const clientsContent = document.getElementById("clientsContent")
@@ -635,19 +638,24 @@ function loadOsClients() {
 
 function archiveSelectedClients() {
   const checks = document.querySelectorAll(
-    '#dataTable tbody input[type="checkbox"]:checked'
+    '#dataTable tbody .selected #idBox'
   );
   if (!checks.length) return alert('Please select at least one client to archive.');
   if (!confirm(`Archive ${checks.length} client(s)?`)) return;
 
-  const ids = Array.from(checks).map(cb => cb.value);
+  const ids = Array.from(checks).map(cb => cb.innerHTML);
 
-  fetch('/tern_app/SysDev-Ecom_Project/archive-clients', {
+
+
+
+  fetch(`/tern_app/SysDev-Ecom_Project/archive-clients? ids= ${ids}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ids })
+    body: JSON.parse(JSON.stringify({ ids }))
   })
-  .then(res => res.json())
+  .then(
+    res => res.json(),
+  )
   .then(({ success, message }) => {
     alert(message);
     if (success) loadMkClients();
@@ -657,6 +665,8 @@ function archiveSelectedClients() {
     alert('Unexpected error archiving clients.');
   });
 }
+
+
 
 // … rest of your existing code …
 

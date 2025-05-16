@@ -118,8 +118,8 @@ class MkClientController {
        
        foreach ($data as $client) {
            $html .= "<tr>";
-           $html .= "<td><input type='checkbox'><td>";
-           $html .= "<td>{$client["id"]}</td>";
+           $html .= "<td ><td>";
+           $html .= "<td id = idBox>{$client["id"]}</td>";
            $html .= "<td>{$client["location_id"]}</td>";
            $html .= "<td>{$client["location_address"]}</td>";
            $html .= "<td>{$client["location_city"]}, {$client["location_province"]}</td>";
